@@ -5,32 +5,73 @@ permalink: /publications/
 author_profile: true
 ---
 
-{% if site.author.googlescholar %}
-  <div class="wordwrap">You can also find my articles on <a href="{{site.author.googlescholar}}">my Google Scholar profile</a>.</div>
-{% endif %}
-
 {% include base_path %}
 
-<!-- New style rendering if publication categories are defined -->
-{% if site.publication_category %}
-  {% for category in site.publication_category  %}
-    {% assign title_shown = false %}
-    {% for post in site.publications reversed %}
-      {% if post.category != category[0] %}
-        {% continue %}
-      {% endif %}
-      {% unless title_shown %}
-        <h2>{{ category[1].title }}</h2><hr />
-        {% assign title_shown = true %}
-      {% endunless %}
-      {% include archive-single.html %}
-    {% endfor %}
-  {% endfor %}
-{% else %}
-  {% for post in site.publications reversed %}
-    {% include archive-single.html %}
-  {% endfor %}
-{% endif %}
+<p class="notice--info"><strong>Profiles:</strong> <a href="https://scholar.google.com/citations?user=DrM4zxoAAAAJ&hl=en">Google Scholar</a> · <a href="https://www.researchgate.net/profile/Yutian-Ke">ResearchGate</a> · <a href="https://orcid.org/0000-0002-9098-9419">ORCID</a>. Citation counts vary by database and update schedule.</p>
 
+## Research narrative
 
+My publications center on the source, transport, transformation, and preservation of particulate organic carbon in river corridors. Recent work emphasizes Arctic floodplains and deltas, large Asian rivers, reservoir-regulated carbon sequestration, and data synthesis for modern river organic carbon archives.
 
+## Featured papers
+
+<div class="pub-feature">
+  <h3>Persistent organic carbon storage in river floodplains over millennia</h3>
+  <p><strong>Ke, Y.</strong>, West, A. J., Geyman, E. C., Huy, K. A., Dion-Kirschner, H., Smith, M. I., Anadu, J. S., Magyar, J. S., Lamb, M. P., & Fischer, W. W. (2026). <em>Nature Communications</em>. <a href="https://doi.org/10.1038/s41467-026-72405-9">https://doi.org/10.1038/s41467-026-72405-9</a></p>
+  <p>Shows that discontinuous permafrost floodplains can preserve organic carbon over millennial timescales, linking carbon fate to river migration, erosion, and sediment storage.</p>
+</div>
+
+<div class="pub-feature">
+  <h3>Regulation of particulate organic carbon by cascade mega-reservoirs in the Changjiang basin</h3>
+  <p><strong>Ke, Y.</strong>, Calmels, D., Bouchez, J., Noret, A., Massault, M., Chetelat, B., et al. (2025). <em>Global Biogeochemical Cycles</em>, 39, e2024GB008479. <a href="https://doi.org/10.1029/2024GB008479">https://doi.org/10.1029/2024GB008479</a></p>
+  <p>Quantifies how cascade mega-reservoirs enhance particulate organic carbon sequestration and alter downstream carbon composition in a major river basin.</p>
+</div>
+
+<div class="pub-feature">
+  <h3>MOdern River archivEs of Particulate Organic Carbon: MOREPOC</h3>
+  <p><strong>Ke, Y.</strong>, Calmels, D., Bouchez, J., & Quantin, C. (2022). <em>Earth System Science Data</em>, 14, 4743–4755. <a href="https://doi.org/10.5194/essd-14-4743-2022">https://doi.org/10.5194/essd-14-4743-2022</a></p>
+  <p>Introduces a data resource for elemental and isotopic composition of river particulate organic carbon across modern river systems.</p>
+</div>
+
+## Peer-reviewed articles
+
+1. <strong>Ke, Y.</strong>, West, A. J., Geyman, E. C., Huy, K. A., Dion-Kirschner, H., Smith, M. I., Anadu, J. S., Magyar, J. S., Lamb, M. P., & Fischer, W. W. (2026). Persistent organic carbon storage in river floodplains over millennia. <em>Nature Communications</em>. <a href="https://doi.org/10.1038/s41467-026-72405-9">doi:10.1038/s41467-026-72405-9</a>.
+2. <strong>Ke, Y.</strong>, Calmels, D., Bouchez, J., Noret, A., Massault, M., Chetelat, B., et al. (2025). Regulation of particulate organic carbon by cascade mega-reservoirs in the Changjiang basin: Enhanced sequestration and altered downstream composition. <em>Global Biogeochemical Cycles</em>, 39, e2024GB008479. <a href="https://doi.org/10.1029/2024GB008479">doi:10.1029/2024GB008479</a>.
+3. Geyman, C. G., <strong>Ke, Y.</strong>, Magyar, J. S., Reahl, J. N., Soldano, V., Brown, N. D., et al. (2025). Scaling laws for sediment storage and turnover in river floodplains. <em>Science Advances</em>, 11(15), eadu8574.
+4. Tian, S., Sha, A., Luo, Y., <strong>Ke, Y.</strong>, Spencer, R., Hu, X., et al. (2025). A novel framework for river organic carbon retrieval through satellite data and machine learning. <em>ISPRS Journal of Photogrammetry and Remote Sensing</em>, 221, 109–123.
+5. <strong>Ke, Y.</strong>, Calmels, D., Bouchez, J., Massault, M., Chetelat, B., Noret, A., Cai, H. M., Chen, J. B., Gaillardet, J., & Quantin, C. (2024). Channel cross-section heterogeneity of particulate organic carbon transport in the Huanghe. <em>Earth Surface Dynamics</em>, 12(1), 347–365.
+6. Smith, M. I., <strong>Ke, Y.</strong>, Geyman, E. C., Reahl, J. N., Douglas, M. M., Seelen, E. A., et al. (2024). Mercury stocks in discontinuous permafrost and their mobilization by river migration in the Yukon River Basin. <em>Environmental Research Letters</em>.
+7. Douglas, M. M., Li, G. K., West, A. J., <strong>Ke, Y.</strong>, Rowland, J. C., Brown, N., et al. (2024). Permafrost formation in a meandering river floodplain. <em>AGU Advances</em>, 5(4), e2024AV001175.
+8. Kalucha, H., Douglas, M. M., Lamb, M. P., <strong>Ke, Y.</strong>, & Fischer, W. W. (2024). Low but persistent organic carbon content of hyperarid river deposits and implications for ancient Mars. <em>Journal of Geophysical Research: Planets</em>, 129(5), e2023JE008182.
+9. <strong>Ke, Y.</strong>, Calmels, D., Bouchez, J., & Quantin, C. (2022). MOdern River archivEs of Particulate Organic Carbon: MOREPOC. <em>Earth System Science Data</em>, 14(10), 4743–4755.
+10. Wu, Y., <strong>Ke, Y.</strong>, Chen, Z., Liang, S., Zhao, H., & Hong, H. (2020). Application of alternating decision tree with AdaBoost and bagging ensembles for landslide susceptibility mapping. <em>Catena</em>, 187, 104396.
+11. Song, D., Chen, Z., <strong>Ke, Y.</strong>, & Nie, W. (2020). Seismic response analysis of a bedding rock slope based on the time-frequency joint analysis method. <em>Engineering Geology</em>, 274, 105731.
+12. Chen, Z., Liang, S., <strong>Ke, Y.</strong>, Yang, Z., & Zhao, H. (2019). Landslide susceptibility assessment using evidential belief function, certainty factor and frequency ratio model at Baxie River basin, NW China. <em>Geocarto International</em>, 34(4), 348–367.
+13. Song, D., Chen, Z., Chao, H., <strong>Ke, Y.</strong>, & Nie, W. (2020). Numerical study on seismic response of a rock slope with discontinuities based on the time-frequency joint analysis method. <em>Soil Dynamics and Earthquake Engineering</em>, 133, 106112.
+14. Chen, Z., Ye, F., Fu, W., <strong>Ke, Y.</strong>, & Hong, H. (2020). The influence of DEM spatial resolution on landslide susceptibility mapping in the Baxie River basin, NW China. <em>Natural Hazards</em>, 101, 853–877.
+15. Chen, Z., Song, D., Hu, C., & <strong>Ke, Y.</strong> (2020). The September 16, 2017, Linjiabang landslide in Wanyuan County, China: preliminary investigation and emergency mitigation. <em>Landslides</em>, 17(1), 191–204.
+16. <strong>Ke, Y.</strong>, Liang, S., Zhou, J. J., & Jia, X. M. (2018). Paleo-weathering zoning of Cretaceous red mudstone underlying Quaternary loess deposit: A case study on a typical profile. <em>Indian Journal of Geo-Marine Sciences</em>.
+17. Wu, Z., Wu, Y., Yang, Y., Chen, F., Zhang, N., <strong>Ke, Y.</strong>, & Li, W. (2017). A comparative study on landslide susceptibility mapping using logistic regression and statistical index models. <em>Arabian Journal of Geosciences</em>, 10, 1–17.
+18. Wu, Y., & <strong>Ke, Y.</strong> (2016). Landslide susceptibility zonation using GIS and evidential belief function model. <em>Arabian Journal of Geosciences</em>, 9, 697.
+19. Liang, S., Wu, W. J., Ba, R. S., & <strong>Ke, Y.</strong> (2016). Analysis of historical strong earthquake impacts on landslides at the Gansu segment in the Bailongjiang River Basin, China. <em>International Journal of Earth Sciences and Engineering</em>, 3, 154–160.
+20. <strong>Ke, Y.</strong>, Liang, S. Y., & Chen, Z. (2016). Disaster risk of landscape-rockfall in Danxia Landform of Kongtong Mountain. <em>Proceedings of the 7th Annual Meeting of Risk Analysis Council of China Association for Disaster Prevention</em>, 300–305. <a href="https://doi.org/10.2991/rac-16.2016.48">doi:10.2991/rac-16.2016.48</a>.
+21. <strong>Ke, Y.</strong>, Yin, Y., & Liang, S. (2015). Analysis of loess dynamic characteristics under train vibrating load. <em>World Sci-Tech R&amp;D</em>, 3, 254–257.
+
+## Manuscripts in development
+
+* <strong>Ke, Y.</strong>, Geyman, C. G., Reahl, J. N., Smith, M. I., Norton, A., Douglas, M. M., et al. Overbank deposition drives organic carbon accumulation in Arctic floodplains? Under review.
+* <strong>Ke, Y.</strong>, West, A. J., Fischer, W. W., & Lamb, M. P. Oxbows as a hotspot for land carbon sink.
+* <strong>Ke, Y.</strong>, Anadu, S. A., Geyman, C. G., Magyar, J. S., West, A. J., Fischer, W. W., & Lamb, M. P. Organic carbon transported in flocculated mud in Arctic rivers.
+* <strong>Ke, Y.</strong>, Anadu, S. A., Giuntoni, A., Geyman, C. G., Fischer, W. W., Lamb, M. P., & West, A. J. Heterogeneous fate of organic carbon in the delta due to sediment particle divergence.
+* <strong>Ke, Y.</strong>, Calmels, D., & Bouchez, J. Pre-aged particulate organic carbon surge from upland rivers induced by storm events.
+* <strong>Ke, Y.</strong>, Calmels, D., Bouchez, J., Agrinier, P., & Gaillardet, J. Secondary carbonate precipitation as an ignored land carbon process.
+
+## Datasets
+
+* Ke, Y., Reahl, J., Anadu, J., Douglas, M., Dunne, K., Geyman, E., et al. (2025). Grain size distribution in the subsurface sediments of floodplains across the Yukon River Basin, Alaska, 2022.
+* Anadu, J., Ke, Y., Douglas, M., Li, G., Giuntoni, A., Chadwick, A., Dunne, K., et al. (2025). Suspended and bed sediment grain size distributions at three riverine sites in the Yukon River Watershed: Alakanuk, Beaver, and Huslia, Alaska (2018–2023).
+* Ke, Y., Blankenship, R., Douglas, M., Dunne, K., Geyman, E., Lamb, M., et al. (2024). Organic carbon content in the subsurface sediments of floodplains across the Yukon River Basin, Alaska, 2022.
+* Geyman, E., Ke, Y., Douglas, M., Anadu, J., Magyar, J., Dunne, K., et al. (2024). Floodplain terrain age at three sites in the Yukon River Watershed: Huslia, Alakanuk, and Beaver, Alaska, 2021–2022.
+* Geyman, E., Avouac, J. P., Douglas, M., Dunne, K., Ke, Y., Magyar, J., et al. (2024). Quantifying river migration rates in the Yukon River Watershed from optical satellite imagery, Alaska, 2016–2022.
+* Smith, M. I., Blankenship, R., Douglas, M. M., Dunne, K. B., Fischer, W. W., Geyman, E. C., et al. (2024). Mercury content in floodplain sediments from the Yukon River Basin, Alaska, 2022.
+* Geyman, E., Anadu, J., Cushman, K. C., Douglas, M., Dunne, K., Fischer, W., et al. (2023). Field and LiDAR-based estimates of above-ground biomass in the Yukon River Watershed, Alaska.
