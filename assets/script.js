@@ -1,3 +1,7 @@
+document.querySelectorAll('a[href*="DrM4zxoAAAAAJ"]').forEach((link) => {
+  link.href = link.href.replace("DrM4zxoAAAAAJ", "DrM4zxoAAAAJ");
+});
+
 const navToggle = document.querySelector(".nav-toggle");
 const siteNav = document.querySelector(".site-nav");
 
