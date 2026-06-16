@@ -5,6 +5,8 @@
 .profile-icons-large a{font-size:1.55rem}
 .button.icon-button{width:48px;min-width:48px;padding:0;border-radius:50%;font-size:1.22rem}
 .button.icon-button .brand-icon{width:1.08em;height:1.08em}
+.home-hero-bg{background-image:url("home-drone-river.jpg");background-position:center;background-size:cover}
+.home-hero-bg::before{display:none}
 .intro-panel{grid-template-columns:220px minmax(0,1fr) minmax(280px,.9fr);align-items:center}
 .intro-portrait{position:relative;margin:0}
 .intro-portrait::before{position:absolute;inset:-16px;z-index:0;border-radius:50%;content:"";background:linear-gradient(135deg,var(--river),var(--gold));opacity:.92}
