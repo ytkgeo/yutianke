@@ -50,6 +50,11 @@
 .morepoc-graticule path{fill:none;stroke:rgba(11,61,70,.13);stroke-width:1}
 .morepoc-land path{fill:#f2ead8;stroke:#fff;stroke-width:1.4;opacity:.92}
 .morepoc-river-background path{fill:none;stroke:rgba(42,135,148,.34);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.morepoc-map-card.has-hydrobasins .morepoc-land,.morepoc-map-card.has-hydrobasins .morepoc-river-background{display:none}
+.hydrobasins-background path{fill:rgba(242,234,216,.72);stroke:rgba(255,255,255,.76);stroke-width:1;fill-rule:evenodd}
+.hydrobasins-background path:nth-child(2n){fill:rgba(228,238,220,.72)}
+.hydrobasins-background path:nth-child(3n){fill:rgba(238,226,202,.72)}
+.hydrobasin-visited-basin{fill:rgba(215,112,75,.42);stroke:#d7704b;stroke-width:2.15}
 .visited-basin-group{cursor:pointer;outline:none}
 .visited-basin{fill:rgba(215,112,75,.38);stroke:#d7704b;stroke-width:2;stroke-linejoin:round}
 .visited-river{fill:none;stroke:#0b3d46;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
