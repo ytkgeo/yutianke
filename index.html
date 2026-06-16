@@ -12,6 +12,7 @@
   <link rel="canonical" href="https://ytkgeo.github.io/yutianke/">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="assets/site-enhancements.css">
   <script src="assets/script.js" defer></script>
   <title>Yutian Ke | River Carbon and Earth Surface Processes</title>
 </head>
@@ -49,11 +50,20 @@
 
     <section id="intro" class="section intro-section">
       <div class="intro-panel reveal">
-        <div>
+        <figure class="intro-portrait">
+          <img src="https://scholar.googleusercontent.com/citations?view_op=medium_photo&amp;user=DrM4zxoAAAAJ&amp;citpid=2" alt="Yutian Ke">
+        </figure>
+        <div class="intro-copy">
           <p class="section-kicker">Brief introduction</p>
           <h2>Yutian Ke</h2>
           <p class="intro-title">Postdoctoral Scholar in Geology, California Institute of Technology</p>
           <p>I am a biogeochemist studying how physical landscape processes regulate Earth's carbon cycle and habitability across modern to geologic timescales.</p>
+          <div class="profile-icons" aria-label="Academic profile links">
+            <a href="https://scholar.google.com/citations?user=DrM4zxoAAAAJ&amp;hl=en" aria-label="Google Scholar"><i class="ai ai-google-scholar" aria-hidden="true"></i><span class="sr-only">Google Scholar</span></a>
+            <a href="https://www.researchgate.net/profile/Yutian-Ke?ev=hdr_xprf" aria-label="ResearchGate"><i class="ai ai-researchgate" aria-hidden="true"></i><span class="sr-only">ResearchGate</span></a>
+            <a href="https://www.linkedin.com/in/yutian-ke-8b7647235/" aria-label="LinkedIn"><svg class="brand-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.1 8.7H1.6V22h3.5V8.7ZM3.4 2C2.3 2 1.5 2.8 1.5 3.9s.8 1.9 1.9 1.9 1.9-.8 1.9-1.9S4.5 2 3.4 2Zm8.1 6.7H8.2V22h3.5v-6.9c0-1.8.8-3.5 2.7-3.5 1.9 0 2 1.8 2 3.6V22h3.5v-7.7c0-3.8-.8-6-4.7-6-1.9 0-3.1 1-3.6 1.9h-.1V8.7Z"/></svg><span class="sr-only">LinkedIn</span></a>
+            <a href="https://orcid.org/0000-0002-9098-9419" aria-label="ORCID"><i class="ai ai-orcid" aria-hidden="true"></i><span class="sr-only">ORCID</span></a>
+          </div>
         </div>
         <div class="expertise-card">
           <p class="section-kicker">Expertise</p>
@@ -63,12 +73,6 @@
             <li>Organic carbon fluxes and stock </li>
             <li>Coupled mud and organic carbon cycle</li>
           </ul>
-          <div class="profile-icons" aria-label="Academic profile links">
-            <a href="https://scholar.google.com/citations?user=DrM4zxoAAAAJ&amp;hl=en" aria-label="Google Scholar">GS</a>
-            <a href="https://www.researchgate.net/profile/Yutian-Ke?ev=hdr_xprf" aria-label="ResearchGate">RG</a>
-            <a href="https://www.linkedin.com/in/yutian-ke-8b7647235/" aria-label="LinkedIn">in</a>
-            <a href="https://orcid.org/0000-0002-9098-9419" aria-label="ORCID">iD</a>
-          </div>
         </div>
       </div>
     </section>
@@ -76,37 +80,57 @@
     <section class="section schematic-section">
       <div class="section-heading reveal">
         <p class="section-kicker">Research framework</p>
-        <h2>A river schematic for tracing carbon through landscapes</h2>
-        <p>My work links mud transport, carbon transformation, and storage in different timescales.</p>
+        <h2>A geomorphic map for tracing carbon through landscapes</h2>
+        <p>The themes are placed where they operate in the river corridor: critical-zone sources, active-channel transport, floodplain storage, and reservoir regulation.</p>
       </div>
-      <div class="river-schematic reveal" role="img" aria-label="Schematic river system linking sediment transport, carbon transformation, and long-term storage">
+      <div class="river-schematic reveal" role="img" aria-label="Geomorphic schematic placing critical-zone processes, sediment transport, Arctic floodplains, and human-regulated rivers in a river corridor">
         <svg viewBox="0 0 1180 520" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <defs>
             <linearGradient id="schematicSky" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#dfeeed"/>
-              <stop offset="1" stop-color="#f5edda"/>
+              <stop offset="0" stop-color="#dcefee"/>
+              <stop offset="0.58" stop-color="#f5edda"/>
+              <stop offset="1" stop-color="#c9b487"/>
             </linearGradient>
             <linearGradient id="schematicRiver" x1="0" y1="0" x2="1" y2="1">
               <stop offset="0" stop-color="#2a8794"/>
               <stop offset="1" stop-color="#0b5966"/>
             </linearGradient>
+            <linearGradient id="schematicReservoir" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#176674"/>
+              <stop offset="1" stop-color="#58a8b0"/>
+            </linearGradient>
           </defs>
           <rect width="1180" height="520" rx="34" fill="url(#schematicSky)"/>
-          <path d="M0 355 C120 310 200 260 330 278 C470 298 510 388 650 350 C775 316 790 230 915 230 C1035 230 1090 300 1180 286 L1180 520 L0 520 Z" fill="#c8b086" opacity=".62"/>
-          <path d="M0 330 C150 250 285 230 395 270 C520 316 530 408 680 374 C810 344 805 250 945 248 C1048 246 1108 306 1180 292" fill="none" stroke="url(#schematicRiver)" stroke-width="78" stroke-linecap="round"/>
-          <path d="M0 330 C150 250 285 230 395 270 C520 316 530 408 680 374 C810 344 805 250 945 248 C1048 246 1108 306 1180 292" fill="none" stroke="#ffffff" stroke-width="18" stroke-linecap="round" opacity=".22"/>
-          <path d="M70 392 C190 350 280 345 390 388" fill="none" stroke="#7e8f65" stroke-width="16" stroke-linecap="round" opacity=".55"/>
-          <path d="M720 420 C820 370 930 365 1050 410" fill="none" stroke="#7e8f65" stroke-width="16" stroke-linecap="round" opacity=".55"/>
-          <circle cx="250" cy="270" r="20" fill="#d7704b" stroke="#fff" stroke-width="8"/>
-          <circle cx="585" cy="378" r="20" fill="#d7704b" stroke="#fff" stroke-width="8"/>
-          <circle cx="930" cy="248" r="20" fill="#d7704b" stroke="#fff" stroke-width="8"/>
+          <path d="M0 248 C126 162 242 126 360 186 C456 235 510 320 628 308 C764 294 830 176 980 196 C1060 206 1122 248 1180 246 L1180 520 L0 520 Z" fill="#7f946d" opacity=".58"/>
+          <path d="M0 346 C136 282 252 262 372 302 C498 344 578 418 712 372 C820 336 900 260 1180 300 L1180 520 L0 520 Z" fill="#c2aa7b" opacity=".72"/>
+          <path d="M0 330 C135 260 252 246 360 292 C484 346 548 420 690 376 C806 340 826 246 970 248 C1060 250 1112 292 1180 292" fill="none" stroke="url(#schematicRiver)" stroke-width="72" stroke-linecap="round"/>
+          <path d="M0 330 C135 260 252 246 360 292 C484 346 548 420 690 376 C806 340 826 246 970 248 C1060 250 1112 292 1180 292" fill="none" stroke="#fff" stroke-width="16" stroke-linecap="round" opacity=".23"/>
+          <path d="M904 248 C980 210 1060 218 1164 258 L1164 342 C1040 310 970 314 898 352 Z" fill="url(#schematicReservoir)" opacity=".82"/>
+          <path d="M914 234 L964 234 L964 370 L914 370 Z" fill="#e8d8b9" opacity=".95"/>
+          <path d="M244 250 C300 220 372 230 430 266" fill="none" stroke="#8c7a52" stroke-width="12" stroke-linecap="round" opacity=".52"/>
+          <path d="M520 402 C586 370 672 374 738 414" fill="none" stroke="#7e8f65" stroke-width="14" stroke-linecap="round" opacity=".62"/>
+          <path d="M548 430 C604 400 684 406 748 438" fill="none" stroke="#7e8f65" stroke-width="8" stroke-linecap="round" opacity=".5"/>
+          <path d="M110 278 C132 314 156 338 194 366" fill="none" stroke="#29483d" stroke-width="8" stroke-linecap="round" opacity=".6"/>
+          <path d="M110 278 C84 310 74 342 68 374" fill="none" stroke="#29483d" stroke-width="6" stroke-linecap="round" opacity=".52"/>
+          <g fill="#d7704b" stroke="#fff" stroke-width="8">
+            <circle cx="160" cy="270" r="19"/>
+            <circle cx="408" cy="315" r="19"/>
+            <circle cx="640" cy="378" r="19"/>
+            <circle cx="938" cy="248" r="19"/>
+          </g>
           <g fill="#0b3d46" font-family="Inter, Arial, sans-serif">
-            <text x="150" y="130" font-size="32" font-weight="700">Sediment transport</text>
-            <text x="460" y="132" font-size="32" font-weight="700">Carbon transformation</text>
-            <text x="815" y="132" font-size="32" font-weight="700">Storage</text>
-            <text x="150" y="166" font-size="18" fill="#5e7172">grain size · flocculation · flux</text>
-            <text x="460" y="166" font-size="18" fill="#5e7172">degradation · mixing · residence</text>
-            <text x="815" y="166" font-size="18" fill="#5e7172">floodplains · deltas · oceans</text>
+            <text x="70" y="96" font-size="26" font-weight="700">Critical-zone sources</text>
+            <text x="315" y="112" font-size="26" font-weight="700">Active-channel transport</text>
+            <text x="565" y="114" font-size="26" font-weight="700">Floodplain storage</text>
+            <text x="875" y="116" font-size="26" font-weight="700">Reservoir regulation</text>
+            <text x="70" y="128" font-size="16" fill="#5e7172">soil · groundwater · weathering</text>
+            <text x="315" y="144" font-size="16" fill="#5e7172">mud · flocs · suspended load</text>
+            <text x="565" y="146" font-size="16" fill="#5e7172">overbank deposition · permafrost</text>
+            <text x="875" y="148" font-size="16" fill="#5e7172">dams · settling · altered flux</text>
+            <path d="M156 142 L160 245" stroke="#0b3d46" stroke-width="2" opacity=".42"/>
+            <path d="M408 156 L408 290" stroke="#0b3d46" stroke-width="2" opacity=".42"/>
+            <path d="M640 158 L640 352" stroke="#0b3d46" stroke-width="2" opacity=".42"/>
+            <path d="M938 160 L938 222" stroke="#0b3d46" stroke-width="2" opacity=".42"/>
           </g>
         </svg>
       </div>
@@ -123,13 +147,13 @@
           <span class="card-number">01</span>
           <h3>Arctic floodplains</h3>
           <p>Quantifying how river migration, overbank deposition, and permafrost dynamics control long-term carbon storage and degradation.</p>
-          <span class="card-tag">Permafrost rivers</span>
+          <span class="card-tag">Yukon River Basin</span>
         </article>
         <article class="research-card visual-card theme-transport reveal">
           <span class="card-number">02</span>
           <h3>Sediment and carbon transport</h3>
           <p>Understanding how flocculation, grain-size sorting, and channel hydraulics regulate organic carbon fluxes and residence times.</p>
-          <span class="card-tag">Rivers, floodplains, and deltas</span>
+          <span class="card-tag">Rivers and deltas</span>
         </article>
         <article class="research-card visual-card theme-human reveal">
           <span class="card-number">03</span>
@@ -141,7 +165,7 @@
           <span class="card-number">04</span>
           <h3>Critical-zone processes</h3>
           <p>Linking hydrology, mineral interactions, organic carbon dynamics, and landscape evolution to biogeochemical cycles.</p>
-          <span class="card-tag">River corridor carbon dynamics</span>
+          <span class="card-tag">Earth surface</span>
         </article>
       </div>
     </section>
@@ -180,7 +204,7 @@
         <p>I welcome conversations about research collaborations, field projects, and Earth surface biogeochemistry.</p>
         <div class="hero-actions">
           <a class="button button-light" href="mailto:yutianke@caltech.edu">yutianke@caltech.edu</a>
-          <a class="button button-secondary contact-profile" href="https://scholar.google.com/citations?user=DrM4zxoAAAAJ&amp;hl=en">Google Scholar</a>
+          <a class="button button-secondary contact-profile icon-button" href="https://scholar.google.com/citations?user=DrM4zxoAAAAJ&amp;hl=en" aria-label="Google Scholar"><i class="ai ai-google-scholar" aria-hidden="true"></i><span class="sr-only">Google Scholar</span></a>
         </div>
       </div>
     </section>
