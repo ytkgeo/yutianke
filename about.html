@@ -8,6 +8,7 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/styles.css">
   <link rel="stylesheet" href="assets/site-enhancements.css">
+  <script src="assets/morepoc-sites.js" defer></script>
   <script src="assets/script.js" defer></script>
   <title>About | Yutian Ke</title>
 </head>
@@ -83,6 +84,63 @@
             <p>I aim to integrate geospatial, geochemical, hydrological, and biological datasets with computational tools, including AI, to identify the environmental controls on terrestrial carbon sinks.</p>
           </article>
         </div>
+      </div>
+    </section>
+
+    <section id="morepoc" class="section morepoc-section">
+      <div class="section-heading reveal">
+        <p class="section-kicker">Published dataset</p>
+        <h2>MOREPOC: a global map of riverine particulate organic carbon</h2>
+        <p>MOREPOC v1.1 is an open, georeferenced database of suspended particulate organic carbon in global rivers. The map highlights catchments I have worked in by default; the full site-level MOREPOC data layer can be turned on when visitors want to explore values.</p>
+      </div>
+
+      <div class="morepoc-explorer reveal" data-morepoc-map>
+        <div class="morepoc-map-card">
+          <div class="morepoc-toolbar" aria-label="MOREPOC map controls">
+            <button class="map-toggle is-active" type="button" data-morepoc-basins aria-pressed="true">Visited catchments on</button>
+            <button class="map-toggle" type="button" data-morepoc-points-toggle aria-pressed="false">Show MOREPOC data</button>
+          </div>
+          <svg class="morepoc-map" viewBox="0 0 1000 540" role="img" aria-labelledby="morepoc-map-title morepoc-map-desc">
+            <title id="morepoc-map-title">Global MOREPOC dataset map with highlighted field catchments</title>
+            <desc id="morepoc-map-desc">A simplified world basin map highlighting Pearl, Yellow, Changjiang, Heilongjiang, and Yukon catchments, with an optional layer of MOREPOC site summaries.</desc>
+            <rect class="morepoc-ocean" width="1000" height="540" rx="28"/>
+            <g class="morepoc-graticule" aria-hidden="true">
+              <path d="M0 145 H1000 M0 270 H1000 M0 395 H1000"/>
+              <path d="M167 20 V520 M333 20 V520 M500 20 V520 M667 20 V520 M833 20 V520"/>
+            </g>
+            <g class="morepoc-land" aria-hidden="true">
+              <path d="M74 178 C120 122 208 112 262 154 C310 192 300 250 338 282 C388 324 356 402 286 426 C206 454 112 418 92 348 C70 274 28 232 74 178 Z"/>
+              <path d="M270 302 C324 300 380 338 386 392 C392 444 338 488 292 470 C256 456 236 400 250 356 C256 334 256 312 270 302 Z"/>
+              <path d="M416 176 C454 122 540 108 610 128 C688 150 712 220 678 276 C640 340 534 338 468 302 C420 276 382 226 416 176 Z"/>
+              <path d="M584 262 C660 234 760 252 814 318 C860 374 824 458 736 456 C670 454 620 414 604 360 C592 320 556 282 584 262 Z"/>
+              <path d="M700 126 C758 92 872 112 928 172 C974 220 946 274 874 278 C794 282 724 242 690 194 C676 172 678 142 700 126 Z"/>
+              <path d="M814 404 C856 386 920 402 944 442 C966 480 920 506 860 492 C820 482 790 434 814 404 Z"/>
+            </g>
+            <g class="morepoc-river-background" data-morepoc-rivers aria-hidden="true"></g>
+            <g class="morepoc-visited-layer" data-morepoc-visited></g>
+            <g class="morepoc-points-layer" data-morepoc-points></g>
+          </svg>
+          <div class="morepoc-legend">
+            <span><i class="legend-swatch visited"></i>Visited catchments</span>
+            <span><i class="legend-swatch point-low"></i>low POC %</span>
+            <span><i class="legend-swatch point-mid"></i>medium POC %</span>
+            <span><i class="legend-swatch point-high"></i>high POC %</span>
+          </div>
+        </div>
+
+        <aside class="morepoc-side-panel">
+          <div class="morepoc-stat-grid">
+            <article><strong>3,546</strong><span>SPM entries</span></article>
+            <article><strong>233</strong><span>locations</span></article>
+            <article><strong>121</strong><span>major river systems</span></article>
+          </div>
+          <div class="morepoc-readout" data-morepoc-readout>
+            <p class="section-kicker">Map selection</p>
+            <h3>Visited catchments are shown by default.</h3>
+            <p>Turn on the MOREPOC data layer to explore site-level summaries and median values for POC concentration, POC content, delta 13C, F14C, and SPM.</p>
+          </div>
+          <p class="morepoc-note">Dataset source: <a href="https://doi.org/10.5281/zenodo.7055970">MOREPOC v1.1 on Zenodo</a>; data-description paper in <a href="https://doi.org/10.5194/essd-14-4743-2022">Earth System Science Data</a>. Catchment fills are simplified visual guides, not formal basin-boundary products.</p>
+        </aside>
       </div>
     </section>
 
