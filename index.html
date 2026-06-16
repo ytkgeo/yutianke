@@ -83,8 +83,8 @@
         <h2>A geomorphic map for tracing carbon through landscapes</h2>
         <p>The themes are placed where they operate in the river corridor: critical-zone sources, active-channel transport, floodplain storage, and reservoir regulation.</p>
       </div>
-      <div class="river-schematic reveal" role="img" aria-label="Geomorphic schematic placing critical-zone processes, sediment transport, Arctic floodplains, and human-regulated rivers in a river corridor">
-        <svg viewBox="0 0 1180 520" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <div class="river-schematic reveal" role="img" aria-label="Geomorphic schematic showing source terrain, active-channel transport, floodplain and delta storage, and human-regulated river fluxes without overlapping labels">
+        <svg viewBox="0 0 1180 640" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <defs>
             <linearGradient id="schematicSky" x1="0" y1="0" x2="1" y2="1">
               <stop offset="0" stop-color="#dcefee"/>
@@ -99,38 +99,69 @@
               <stop offset="0" stop-color="#176674"/>
               <stop offset="1" stop-color="#58a8b0"/>
             </linearGradient>
+            <linearGradient id="schematicDelta" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#b99462"/>
+              <stop offset="1" stop-color="#f0d59a"/>
+            </linearGradient>
+            <marker id="schematicArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0 L10 5 L0 10 Z" fill="#0b3d46" opacity=".62"/>
+            </marker>
           </defs>
-          <rect width="1180" height="520" rx="34" fill="url(#schematicSky)"/>
-          <path d="M0 248 C126 162 242 126 360 186 C456 235 510 320 628 308 C764 294 830 176 980 196 C1060 206 1122 248 1180 246 L1180 520 L0 520 Z" fill="#7f946d" opacity=".58"/>
-          <path d="M0 346 C136 282 252 262 372 302 C498 344 578 418 712 372 C820 336 900 260 1180 300 L1180 520 L0 520 Z" fill="#c2aa7b" opacity=".72"/>
-          <path d="M0 330 C135 260 252 246 360 292 C484 346 548 420 690 376 C806 340 826 246 970 248 C1060 250 1112 292 1180 292" fill="none" stroke="url(#schematicRiver)" stroke-width="72" stroke-linecap="round"/>
-          <path d="M0 330 C135 260 252 246 360 292 C484 346 548 420 690 376 C806 340 826 246 970 248 C1060 250 1112 292 1180 292" fill="none" stroke="#fff" stroke-width="16" stroke-linecap="round" opacity=".23"/>
-          <path d="M904 248 C980 210 1060 218 1164 258 L1164 342 C1040 310 970 314 898 352 Z" fill="url(#schematicReservoir)" opacity=".82"/>
-          <path d="M914 234 L964 234 L964 370 L914 370 Z" fill="#e8d8b9" opacity=".95"/>
-          <path d="M244 250 C300 220 372 230 430 266" fill="none" stroke="#8c7a52" stroke-width="12" stroke-linecap="round" opacity=".52"/>
-          <path d="M520 402 C586 370 672 374 738 414" fill="none" stroke="#7e8f65" stroke-width="14" stroke-linecap="round" opacity=".62"/>
-          <path d="M548 430 C604 400 684 406 748 438" fill="none" stroke="#7e8f65" stroke-width="8" stroke-linecap="round" opacity=".5"/>
-          <path d="M110 278 C132 314 156 338 194 366" fill="none" stroke="#29483d" stroke-width="8" stroke-linecap="round" opacity=".6"/>
-          <path d="M110 278 C84 310 74 342 68 374" fill="none" stroke="#29483d" stroke-width="6" stroke-linecap="round" opacity=".52"/>
+          <rect width="1180" height="640" rx="34" fill="url(#schematicSky)"/>
+          <path d="M0 304 C112 212 222 170 342 210 C438 242 516 334 626 324 C754 314 812 216 962 224 C1046 228 1116 262 1180 268 L1180 640 L0 640 Z" fill="#7f946d" opacity=".58"/>
+          <path d="M0 410 C118 344 244 322 366 364 C498 410 570 492 716 440 C832 398 906 326 1180 360 L1180 640 L0 640 Z" fill="#c2aa7b" opacity=".76"/>
+          <path d="M0 394 C132 320 252 306 362 354 C488 410 554 486 696 440 C812 402 830 312 972 314 C1062 316 1118 354 1180 354" fill="none" stroke="url(#schematicRiver)" stroke-width="74" stroke-linecap="round"/>
+          <path d="M0 394 C132 320 252 306 362 354 C488 410 554 486 696 440 C812 402 830 312 972 314 C1062 316 1118 354 1180 354" fill="none" stroke="#fff" stroke-width="16" stroke-linecap="round" opacity=".24"/>
+          <path d="M988 332 C1052 302 1114 306 1180 334 L1180 445 C1100 406 1040 412 980 448 Z" fill="url(#schematicDelta)" opacity=".72"/>
+          <path d="M900 316 C980 278 1060 284 1162 326 L1162 410 C1044 374 966 382 892 430 Z" fill="url(#schematicReservoir)" opacity=".84"/>
+          <path d="M912 290 L964 290 L964 446 L912 446 Z" fill="#e8d8b9" opacity=".96"/>
+          <path d="M250 302 C306 274 372 280 432 318" fill="none" stroke="#8c7a52" stroke-width="12" stroke-linecap="round" opacity=".52"/>
+          <path d="M524 468 C596 428 684 432 750 474" fill="none" stroke="#7e8f65" stroke-width="14" stroke-linecap="round" opacity=".63"/>
+          <path d="M548 502 C610 468 690 474 756 506" fill="none" stroke="#7e8f65" stroke-width="8" stroke-linecap="round" opacity=".5"/>
+          <path d="M116 330 C142 366 164 394 202 424" fill="none" stroke="#29483d" stroke-width="8" stroke-linecap="round" opacity=".6"/>
+          <path d="M116 330 C90 364 78 398 70 430" fill="none" stroke="#29483d" stroke-width="6" stroke-linecap="round" opacity=".52"/>
+          <path d="M62 186 C162 236 266 278 366 342 C494 424 594 462 716 430 C828 400 884 332 1000 328" fill="none" stroke="#0b3d46" stroke-width="3" stroke-dasharray="9 10" marker-end="url(#schematicArrow)" opacity=".38"/>
           <g fill="#d7704b" stroke="#fff" stroke-width="8">
-            <circle cx="160" cy="270" r="19"/>
-            <circle cx="408" cy="315" r="19"/>
-            <circle cx="640" cy="378" r="19"/>
-            <circle cx="938" cy="248" r="19"/>
+            <circle cx="158" cy="328" r="19"/>
+            <circle cx="410" cy="372" r="19"/>
+            <circle cx="638" cy="442" r="19"/>
+            <circle cx="938" cy="316" r="19"/>
           </g>
-          <g fill="#0b3d46" font-family="Inter, Arial, sans-serif">
-            <text x="70" y="96" font-size="26" font-weight="700">Critical-zone sources</text>
-            <text x="315" y="112" font-size="26" font-weight="700">Active-channel transport</text>
-            <text x="565" y="114" font-size="26" font-weight="700">Floodplain storage</text>
-            <text x="875" y="116" font-size="26" font-weight="700">Reservoir regulation</text>
-            <text x="70" y="128" font-size="16" fill="#5e7172">soil · groundwater · weathering</text>
-            <text x="315" y="144" font-size="16" fill="#5e7172">mud · flocs · suspended load</text>
-            <text x="565" y="146" font-size="16" fill="#5e7172">overbank deposition · permafrost</text>
-            <text x="875" y="148" font-size="16" fill="#5e7172">dams · settling · altered flux</text>
-            <path d="M156 142 L160 245" stroke="#0b3d46" stroke-width="2" opacity=".42"/>
-            <path d="M408 156 L408 290" stroke="#0b3d46" stroke-width="2" opacity=".42"/>
-            <path d="M640 158 L640 352" stroke="#0b3d46" stroke-width="2" opacity=".42"/>
-            <path d="M938 160 L938 222" stroke="#0b3d46" stroke-width="2" opacity=".42"/>
+          <g font-family="Inter, Arial, sans-serif">
+            <g>
+              <rect x="48" y="46" width="236" height="104" rx="18" fill="#ffffff" opacity=".88"/>
+              <text x="68" y="82" fill="#0b3d46" font-size="22" font-weight="800">Source terrain</text>
+              <text x="68" y="112" fill="#5e7172" font-size="15">soil carbon, weathering,</text>
+              <text x="68" y="134" fill="#5e7172" font-size="15">groundwater, hillslopes</text>
+              <path d="M166 150 L158 304" stroke="#0b3d46" stroke-width="2.5" opacity=".45"/>
+            </g>
+            <g>
+              <rect x="330" y="46" width="244" height="104" rx="18" fill="#ffffff" opacity=".88"/>
+              <text x="350" y="82" fill="#0b3d46" font-size="22" font-weight="800">Channel transport</text>
+              <text x="350" y="112" fill="#5e7172" font-size="15">mud, flocs, grain sorting,</text>
+              <text x="350" y="134" fill="#5e7172" font-size="15">suspended carbon flux</text>
+              <path d="M452 150 L410 348" stroke="#0b3d46" stroke-width="2.5" opacity=".45"/>
+            </g>
+            <g>
+              <rect x="610" y="46" width="256" height="104" rx="18" fill="#ffffff" opacity=".88"/>
+              <text x="630" y="82" fill="#0b3d46" font-size="22" font-weight="800">Floodplain storage</text>
+              <text x="630" y="112" fill="#5e7172" font-size="15">migration, overbank</text>
+              <text x="630" y="134" fill="#5e7172" font-size="15">deposition, permafrost</text>
+              <path d="M738 150 L638 418" stroke="#0b3d46" stroke-width="2.5" opacity=".45"/>
+            </g>
+            <g>
+              <rect x="904" y="46" width="228" height="104" rx="18" fill="#ffffff" opacity=".88"/>
+              <text x="924" y="82" fill="#0b3d46" font-size="22" font-weight="800">Regulated flux</text>
+              <text x="924" y="112" fill="#5e7172" font-size="15">dams, reservoirs, deltas,</text>
+              <text x="924" y="134" fill="#5e7172" font-size="15">downstream export</text>
+              <path d="M1018 150 L938 292" stroke="#0b3d46" stroke-width="2.5" opacity=".45"/>
+            </g>
+          </g>
+          <g font-family="Inter, Arial, sans-serif" font-size="15" font-weight="800" fill="#0b3d46" opacity=".82">
+            <text x="74" y="586">uplands</text>
+            <text x="354" y="586">active channel</text>
+            <text x="626" y="586">floodplain and delta storage</text>
+            <text x="958" y="586">ocean export</text>
           </g>
         </svg>
       </div>
