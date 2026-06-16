@@ -1,0 +1,30 @@
+@import url("css/academicons.min.css");
+
+.brand-icon{display:block;width:1.18em;height:1.18em;fill:currentColor}
+.profile-icons a{font-size:1.35rem;line-height:1}
+.profile-icons-large a{font-size:1.55rem}
+.button.icon-button{width:48px;min-width:48px;padding:0;border-radius:50%;font-size:1.22rem}
+.button.icon-button .brand-icon{width:1.08em;height:1.08em}
+.intro-panel{grid-template-columns:220px minmax(0,1fr) minmax(280px,.9fr);align-items:center}
+.intro-portrait{position:relative;margin:0}
+.intro-portrait::before{position:absolute;inset:-16px;z-index:0;border-radius:50%;content:"";background:linear-gradient(135deg,var(--river),var(--gold));opacity:.92}
+.intro-portrait img{position:relative;z-index:1;display:block;width:220px;height:220px;border:7px solid #fff;border-radius:50%;object-fit:cover;box-shadow:0 18px 45px rgba(8,47,55,.22)}
+.intro-copy .profile-icons{margin-top:1.4rem}
+.research-card.visual-card{background-size:cover;background-position:center}
+.research-card.visual-card::before{background:linear-gradient(135deg,rgba(8,47,55,.92),rgba(8,47,55,.42) 58%,rgba(8,47,55,.18))}
+.research-card.visual-card.theme-arctic{background-image:linear-gradient(135deg,rgba(8,47,55,.74),rgba(8,47,55,.36)),url("theme-arctic-floodplain.svg")}
+.research-card.visual-card.theme-transport{background-image:linear-gradient(135deg,rgba(8,47,55,.78),rgba(8,47,55,.3)),url("theme-sediment-flocs.svg")}
+.research-card.visual-card.theme-human{background-image:linear-gradient(135deg,rgba(8,47,55,.82),rgba(8,47,55,.34)),url("theme-reservoirs.svg")}
+.research-card.visual-card.theme-critical{background-image:linear-gradient(135deg,rgba(8,47,55,.82),rgba(8,47,55,.34)),url("theme-critical-zone.svg")}
+.affiliation-line{display:flex;flex-wrap:wrap;gap:.42rem .55rem;align-items:center}
+.affiliation-line a:not(.affiliation-logo){font-weight:700;text-decoration:none;color:var(--teal)}
+.affiliation-logo{display:inline-flex;align-items:center;min-height:28px;padding:.28rem .58rem;border-radius:999px;color:#fff!important;background:var(--deep);font-size:.62rem;font-weight:900;letter-spacing:.06em;line-height:1;text-decoration:none;text-transform:uppercase;box-shadow:0 8px 20px rgba(8,47,55,.12)}
+.logo-caltech{background:#ff6c0c}.logo-whoi{background:#005a8b}.logo-ipgp{background:#1a4f7a}.logo-ups{background:#253a85}.logo-geops{background:#5f7f58}.logo-lzu{background:#8f1e2d}
+.journal-badge{display:inline-flex;gap:.45rem;align-items:center;width:max-content;max-width:100%;margin:.75rem 0 0;padding:.36rem .66rem;border:1px solid rgba(11,61,70,.12);border-radius:999px;background:#fff;color:var(--deep)!important;font-size:.74rem;line-height:1.2;text-decoration:none;box-shadow:0 10px 22px rgba(8,47,55,.07)}
+.journal-badge span{display:inline-grid;min-width:2.2rem;height:1.55rem;padding:0 .38rem;place-items:center;border-radius:999px;color:#fff;background:var(--deep);font-size:.62rem;font-weight:900;letter-spacing:.04em}
+.journal-badge strong{font-size:.73rem;font-weight:800}
+.journal-badge:hover{transform:translateY(-1px);color:var(--deep)!important}
+.journal-nature span{background:#1f1f1f}.journal-agu span{background:#245d75}.journal-science span{background:#b51f29}.journal-elsevier span{background:#e9711c}.journal-copernicus span{background:#5a783f}.journal-iop span{background:#681f82}.journal-taylor span{background:#10486b}.journal-springer span{background:#386641}.journal-neutral span{background:#66777a}
+
+@media (max-width:980px){.intro-panel{grid-template-columns:1fr}.intro-portrait{justify-self:center}.intro-copy{text-align:left}.expertise-card{margin-top:.4rem}}
+@media (max-width:600px){.button.icon-button{width:44px;min-width:44px}.intro-portrait img{width:180px;height:180px}.intro-portrait::before{inset:-12px}.affiliation-line{align-items:flex-start}.journal-badge{width:100%;border-radius:1rem}.journal-badge strong{font-size:.7rem}}
