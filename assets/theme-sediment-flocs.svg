@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" role="img" aria-label="Suspended sediment and organic carbon flocs in a river channel">
+  <defs>
+    <linearGradient id="water" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#103746"/>
+      <stop offset="0.48" stop-color="#2a8794"/>
+      <stop offset="1" stop-color="#d4a56d"/>
+    </linearGradient>
+    <radialGradient id="floc" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#f6e1a9"/>
+      <stop offset="1" stop-color="#b86b47"/>
+    </radialGradient>
+  </defs>
+  <rect width="900" height="520" fill="url(#water)"/>
+  <path d="M-30 338 C95 258 204 250 306 296 C420 348 502 386 632 330 C738 284 808 198 930 232 L930 520 L-30 520 Z" fill="#08303a" opacity="0.36"/>
+  <path d="M-18 210 C98 172 218 186 338 228 C480 278 584 272 704 214 C796 169 858 158 930 166" fill="none" stroke="#c6e8e6" stroke-width="18" stroke-linecap="round" opacity="0.22"/>
+  <path d="M-30 378 C108 304 226 298 342 344 C468 394 574 406 706 348 C802 306 858 292 930 306" fill="none" stroke="#f2c17b" stroke-width="32" stroke-linecap="round" opacity="0.34"/>
+  <g opacity="0.86">
+    <circle cx="150" cy="330" r="9" fill="url(#floc)"/>
+    <circle cx="206" cy="294" r="6" fill="#e7c98d"/>
+    <circle cx="268" cy="326" r="13" fill="#c98354"/>
+    <circle cx="354" cy="358" r="7" fill="#f3d391"/>
+    <circle cx="452" cy="352" r="14" fill="#d7704b"/>
+    <circle cx="536" cy="372" r="8" fill="#edd08e"/>
+    <circle cx="612" cy="338" r="12" fill="#c98354"/>
+    <circle cx="688" cy="306" r="7" fill="#f4dda5"/>
+    <circle cx="762" cy="276" r="10" fill="#d7704b"/>
+    <circle cx="812" cy="252" r="6" fill="#f2dca4"/>
+  </g>
+  <g fill="none" stroke="#fff" stroke-linecap="round" opacity="0.24">
+    <path d="M60 116 C168 92 254 110 338 144" stroke-width="8"/>
+    <path d="M388 124 C520 82 642 104 804 138" stroke-width="7"/>
+    <path d="M118 430 C228 404 326 414 426 454" stroke-width="9"/>
+  </g>
+</svg>
