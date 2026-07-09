@@ -89,7 +89,33 @@
 .dataset-links{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.72rem}
 .dataset-badge{display:inline-flex;align-items:center;border:1px solid rgba(11,61,70,.14);border-radius:999px;padding:.34rem .62rem;color:var(--deep);background:#fff;font-size:.72rem;font-weight:900;text-decoration:none}
 .dataset-badge:hover{transform:translateY(-1px);color:var(--deep)}
+.live-record{margin-top:1.7rem;padding-top:1.35rem;border-top:1px solid rgba(255,255,255,.2)}
+.live-record-panel{padding:1.5rem;border:1px solid rgba(11,61,70,.1);border-radius:1.5rem;background:linear-gradient(135deg,#f7f2e8,#e6f0ed);box-shadow:0 18px 45px rgba(8,47,55,.08)}
+.live-record-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem}
+.live-record-metric{display:grid;gap:.22rem;min-height:112px;padding:1rem;border:1px solid rgba(11,61,70,.1);border-radius:1rem;color:var(--deep);background:rgba(255,255,255,.78);text-decoration:none}
+.live-record-metric:hover{transform:translateY(-2px);color:var(--teal);box-shadow:0 12px 24px rgba(8,47,55,.08)}
+.live-record-metric strong{font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif;font-size:2.2rem;line-height:1}
+.live-record-metric span{font-size:.76rem;font-weight:900;letter-spacing:.03em;line-height:1.35;text-transform:uppercase}
+.live-record-status{margin:.95rem 0 .65rem!important;color:var(--muted)!important;font-size:.82rem!important}
+.live-record-links{display:flex;flex-wrap:wrap;gap:.65rem 1rem}
+.live-record-links a{color:var(--teal);font-size:.82rem;font-weight:900;text-decoration:none}
+.live-record-links a:hover{text-decoration:underline}
+.live-record-dark .live-record-metric{border-color:rgba(255,255,255,.18);color:#fff;background:rgba(255,255,255,.1)}
+.live-record-dark .live-record-metric:hover{color:#fff;background:rgba(255,255,255,.16)}
+.live-record-dark .live-record-status{color:rgba(255,255,255,.7)!important}
+.live-record-dark .live-record-links a{color:#f2c17b}
+.live-record-section{padding-top:3rem}
+.update-visual{position:relative;display:flex;min-height:240px;padding:1.25rem;align-items:flex-end;overflow:hidden;color:#fff;background:#0b3d46;isolation:isolate}
+.update-visual::before{position:absolute;inset:0;z-index:-1;content:"";background:linear-gradient(135deg,rgba(8,47,55,.12),rgba(8,47,55,.78))}
+.update-visual span{padding:.42rem .68rem;border:1px solid rgba(255,255,255,.45);border-radius:999px;background:rgba(8,47,55,.32);font-size:.72rem;font-weight:900;letter-spacing:.13em;backdrop-filter:blur(10px)}
+.update-visual-conference{background:linear-gradient(135deg,#be784d,#d7a857 42%,#0f6871 100%)}
+.update-visual-field{background:linear-gradient(135deg,#7f946d,#2a8794 54%,#0b3d46)}
+.update-visual-small{min-height:124px;margin:-1rem -1rem 1rem;padding:1rem;border-radius:1.1rem 1.1rem 0 0}
+.update-visual-agu{background:linear-gradient(135deg,#cf8b57,#0b3d46)}
+.update-visual-gold{background:linear-gradient(135deg,#d7a857,#4f7c77)}
+.update-visual-yukon{background:linear-gradient(135deg,#3f7280,#7f946d)}
+.update-visual-delta{background:linear-gradient(135deg,#215c69,#b99462)}
 
 @media (max-width:980px){.intro-panel{grid-template-columns:1fr}.intro-portrait{justify-self:center}.intro-copy{text-align:left}.expertise-card{margin-top:.4rem}}
 @media (max-width:900px){.morepoc-explorer{grid-template-columns:1fr}.morepoc-map-card{overflow-x:auto}.morepoc-map{min-width:760px}.morepoc-stat-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media (max-width:600px){.button.icon-button{width:44px;min-width:44px}.intro-portrait img{width:180px;height:180px}.intro-portrait::before{inset:-12px}.affiliation-line{align-items:flex-start}.journal-badge{width:100%;border-radius:1rem}.journal-badge strong{font-size:.7rem}.about-profile-card{min-height:420px;padding:2rem 1.25rem}.about-profile-card img{width:190px;height:190px}.about-profile-card figcaption strong{font-size:1.75rem}.morepoc-stat-grid{grid-template-columns:1fr}.morepoc-toolbar{display:grid}.map-toggle{width:100%}}
+@media (max-width:600px){.button.icon-button{width:44px;min-width:44px}.intro-portrait img{width:180px;height:180px}.intro-portrait::before{inset:-12px}.affiliation-line{align-items:flex-start}.journal-badge{width:100%;border-radius:1rem}.journal-badge strong{font-size:.7rem}.about-profile-card{min-height:420px;padding:2rem 1.25rem}.about-profile-card img{width:190px;height:190px}.about-profile-card figcaption strong{font-size:1.75rem}.morepoc-stat-grid,.live-record-grid{grid-template-columns:1fr}.morepoc-toolbar{display:grid}.map-toggle{width:100%}}
