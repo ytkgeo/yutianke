@@ -7,11 +7,11 @@
 .button.icon-button .brand-icon{width:1.08em;height:1.08em}
 .home-hero-bg{background-image:url("home-drone-river.jpg");background-position:center;background-size:cover}
 .home-hero-bg::before{display:none}
-.intro-panel{grid-template-columns:220px minmax(0,1fr) minmax(280px,.9fr);align-items:center}
+.intro-panel{grid-template-columns:220px minmax(0,1fr) minmax(280px,.9fr);align-items:start}
 .intro-portrait{position:relative;margin:0}
 .intro-portrait::before{display:none}
 .intro-portrait img{position:relative;z-index:1;display:block;width:220px;height:220px;border:7px solid #fff;border-radius:50%;object-fit:cover;box-shadow:none}
-.intro-copy .profile-icons{margin-top:1.4rem}
+.intro-copy .profile-icons{margin-top:1rem}
 .research-card.visual-card{background-size:cover;background-position:center}
 .research-card.visual-card::before{background:none}
 .research-card.visual-card.theme-arctic{background-image:none}
@@ -36,7 +36,7 @@
 .about-mini-card:nth-child(2){background:var(--clay)}
 .about-mini-card h3{margin-bottom:.35rem;font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif;font-size:1.35rem}
 .about-mini-card p{margin-bottom:0;color:rgba(255,255,255,.82);font-size:.9rem;line-height:1.55}
-.morepoc-section{padding-top:3.25rem}
+.morepoc-section{padding-top:1.25rem}
 .morepoc-section .section-heading{max-width:860px}
 .morepoc-explorer{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr);gap:1.2rem;align-items:stretch}
 .morepoc-map-card,.morepoc-side-panel{border:1px solid rgba(11,61,70,.1);border-radius:5px;background:#fff;box-shadow:none}
@@ -105,7 +105,7 @@
 .live-record-dark .live-record-metric:hover{color:#fff;background:rgba(255,255,255,.16)}
 .live-record-dark .live-record-status{color:rgba(255,255,255,.7)!important}
 .live-record-dark .live-record-links a{color:#f2c17b}
-.live-record-section{padding-top:3rem}
+.live-record-section{padding-top:1.25rem}
 .update-visual{position:relative;display:flex;min-height:240px;padding:1.25rem;align-items:flex-end;overflow:hidden;color:#fff;background:#0b3d46;isolation:isolate}
 .update-visual::before{display:none}
 .update-visual span{padding:.42rem .68rem;border:1px solid rgba(255,255,255,.45);border-radius:3px;background:rgba(8,47,55,.32);font-size:.72rem;font-weight:900;letter-spacing:.13em;}
