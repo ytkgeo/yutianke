@@ -15,8 +15,8 @@
 .research-card.visual-card{background-size:cover;background-position:center}
 .research-card.visual-card::before{background:linear-gradient(180deg,rgba(8,47,55,.06) 0%,rgba(8,47,55,.10) 15%,rgba(8,47,55,.58) 25%,rgba(8,47,55,.88) 34%,rgba(8,47,55,.94) 100%)}
 .research-card.visual-card.theme-arctic{background-image:url("theme-storage.jpg")}
-.research-card.visual-card.theme-transport{background-image:url("theme-flocculation.jpg")}
-.research-card.visual-card.theme-human{background-image:url("theme-disturbance.jpg")}
+.research-card.visual-card.theme-transport{background-image:url("theme-disturbance.jpg")}
+.research-card.visual-card.theme-human{background-image:url("theme-flocculation.jpg")}
 .research-card.visual-card.theme-critical{background-image:none}
 .affiliation-line{display:flex;flex-wrap:wrap;gap:.42rem .55rem;align-items:center}
 .affiliation-line a:not(.affiliation-logo){font-weight:700;text-decoration:none;color:var(--teal)}
