@@ -280,8 +280,10 @@ document.querySelectorAll(".update-list-toggle").forEach((toggle) => {
 });
 
 // Wall photos are cropped to a uniform grid, so clicking one opens the full
-// frame uncropped. Keyboard reachable, and returns focus where it started.
+// frame uncropped, and you can move through the rest of that wall without
+// closing. Keyboard reachable, and returns focus where it started.
 (() => {
+  const walls = [...document.querySelectorAll(".photo-wall")];
   const items = [...document.querySelectorAll(".photo-wall-item")];
   if (!items.length) return;
 
@@ -292,21 +294,38 @@ document.querySelectorAll(".update-list-toggle").forEach((toggle) => {
   box.setAttribute("aria-modal", "true");
   box.innerHTML =
     '<button class="lightbox-close" type="button" aria-label="Close">&times;</button>' +
-    '<figure><img alt=""><figcaption></figcaption></figure>';
+    '<button class="lightbox-nav lightbox-prev" type="button" aria-label="Previous photo">&#8249;</button>' +
+    '<button class="lightbox-nav lightbox-next" type="button" aria-label="Next photo">&#8250;</button>' +
+    '<figure><img alt=""><figcaption></figcaption></figure>' +
+    '<p class="lightbox-count" aria-live="polite"></p>';
   document.body.appendChild(box);
 
   const img = box.querySelector("img");
   const cap = box.querySelector("figcaption");
+  const count = box.querySelector(".lightbox-count");
   const closeBtn = box.querySelector(".lightbox-close");
+  const prevBtn = box.querySelector(".lightbox-prev");
+  const nextBtn = box.querySelector(".lightbox-next");
+
+  let group = [];
+  let index = 0;
   let opener = null;
 
-  const open = (figure) => {
+  const show = (i) => {
+    index = (i + group.length) % group.length;   // wrap at either end
+    const figure = group[index];
     const source = figure.querySelector("img");
-    if (!source) return;
-    opener = figure;
     img.src = source.currentSrc || source.src;
     img.alt = source.alt || "";
     cap.textContent = figure.querySelector("figcaption")?.textContent || "";
+    count.textContent = `${index + 1} / ${group.length}`;
+  };
+
+  const open = (figure) => {
+    const wall = walls.find((w) => w.contains(figure));
+    group = wall ? [...wall.querySelectorAll(".photo-wall-item")] : items;
+    opener = figure;
+    show(group.indexOf(figure));
     box.hidden = false;
     document.body.style.overflow = "hidden";
     closeBtn.focus();
@@ -316,7 +335,7 @@ document.querySelectorAll(".update-list-toggle").forEach((toggle) => {
     box.hidden = true;
     img.removeAttribute("src");
     document.body.style.overflow = "";
-    opener?.focus();
+    group[index]?.focus();
     opener = null;
   };
 
@@ -332,11 +351,28 @@ document.querySelectorAll(".update-list-toggle").forEach((toggle) => {
     });
   });
 
+  prevBtn.addEventListener("click", () => show(index - 1));
+  nextBtn.addEventListener("click", () => show(index + 1));
   closeBtn.addEventListener("click", close);
+
   box.addEventListener("click", (event) => {
     if (event.target === box || event.target.tagName === "FIGURE") close();
   });
+
   document.addEventListener("keydown", (event) => {
-    if (!box.hidden && event.key === "Escape") close();
+    if (box.hidden) return;
+    if (event.key === "Escape") close();
+    else if (event.key === "ArrowRight") show(index + 1);
+    else if (event.key === "ArrowLeft") show(index - 1);
   });
+
+  // horizontal wheel / trackpad swipe steps through the wall
+  let wheelLock = 0;
+  box.addEventListener("wheel", (event) => {
+    if (box.hidden) return;
+    const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+    if (Math.abs(delta) < 12 || Date.now() < wheelLock) return;
+    wheelLock = Date.now() + 260;
+    show(index + (delta > 0 ? 1 : -1));
+  }, { passive: true });
 })();

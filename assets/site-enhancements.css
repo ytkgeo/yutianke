@@ -178,3 +178,10 @@
    rather than a section background because the muted body colour
    cannot clear 4.5:1 over the darker vegetation at any usable veil. */
 .publications-hero::before{display:block;height:clamp(96px,13vw,168px);margin:0 0 1.7rem;border-radius:4px;content:"";background:url("publications-band.jpg") center/cover no-repeat}
+
+/* lightbox navigation */
+.lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);width:52px;height:52px;border:0;border-radius:3px;background:rgba(255,255,255,.14);color:#fff;font-size:2rem;line-height:1;cursor:pointer}
+.lightbox-nav:hover{background:rgba(255,255,255,.28)}
+.lightbox-prev{left:1.2rem}.lightbox-next{right:1.2rem}
+.lightbox-count{position:absolute;bottom:1.1rem;left:0;right:0;margin:0;text-align:center;color:rgba(255,255,255,.72);font-size:.78rem;font-weight:700;letter-spacing:.08em}
+@media (max-width:640px){.lightbox-nav{width:44px;height:44px;font-size:1.6rem}.lightbox-prev{left:.4rem}.lightbox-next{right:.4rem}}
