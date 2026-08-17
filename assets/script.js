@@ -252,3 +252,29 @@ if ("IntersectionObserver" in window) {
     updateReadout(yukonSite);
   }
 })();
+// Archive sections are held at one shared height so the three read as equal
+// blocks; anything below the fold is reached with the toggle. The control is
+// hidden where a section already fits, so it never promises hidden content.
+document.querySelectorAll(".update-list-toggle").forEach((toggle) => {
+  const section = toggle.closest(".updates-list");
+  const list = section && section.querySelector(".update-entry-list");
+  if (!list) return;
+
+  const overflows = () => list.scrollHeight > list.clientHeight + 2;
+
+  const sync = () => {
+    if (section.classList.contains("is-expanded")) return;
+    toggle.hidden = !overflows();
+  };
+
+  toggle.addEventListener("click", () => {
+    const open = section.classList.toggle("is-expanded");
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.textContent = open
+      ? "Show fewer " + toggle.dataset.label
+      : "Show all " + toggle.dataset.count + " " + toggle.dataset.label;
+  });
+
+  sync();
+  window.addEventListener("resize", sync);
+});

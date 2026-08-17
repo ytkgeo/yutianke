@@ -13,8 +13,6 @@ const DEFAULT_STATUS = "Seven field locations are marked on the globe.";
 const FULL_TURN = Math.PI * 2;
 const HYDRO_SOURCE_WIDTH = 1000;
 const HYDRO_SOURCE_HEIGHT = 500;
-const HYDRO_VISIBLE_START = HYDRO_SOURCE_WIDTH * 0.25;
-const HYDRO_VISIBLE_END = HYDRO_SOURCE_WIDTH * 0.75;
 
 export function normalizeAngle(angle) {
   return ((angle + Math.PI) % FULL_TURN + FULL_TURN) % FULL_TURN - Math.PI;
@@ -55,17 +53,75 @@ function getAnimationStatusText(state) {
   return shouldAnimate(state) ? "Globe animation is running." : "Globe animation is paused.";
 }
 
-function getHydroTileOffsets(rotation) {
-  const sourceOffset = ((rotation / FULL_TURN) * HYDRO_SOURCE_WIDTH + HYDRO_SOURCE_WIDTH) % HYDRO_SOURCE_WIDTH;
-  const firstTile = Math.floor((sourceOffset - HYDRO_VISIBLE_END) / HYDRO_SOURCE_WIDTH);
-  const lastTile = Math.ceil((sourceOffset - HYDRO_VISIBLE_START) / HYDRO_SOURCE_WIDTH);
-  const tileOffsets = [];
+// The basin geometry ships as M/L/Z polygons in a 1000x500 equirectangular
+// source. Drawing that through a flat translate/scale and clipping it to a
+// circle is not a globe: latitude ends up linear while the field markers use a
+// true orthographic projection (r*sin(lat)), so basins and markers disagree by
+// up to ~18% of the radius and the mask crops basins mid-shape. Parse the
+// polygons once into lon/lat, then project every vertex the same way the
+// markers are projected.
+let hydroGeometryCache = null;
 
-  for (let tile = firstTile; tile <= lastTile; tile += 1) {
-    tileOffsets.push(tile * HYDRO_SOURCE_WIDTH - sourceOffset);
+function parseHydroRings(paths) {
+  return paths.flatMap((path) => {
+    const rings = [];
+    let ring = null;
+    const token = /([MLZ])([-\d.]+)?[ ,]?([-\d.]+)?/g;
+    let match;
+    while ((match = token.exec(path)) !== null) {
+      const [, command, rawX, rawY] = match;
+      if (command === "Z") {
+        if (ring && ring.length > 2) rings.push(ring);
+        ring = null;
+        continue;
+      }
+      if (command === "M") {
+        if (ring && ring.length > 2) rings.push(ring);
+        ring = [];
+      }
+      if (!ring || rawX === undefined || rawY === undefined) continue;
+      ring.push([
+        (Number(rawX) / HYDRO_SOURCE_WIDTH) * 360 - 180,
+        90 - (Number(rawY) / HYDRO_SOURCE_HEIGHT) * 180,
+      ]);
+    }
+    if (ring && ring.length > 2) rings.push(ring);
+    return rings;
+  });
+}
+
+function getHydroGeometry(hydro) {
+  if (hydroGeometryCache?.source === hydro) return hydroGeometryCache;
+  hydroGeometryCache = {
+    source: hydro,
+    background: parseHydroRings(hydro.background ?? []),
+    visited: (hydro.visited ?? []).flatMap((basin) => parseHydroRings(basin.paths ?? [])),
+  };
+  return hydroGeometryCache;
+}
+
+// Same projection as projectFieldSite, so basins and markers finally agree.
+function traceRing(context, ring, centerX, centerY, radius, rotation) {
+  let drawing = false;
+  let drawn = 0;
+  for (const [lon, lat] of ring) {
+    const longitude = (lon * Math.PI) / 180 + rotation;
+    const latitude = (lat * Math.PI) / 180;
+    if (Math.cos(latitude) * Math.cos(longitude) <= 0) {
+      drawing = false;   // vertex is on the far side of the globe
+      continue;
+    }
+    const x = centerX + radius * Math.cos(latitude) * Math.sin(longitude);
+    const y = centerY - radius * Math.sin(latitude);
+    if (drawing) {
+      context.lineTo(x, y);
+    } else {
+      context.moveTo(x, y);
+      drawing = true;
+    }
+    drawn += 1;
   }
-
-  return tileOffsets;
+  return drawn > 2;
 }
 
 function drawEarth(context, centerX, centerY, radius) {
@@ -100,28 +156,28 @@ function drawEarth(context, centerX, centerY, radius) {
 }
 
 export function drawHydroSurface(context, centerX, centerY, radius, rotation, hydro) {
-  if (!hydro?.background?.length || typeof Path2D !== "function") {
+  if (!hydro?.background?.length) {
     return;
   }
-  const backgroundPaths = hydro.background.map((path) => new Path2D(path));
-  const visitedPaths = hydro.visited?.map((basin) => basin.paths.map((path) => new Path2D(path))) ?? [];
+  const geometry = getHydroGeometry(hydro);
 
   context.save();
   context.beginPath();
   context.arc(centerX, centerY, radius, 0, FULL_TURN);
   context.clip();
-  context.translate(centerX - radius * 2, centerY - radius);
-  context.scale((radius * 4) / HYDRO_SOURCE_WIDTH, (radius * 2) / HYDRO_SOURCE_HEIGHT);
+
   context.fillStyle = "rgba(232,240,222,.28)";
+  context.beginPath();
+  geometry.background.forEach((ring) => traceRing(context, ring, centerX, centerY, radius, rotation));
+  context.fill();
+
   context.strokeStyle = "rgba(130,221,219,.48)";
-  context.lineWidth = 1.4;
-  getHydroTileOffsets(rotation).forEach((tileOffset) => {
-    context.save();
-    context.translate(tileOffset, 0);
-    backgroundPaths.forEach((path) => context.fill(path));
-    visitedPaths.forEach((basinPaths) => basinPaths.forEach((path) => context.stroke(path)));
-    context.restore();
-  });
+  context.lineWidth = Math.max(1, radius * 0.006);
+  context.lineJoin = "round";
+  context.beginPath();
+  geometry.visited.forEach((ring) => traceRing(context, ring, centerX, centerY, radius, rotation));
+  context.stroke();
+
   context.restore();
 }
 
