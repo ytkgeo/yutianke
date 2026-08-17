@@ -177,7 +177,7 @@
    nadir frame across the willow line and point bar. Kept as a strip
    rather than a section background because the muted body colour
    cannot clear 4.5:1 over the darker vegetation at any usable veil. */
-.publications-hero::before,.about-hero::before{display:block;height:clamp(96px,13vw,168px);margin:0 0 1.7rem;border-radius:4px;content:"";background-position:center;background-size:cover;background-repeat:no-repeat}.publications-hero::before{background-image:url("publications-band.jpg")}.about-hero::before{background-image:url("about-band.jpg")}
+.publications-hero::before,.about-hero::before,.page-banner{display:block;height:clamp(96px,13vw,168px);margin:0 0 1.7rem;border-radius:4px;content:"";background-position:center;background-size:cover;background-repeat:no-repeat}.page-banner{max-width:1200px;margin:2.2rem auto 0;width:calc(100% - 4rem)}.updates-banner{background-image:url("updates-band.jpg")}.publications-hero::before{background-image:url("publications-band.jpg")}.about-hero::before{background-image:url("about-band.jpg")}
 
 /* lightbox navigation */
 .lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);width:52px;height:52px;border:0;border-radius:3px;background:rgba(255,255,255,.14);color:#fff;font-size:2rem;line-height:1;cursor:pointer}
