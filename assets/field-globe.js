@@ -155,6 +155,30 @@ function drawEarth(context, centerX, centerY, radius) {
   context.fill();
 }
 
+let landGeometryCache = null;
+
+function getLandGeometry(land) {
+  if (landGeometryCache?.source === land) return landGeometryCache;
+  landGeometryCache = { source: land, rings: parseHydroRings(land) };
+  return landGeometryCache;
+}
+
+// A complete land layer behind the basins: the basin set alone covers only the
+// largest catchments, which reads as a patchy globe rather than an Earth.
+export function drawLandSurface(context, centerX, centerY, radius, rotation, land) {
+  if (!land?.length) return;
+  const geometry = getLandGeometry(land);
+  context.save();
+  context.beginPath();
+  context.arc(centerX, centerY, radius, 0, FULL_TURN);
+  context.clip();
+  context.fillStyle = "rgba(226,229,209,.88)";
+  context.beginPath();
+  geometry.rings.forEach((ring) => traceRing(context, ring, centerX, centerY, radius, rotation));
+  context.fill("evenodd");
+  context.restore();
+}
+
 export function drawHydroSurface(context, centerX, centerY, radius, rotation, hydro) {
   if (!hydro?.background?.length) {
     return;
@@ -166,12 +190,12 @@ export function drawHydroSurface(context, centerX, centerY, radius, rotation, hy
   context.arc(centerX, centerY, radius, 0, FULL_TURN);
   context.clip();
 
-  context.fillStyle = "rgba(232,240,222,.28)";
+  context.fillStyle = "rgba(42,135,148,.30)";
   context.beginPath();
   geometry.background.forEach((ring) => traceRing(context, ring, centerX, centerY, radius, rotation));
   context.fill();
 
-  context.strokeStyle = "rgba(130,221,219,.48)";
+  context.strokeStyle = "rgba(215,112,75,.95)";
   context.lineWidth = Math.max(1, radius * 0.006);
   context.lineJoin = "round";
   context.beginPath();
@@ -289,6 +313,7 @@ export function createFieldGlobe(root) {
 
     context.clearRect(0, 0, size, size);
     drawEarth(context, size / 2, size / 2, radius);
+    drawLandSurface(context, size / 2, size / 2, radius, state.rotation, runtimeWindow?.WORLD_LAND);
     drawHydroSurface(context, size / 2, size / 2, radius, state.rotation, runtimeWindow?.HYDROBASINS_MAP);
     state.markers = drawFieldMarkers(context, size / 2, size / 2, radius, state.rotation, state.activeId);
     frame = requestFrame(render);

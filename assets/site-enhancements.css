@@ -51,9 +51,9 @@
 .morepoc-land path{fill:#f2ead8;stroke:#fff;stroke-width:1.4;opacity:.92}
 .morepoc-river-background path{fill:none;stroke:rgba(42,135,148,.34);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .morepoc-map-card.has-hydrobasins .morepoc-land,.morepoc-map-card.has-hydrobasins .morepoc-river-background{display:none}
-.hydrobasins-background path{fill:rgba(242,234,216,.72);stroke:rgba(255,255,255,.76);stroke-width:1;fill-rule:evenodd}
-.hydrobasins-background path:nth-child(2n){fill:rgba(228,238,220,.72)}
-.hydrobasins-background path:nth-child(3n){fill:rgba(238,226,202,.72)}
+.hydrobasins-background path{fill:rgba(42,135,148,.16);stroke:rgba(42,135,148,.34);stroke-width:.8;fill-rule:evenodd}
+
+
 .hydrobasin-visited-basin{fill:rgba(215,112,75,.42);stroke:#d7704b;stroke-width:2.15}
 .visited-basin-group{cursor:pointer;outline:none}
 .visited-basin{fill:rgba(215,112,75,.38);stroke:#d7704b;stroke-width:2;stroke-linejoin:round}
@@ -157,3 +157,18 @@
 
 /* copy sits directly on the photograph in both introductions */
 .intro-panel .section-kicker{color:#f2c17b}.intro-panel h2,.intro-panel .intro-title{color:#fff}.intro-panel p,.section-heading>p:last-child.intro-copy{color:rgba(255,255,255,.88)}.intro-panel p:not(.section-kicker){color:rgba(255,255,255,.88)}.intro-panel .profile-icons a{border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.12);color:#fff}.intro-panel .profile-icons a:hover{background:var(--teal);color:#fff}.intro-panel .expertise-card{background:rgba(8,47,55,.55);border:1px solid rgba(255,255,255,.16)}.about-profile-card figcaption strong,.about-profile-card figcaption span{color:#fff}
+
+/* real coastlines beneath the basin highlight */
+.world-land path{fill:#e6e0cd;stroke:rgba(11,61,70,.22);stroke-width:.7;vector-effect:non-scaling-stroke}
+.morepoc-map-card.has-hydrobasins .world-land{display:block}
+
+/* click a wall photo for the uncropped frame */
+.photo-wall-item{cursor:zoom-in}
+.photo-wall-item:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+.lightbox{position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:2.5rem 1.5rem;background:rgba(6,26,31,.93)}
+.lightbox[hidden]{display:none}
+.lightbox figure{margin:0;display:grid;gap:.9rem;justify-items:center;max-width:100%;max-height:100%}
+.lightbox img{display:block;max-width:min(1400px,92vw);max-height:82vh;width:auto;height:auto;object-fit:contain;border-radius:3px}
+.lightbox figcaption{color:rgba(255,255,255,.9);font-size:.86rem;font-weight:700;text-align:center;max-width:60ch}
+.lightbox-close{position:absolute;top:1rem;right:1.2rem;width:44px;height:44px;border:0;border-radius:3px;background:rgba(255,255,255,.14);color:#fff;font-size:1.6rem;line-height:1;cursor:pointer}
+.lightbox-close:hover{background:rgba(255,255,255,.26)}

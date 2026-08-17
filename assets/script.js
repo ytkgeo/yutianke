@@ -278,3 +278,65 @@ document.querySelectorAll(".update-list-toggle").forEach((toggle) => {
   sync();
   window.addEventListener("resize", sync);
 });
+
+// Wall photos are cropped to a uniform grid, so clicking one opens the full
+// frame uncropped. Keyboard reachable, and returns focus where it started.
+(() => {
+  const items = [...document.querySelectorAll(".photo-wall-item")];
+  if (!items.length) return;
+
+  const box = document.createElement("div");
+  box.className = "lightbox";
+  box.hidden = true;
+  box.setAttribute("role", "dialog");
+  box.setAttribute("aria-modal", "true");
+  box.innerHTML =
+    '<button class="lightbox-close" type="button" aria-label="Close">&times;</button>' +
+    '<figure><img alt=""><figcaption></figcaption></figure>';
+  document.body.appendChild(box);
+
+  const img = box.querySelector("img");
+  const cap = box.querySelector("figcaption");
+  const closeBtn = box.querySelector(".lightbox-close");
+  let opener = null;
+
+  const open = (figure) => {
+    const source = figure.querySelector("img");
+    if (!source) return;
+    opener = figure;
+    img.src = source.currentSrc || source.src;
+    img.alt = source.alt || "";
+    cap.textContent = figure.querySelector("figcaption")?.textContent || "";
+    box.hidden = false;
+    document.body.style.overflow = "hidden";
+    closeBtn.focus();
+  };
+
+  const close = () => {
+    box.hidden = true;
+    img.removeAttribute("src");
+    document.body.style.overflow = "";
+    opener?.focus();
+    opener = null;
+  };
+
+  items.forEach((figure) => {
+    figure.tabIndex = 0;
+    figure.setAttribute("role", "button");
+    figure.addEventListener("click", () => open(figure));
+    figure.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        open(figure);
+      }
+    });
+  });
+
+  closeBtn.addEventListener("click", close);
+  box.addEventListener("click", (event) => {
+    if (event.target === box || event.target.tagName === "FIGURE") close();
+  });
+  document.addEventListener("keydown", (event) => {
+    if (!box.hidden && event.key === "Escape") close();
+  });
+})();

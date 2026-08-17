@@ -48,6 +48,18 @@
   }
   backgroundLayer.replaceChildren();
 
+  // Real coastlines first: the basin set covers only the largest catchments,
+  // so on its own it reads as scattered blobs instead of continents.
+  let landLayer = root.querySelector("[data-world-land]");
+  if (!landLayer) {
+    landLayer = createSvg("g", { class: "world-land", "data-world-land": "", "aria-hidden": "true" });
+    svg.insertBefore(landLayer, backgroundLayer);
+  }
+  landLayer.replaceChildren();
+  window.WORLD_LAND?.forEach((pathData) => {
+    landLayer.appendChild(createSvg("path", { d: pathData, "fill-rule": "evenodd" }));
+  });
+
   data.background?.forEach((pathData) => {
     backgroundLayer.appendChild(createSvg("path", {
       class: "hydrobasin-bg",
