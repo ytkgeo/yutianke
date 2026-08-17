@@ -12,7 +12,7 @@ export const DEFAULT_ROTATION = -0.75;
 const DEFAULT_STATUS = "Seven field locations are marked on the globe.";
 const FULL_TURN = Math.PI * 2;
 const HYDRO_SOURCE_WIDTH = 1000;
-const HYDRO_SOURCE_HEIGHT = 500;
+const HYDRO_SOURCE_HEIGHT = 540;   // basin + land layers are authored 1000x540
 
 export function normalizeAngle(angle) {
   return ((angle + Math.PI) % FULL_TURN + FULL_TURN) % FULL_TURN - Math.PI;
