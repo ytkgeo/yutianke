@@ -1,15 +1,24 @@
 #!/usr/bin/env python3
 """Refresh the Google Scholar citation count embedded in the site.
 
-Google Scholar has no public API and sends no CORS headers, so the browser
-cannot read it directly -- a page-load-time "live" number is not possible for
-a static site. This script runs server-side (see
-.github/workflows/update-citations.yml) and rewrites the number in the HTML,
-so the published figure tracks Scholar automatically instead of being a
-hand-edited constant.
+Run from this machine to update the number on the home and publications pages:
 
-Exits non-zero if the profile cannot be read, so a silently stale number
-surfaces as a failed workflow run rather than going unnoticed.
+    python3 scripts/update_scholar.py            # rewrite the HTML only
+    python3 scripts/update_scholar.py --publish  # rewrite, commit and push
+
+Why this is not automated: Google Scholar has no public API and sends no CORS
+headers, so a browser cannot read it on page load. Running it from GitHub
+Actions does not work either -- Scholar answers 403 Forbidden to datacenter
+IPs (verified: run 31981607137). It does answer a normal residential
+connection, so this runs locally instead.
+
+If hands-off daily updates are wanted, the practical route is a Scholar API
+provider such as SerpApi (free tier ~100 queries/month) with the key held as
+a GitHub Actions secret; that request originates from the provider, not from
+the runner, so it is not blocked.
+
+Exits non-zero if the profile cannot be read, so a stale number is visible as
+a failure rather than passing silently.
 """
 from __future__ import annotations
 
@@ -71,6 +80,15 @@ def update_pages(total: int) -> list[str]:
     return changed
 
 
+def publish(changed: list[str]) -> None:
+    import subprocess
+    subprocess.run(["git", "add", *changed], check=True)
+    subprocess.run(["git", "commit", "-m",
+                    "Update Google Scholar citation count"], check=True)
+    subprocess.run(["git", "push"], check=True)
+    print("committed and pushed")
+
+
 def main() -> int:
     try:
         total = fetch_citations()
@@ -79,10 +97,13 @@ def main() -> int:
         return 1
 
     changed = update_pages(total)
-    if changed:
-        print(f"citations={total}; updated {', '.join(changed)}")
-    else:
+    if not changed:
         print(f"citations={total}; already current")
+        return 0
+
+    print(f"citations={total}; updated {', '.join(changed)}")
+    if "--publish" in sys.argv:
+        publish(changed)
     return 0
 
 
