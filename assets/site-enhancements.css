@@ -5,7 +5,7 @@
 .profile-icons-large a{font-size:1.55rem}
 .button.icon-button{width:48px;min-width:48px;padding:0;border-radius:3px;font-size:1.22rem}
 .button.icon-button .brand-icon{width:1.08em;height:1.08em}
-.home-hero-bg{background-image:url("home-drone-river.jpg");background-position:center;background-size:cover}
+.home-hero-bg{background-image:url("home-hero.jpg");background-position:center;background-size:cover}
 .home-hero-bg::before{display:none}
 .intro-panel{grid-template-columns:220px minmax(0,1fr) minmax(280px,.9fr);align-items:start}
 .intro-portrait{position:relative;margin:0}
@@ -134,7 +134,7 @@
 .update-entry strong,.update-entry small{display:block}
 .update-entry strong{font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif;font-size:1.08rem;line-height:1.25}
 .update-entry small{margin-top:.23rem;color:var(--muted);font-size:.76rem;font-weight:800;line-height:1.35}
-.update-entry-panel{padding:0 1.6rem 1.45rem;background:rgba(230,240,237,.52)}
+.update-entry-static .update-entry-row{display:grid;grid-template-columns:2.2rem minmax(0,1fr);gap:.75rem;align-items:center;padding:1.1rem 1.6rem;color:var(--deep)}.update-entry-static{cursor:default}.update-entry-panel{padding:0 1.6rem 1.45rem;background:rgba(230,240,237,.52)}
 .update-entry-panel>p{margin:0 0 .9rem;color:var(--muted);font-size:.92rem;line-height:1.55}
 .photo-gallery{overflow:hidden;border-radius:4px;background:#e8efeb}
 .photo-gallery figure{margin:0}
