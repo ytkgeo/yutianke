@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A curated aerial field atlas of river bends, floodplains, and eroding banks in Alaska from Yutian Ke's field archive.">
+  <meta name="theme-color" content="#0b3d46">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="assets/site-enhancements.css">
+  <link rel="stylesheet" href="assets/field-atlas.css">
+  <script src="assets/script.js" defer></script>
+  <script src="assets/field-atlas.js" defer></script>
+  <title>Field Atlas | Yutian Ke</title>
+</head>
+<body class="academic-site">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="nav-wrap">
+      <a class="wordmark" href="index.html" aria-label="Yutian Ke home"><span class="wordmark-mark">YK</span><span>Yutian Ke</span></a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="sr-only">Toggle navigation</span><span></span><span></span><span></span></button>
+      <nav id="site-nav" class="site-nav" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="index.html#research">Research</a>
+        <a href="publications.html">Publications</a>
+        <a href="latest-updates.html">Latest Updates</a>
+        <a href="about.html">About</a>
+        <a class="nav-cta" href="cv.html">CV</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" data-field-atlas>
+    <section class="atlas-intro" aria-labelledby="atlas-title">
+      <p class="eyebrow">Field atlas / Alaska</p>
+      <h1 id="atlas-title">Reading river landscapes from above</h1>
+      <p>Selected aerial views of the Koyukuk and Yukon river corridors, from scroll-bar landscapes to eroding banks.</p>
+      <a class="text-link" href="latest-updates.html#field-work">Back to field work <span aria-hidden="true">&rarr;</span></a>
+    </section>
+
+    <section class="atlas-feature" id="scroll-bars" aria-labelledby="atlas-feature-title">
+      <div class="atlas-feature-heading">
+        <div>
+          <p class="section-kicker">01 / Huslia, Koyukuk River</p>
+          <h2 id="atlas-feature-title">A floodplain built by a moving bend</h2>
+        </div>
+        <button class="atlas-toggle" type="button" data-atlas-toggle aria-expanded="false" aria-controls="atlas-annotations">Read the landscape</button>
+      </div>
+
+      <div class="atlas-stage">
+        <div class="atlas-photo">
+          <img src="assets/atlas/scroll-bars.jpg" width="2600" height="1950" alt="Oblique aerial view of a sweeping river bend, vegetated scroll-bar ridges, and water-filled lows on the Huslia floodplain" fetchpriority="high">
+          <div class="atlas-annotations" id="atlas-annotations" data-atlas-annotations hidden>
+            <button class="atlas-marker" type="button" style="--x:7%;--y:62%" data-note="channel" aria-label="1. Active channel" aria-controls="atlas-note-channel" aria-pressed="false">1</button>
+            <button class="atlas-marker" type="button" style="--x:54%;--y:37%" data-note="scrolls" aria-label="2. Scroll-bar ridges" aria-controls="atlas-note-scrolls" aria-pressed="false">2</button>
+            <button class="atlas-marker" type="button" style="--x:85%;--y:25%" data-note="water" aria-label="3. Floodplain water" aria-controls="atlas-note-water" aria-pressed="false">3</button>
+          </div>
+        </div>
+        <div class="atlas-notes" data-atlas-notes hidden aria-live="polite">
+          <div id="atlas-note-channel" data-atlas-note="channel" hidden><span>01 / Active channel</span><p>The river occupies the margin of this bend. Erosion can return floodplain sediment and associated carbon to transport, but a single image cannot establish an erosion rate.</p></div>
+          <div id="atlas-note-scrolls" data-atlas-note="scrolls" hidden><span>02 / Scroll-bar ridges</span><p>Arcing ridges and swales mark successive depositional surfaces on the inner bend. Their spacing reveals a spatial pattern, not the age of any one surface.</p></div>
+          <div id="atlas-note-water" data-atlas-note="water" hidden><span>03 / Floodplain water</span><p>Water-filled lows and side channels interrupt the vegetated floodplain. They show how varied the depositional landscape is across a single bend.</p></div>
+        </div>
+      </div>
+      <div class="atlas-stage-footer">
+        <span>Field photograph, not a georeferenced map</span>
+        <a href="assets/atlas/scroll-bars.jpg" target="_blank" rel="noopener">Open large image <span aria-hidden="true">&rarr;</span></a>
+      </div>
+      <p class="atlas-feature-summary">Curving ridges and low, water-filled areas are visible across this bend. The pattern makes lateral accretion legible at a glance, while the channel along its edge points to the possibility of later erosion and recycling.</p>
+      <noscript><p class="atlas-noscript">The numbered interpretation requires JavaScript; the full photograph remains available above.</p></noscript>
+    </section>
+
+    <section class="atlas-collection" aria-labelledby="atlas-collection-title">
+      <div class="atlas-collection-heading">
+        <p class="section-kicker">Three more views</p>
+        <h2 id="atlas-collection-title">From floodplain storage to bank reworking</h2>
+        <p>Selected for different landforms rather than repeated angles. Open a photograph to see the full frame.</p>
+      </div>
+      <div class="photo-wall atlas-gallery">
+        <figure class="photo-wall-item">
+          <img src="assets/atlas/floodplain-ponds.jpg" width="2600" height="1950" loading="lazy" alt="Forested floodplain with ponds and a riverbank near Huslia">
+          <figcaption><strong>Forested floodplain</strong> <span>Huslia, Koyukuk River. Ponds and vegetation occupy a low-lying floodplain beside the active river.</span></figcaption>
+        </figure>
+        <figure class="photo-wall-item">
+          <img src="assets/atlas/bank-erosion.jpg" width="2600" height="1950" loading="lazy" alt="Eroding riverbank with an adjacent floodplain pond near Huslia">
+          <figcaption><strong>Bank and pond</strong> <span>Huslia town bend, spring 2022. The riverbank and a nearby pond show how closely erosion and floodplain storage can sit together.</span></figcaption>
+        </figure>
+        <figure class="photo-wall-item">
+          <img src="assets/atlas/beaver-bank.jpg" width="2600" height="1950" loading="lazy" alt="Riverbank with fallen trees and a field boat near Beaver, Alaska">
+          <figcaption><strong>Riverbank field view</strong> <span>Beaver, Yukon River, spring 2023. Trees at the channel edge and a field boat provide a closer view of the bank landscape.</span></figcaption>
+        </figure>
+      </div>
+      <p class="atlas-context">Aerial images reveal landforms; rates of change, carbon stocks, and subsurface conditions require field measurements and time-series evidence. See the related <a href="https://doi.org/10.1038/s41467-026-72405-9">floodplain carbon study</a> and <a href="https://doi.org/10.1126/sciadv.adu8574">sediment-storage study</a>.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; <span id="year">2026</span> Yutian Ke</p>
+    <div><a href="index.html">Home</a><a href="publications.html">Publications</a><a href="latest-updates.html">Latest Updates</a><a href="about.html">About</a><a href="cv.html">CV</a></div>
+  </footer>
+</body>
+</html>
