@@ -18,7 +18,8 @@
 .research-card.visual-card.theme-transport{background-image:url("theme-disturbance.jpg")}
 .research-card.visual-card.theme-human{background-image:url("theme-flocculation.jpg")}
 .research-card.visual-card.theme-critical{background-image:none}
-.research-card-link{display:inline-block;align-self:flex-start;margin-top:1.1rem;color:#f2c17b;font-size:.82rem;font-weight:800;text-decoration:underline;text-underline-offset:4px}
+.research-card-links{display:flex;flex-wrap:wrap;gap:.25rem .85rem;margin-top:1.1rem}
+.research-card-link{display:inline-block;color:#f2c17b;font-size:.82rem;font-weight:800;text-decoration:underline;text-underline-offset:4px}
 .research-card-link:hover,.research-card-link:focus-visible{color:#fff}
 .affiliation-line{display:flex;flex-wrap:wrap;gap:.42rem .55rem;align-items:center}
 .affiliation-line a:not(.affiliation-logo){font-weight:700;text-decoration:none;color:var(--teal)}
