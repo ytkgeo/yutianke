@@ -7,6 +7,11 @@
 .button.icon-button .brand-icon{width:1.08em;height:1.08em}
 .home-hero-bg{background-image:url("home-hero.jpg");background-position:center;background-size:cover}
 .home-hero-bg::before{display:none}
+.home-hero-bg{animation:hero-photo-zoom 28s ease-out both}
+.home-hero::after{background:linear-gradient(90deg,rgba(8,47,55,.46),rgba(8,47,55,.38))}
+.home-hero .eyebrow{color:#f2c17b}
+@keyframes hero-photo-zoom{from{transform:scale(1)}to{transform:scale(1.09)}}
+@media (prefers-reduced-motion:reduce){.home-hero-bg{animation:none}}
 .intro-panel{grid-template-columns:220px minmax(0,1fr) minmax(280px,.9fr);align-items:start}
 .intro-portrait{position:relative;margin:0}
 .intro-portrait::before{display:none}
