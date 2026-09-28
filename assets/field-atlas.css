@@ -25,6 +25,7 @@
 .atlas-notes{position:absolute;right:1rem;bottom:1rem;max-width:360px;padding:1.1rem 1.2rem;border-left:4px solid var(--gold);border-radius:3px;background:rgba(249,248,243,.96);box-shadow:0 4px 18px rgba(0,0,0,.18)}
 .atlas-notes span{color:var(--deep);font-size:.75rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
 .atlas-notes p{max-width:780px;margin:.35rem 0 0}
+.atlas-notes a{color:var(--teal);font-weight:700}
 .atlas-noscript{color:var(--muted)}
 .atlas-collection{padding-bottom:3.2rem;scroll-margin-top:100px}
 .atlas-collection-heading{max-width:750px;margin-bottom:1.6rem}

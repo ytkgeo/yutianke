@@ -166,6 +166,28 @@
 /* copy sits directly on the photograph in both introductions */
 .intro-panel .section-kicker{color:#f2c17b}.intro-panel h2,.intro-panel .intro-title{color:#fff}.intro-panel p,.section-heading>p:last-child.intro-copy{color:rgba(255,255,255,.88)}.intro-panel p:not(.section-kicker){color:rgba(255,255,255,.88)}.intro-panel .profile-icons a{border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.12);color:#fff}.intro-panel .profile-icons a:hover{background:var(--teal);color:#fff}.intro-panel .expertise-card{background:rgba(8,47,55,.55);border:1px solid rgba(255,255,255,.16)}.about-profile-card figcaption strong,.about-profile-card figcaption span{color:#fff}
 
+/* Full-bleed homepage sections share one horizontal rhythm. */
+.home-page .nav-wrap,.home-page .site-footer{max-width:none;padding-inline:clamp(1.2rem,4vw,5rem)}
+.home-page main>.section{max-width:none;margin:0;padding-inline:clamp(1.2rem,4vw,5rem)}
+.home-page .intro-section{margin-top:0;border-radius:0;background-image:linear-gradient(90deg,rgba(8,47,55,.30),rgba(8,47,55,.46)),url("theme-disturbance.jpg");background-position:center 52%}
+.home-page .intro-panel{gap:clamp(1.5rem,3vw,3.5rem)}
+.home-page .river-contact{padding-inline:clamp(1.2rem,4vw,5rem);background:linear-gradient(90deg,rgba(8,47,55,.90),rgba(8,47,55,.58)),url("atlas/huslia-corridor.jpg") center 48%/cover no-repeat}
+.home-page .river-contact .contact-inner{max-width:none;margin:0}
+
+.home-page .publication-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.5rem;margin-top:1rem;border:0}
+.home-page .publication-gallery .publication{display:flex;flex-direction:column;gap:0;min-width:0;padding:0;border:1px solid var(--line);background:#fff}
+.publication-figure{display:grid;min-height:360px;place-items:center;overflow:hidden;padding:1rem;background:#f0f2ef}
+.publication-figure img{display:block;width:100%;height:360px;object-fit:contain}
+.publication-figure:hover img,.publication-figure:focus-visible img{transform:scale(1.015)}
+.publication-figure img{transition:transform .2s ease}
+.publication-gallery .publication-details{padding:1.2rem 1.35rem 1.4rem}
+.publication-gallery .pub-year{display:block;margin-bottom:.35rem}
+.publication-gallery h3{margin-bottom:.65rem;font-size:clamp(1.25rem,2vw,1.65rem)}
+.publication-gallery .figure-credit{margin-top:.9rem;font-size:.75rem;line-height:1.5}
+.publication-gallery .figure-credit a{color:var(--teal)}
+@media (max-width:800px){.home-page .publication-gallery{grid-template-columns:1fr}.publication-figure,.publication-figure img{height:300px;min-height:300px}}
+@media (max-width:600px){.home-page .intro-section{padding-block:2.5rem}.home-page .river-contact{padding-block:3.25rem}.publication-gallery .publication-details{padding:1rem 1.1rem 1.2rem}}
+
 /* real coastlines beneath the basin highlight */
 .world-land path{fill:#e6e0cd;stroke:rgba(11,61,70,.22);stroke-width:.7;vector-effect:non-scaling-stroke}
 .morepoc-map-card.has-hydrobasins .world-land{display:block}
