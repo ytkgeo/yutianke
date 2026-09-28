@@ -130,7 +130,8 @@
         <h2>A geomorphic map for tracing carbon through landscapes</h2>
         <p>The schematic follows sediment from upland sources through channels and reservoirs to floodplains, deltas, and the ocean. Permafrost warming can alter both erosion and deposition along this route.</p>
       </div>
-      <div class="river-schematic reveal" role="img" aria-label="Source-to-sink longitudinal profile: the river descends from upland source terrain through the active channel to a mid-reach dam and reservoir that traps sediment and organic carbon, then across an alluvial floodplain where carbon is stored and degraded, and finally to a delta and ocean where it is buried or exported">
+      <div class="river-schematic reveal">
+        <div class="schematic-stage" role="group" aria-label="Source-to-sink river profile. Select a process label to view related papers.">
         <svg viewBox="0 0 1180 640" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <defs>
             <marker id="schematicArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
@@ -224,6 +225,40 @@
           </g>
           <text x="1140" y="616" text-anchor="end" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="600" fill="#5e7172" opacity=".8">schematic long profile; vertical exaggeration</text>
         </svg>
+        <a class="schematic-hit schematic-hit-source" href="#source-terrain-references" aria-label="Source terrain: show related papers"></a>
+        <a class="schematic-hit schematic-hit-transport" href="#fluvial-transport-references" aria-label="Fluvial transport: show related papers"></a>
+        <a class="schematic-hit schematic-hit-regulated" href="#regulated-flux-references" aria-label="Regulated flux: show related paper"></a>
+        <a class="schematic-hit schematic-hit-storage" href="#floodplain-storage-references" aria-label="Floodplain storage: show related papers"></a>
+        </div>
+      </div>
+      <p class="schematic-prompt">Select a process label in the schematic to see related publications.</p>
+      <div class="schematic-reference-panel" id="source-terrain-references" tabindex="-1">
+        <h3>Source terrain</h3>
+        <ul>
+          <li><a href="https://doi.org/10.5194/essd-14-4743-2022">Ke et al. (2022), MOREPOC, <em>Earth System Science Data</em></a></li>
+          <li><a href="https://doi.org/10.5194/esurf-12-347-2024">Ke et al. (2024), Huanghe particulate organic carbon, <em>Earth Surface Dynamics</em></a></li>
+          <li><a href="https://doi.org/10.1029/2024GB008479">Ke et al. (2025), Changjiang reservoir regulation, <em>Global Biogeochemical Cycles</em></a></li>
+        </ul>
+      </div>
+      <div class="schematic-reference-panel" id="fluvial-transport-references" tabindex="-1">
+        <h3>Fluvial transport</h3>
+        <ul>
+          <li><a href="https://doi.org/10.5194/esurf-12-347-2024">Ke et al. (2024), Huanghe particulate organic carbon, <em>Earth Surface Dynamics</em></a></li>
+          <li><a href="publications.html#submitted-floc-mud">Ke et al. (in review), organic carbon transported as flocculated mud; publication listing</a></li>
+        </ul>
+      </div>
+      <div class="schematic-reference-panel" id="regulated-flux-references" tabindex="-1">
+        <h3>Regulated flux</h3>
+        <ul>
+          <li><a href="https://doi.org/10.1029/2024GB008479">Ke et al. (2025), Changjiang reservoir regulation, <em>Global Biogeochemical Cycles</em></a></li>
+        </ul>
+      </div>
+      <div class="schematic-reference-panel" id="floodplain-storage-references" tabindex="-1">
+        <h3>Floodplain storage</h3>
+        <ul>
+          <li><a href="https://doi.org/10.1038/s41467-026-72405-9">Ke et al. (2026), persistent floodplain organic carbon, <em>Nature Communications</em></a></li>
+          <li><a href="publications.html#submitted-permafrost-carbon">Ke et al. (in review), permafrost floodplain carbon storage; publication listing</a></li>
+        </ul>
       </div>
     </section>
 

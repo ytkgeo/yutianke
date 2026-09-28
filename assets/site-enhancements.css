@@ -11,6 +11,8 @@
 .home-hero::after{display:none}
 .home-hero-content h1,.home-hero-content p{text-shadow:0 2px 12px rgba(0,0,0,.8),0 1px 3px rgba(0,0,0,.7)}
 .home-hero .eyebrow{color:#f2c17b}
+.hero-atlas-link,.contact-atlas-link{position:absolute;right:clamp(1.2rem,4vw,5rem);bottom:1.4rem;z-index:2;display:inline-flex;align-items:center;gap:.5rem;padding:.55rem .85rem;border:1px solid rgba(255,255,255,.7);border-radius:3px;color:#fff;background:rgba(8,47,55,.58);font-size:.78rem;font-weight:800;text-decoration:none}
+.hero-atlas-link:hover,.hero-atlas-link:focus-visible,.contact-atlas-link:hover,.contact-atlas-link:focus-visible{color:var(--deep);background:#fff}
 @keyframes hero-photo-zoom{from{transform:scale(1)}to{transform:scale(1.12)}}
 @media (prefers-reduced-motion:reduce){.home-hero-bg{animation:none}}
 .intro-panel{grid-template-columns:220px minmax(0,1fr) minmax(280px,.9fr);align-items:start}
@@ -176,6 +178,7 @@
 .home-page .intro-panel .expertise-card{background:rgba(12,20,22,.38);text-shadow:0 1px 5px rgba(0,0,0,.8)}
 .home-page .river-contact{padding-inline:clamp(1.2rem,4vw,5rem);background:linear-gradient(90deg,rgba(8,47,55,.90),rgba(8,47,55,.58)),url("atlas/huslia-corridor.jpg") center 48%/cover no-repeat}
 .home-page .river-contact .contact-inner{max-width:none;margin:0}
+.home-page .river-contact{padding-bottom:5rem}
 
 .home-page .publication-gallery{display:block;margin-top:1rem;border-top:1px solid var(--line)}
 .home-page .publication-gallery .publication{display:grid;grid-template-columns:100px minmax(0,1fr) 160px;gap:1.2rem;align-items:center;min-width:0;padding:1.2rem 0;border:0;border-bottom:1px solid var(--line);background:transparent}
@@ -190,6 +193,7 @@
 .publication-gallery .figure-credit a{color:var(--teal)}
 @media (max-width:640px){.home-page .publication-gallery .publication{grid-template-columns:minmax(0,1fr) 105px;gap:.3rem .75rem}.publication-gallery .pub-year{grid-column:1/-1;grid-row:1}.publication-gallery .publication-details{display:contents}.publication-gallery h3{grid-column:1/-1;grid-row:2;font-size:1.2rem}.publication-gallery .publication-details>p:not(.figure-credit){grid-column:1;grid-row:3}.publication-gallery .figure-credit{grid-column:1;grid-row:4}.publication-gallery .publication-figure{grid-column:2;grid-row:3/span 2;width:105px;height:92px}.publication-gallery .publication-figure img{height:80px}}
 @media (max-width:600px){.home-page .intro-section{padding-block:2.5rem}.home-page .river-contact{padding-block:3.25rem}}
+@media (max-width:600px){.home-hero{padding-bottom:7rem}.home-page .river-contact{padding-bottom:5.2rem}.hero-atlas-link,.contact-atlas-link{bottom:1rem}}
 
 /* A compact, accessible preview of the existing Field me gallery. */
 .field-film-section{overflow:hidden;padding:.8rem 0 1rem;background:#e9eeea}
@@ -238,4 +242,20 @@
 .lightbox-nav:hover{background:rgba(255,255,255,.28)}
 .lightbox-prev{left:1.2rem}.lightbox-next{right:1.2rem}
 .lightbox-count{position:absolute;bottom:1.1rem;left:0;right:0;margin:0;text-align:center;color:rgba(255,255,255,.72);font-size:.78rem;font-weight:700;letter-spacing:.08em}
+
+.schematic-stage{position:relative;min-width:850px}
+.schematic-stage svg{min-width:0}
+.schematic-hit{position:absolute;top:8.75%;width:17.37%;height:15%;border:2px solid transparent;border-radius:6px;cursor:pointer}
+.schematic-hit:hover,.schematic-hit:focus-visible{border-color:var(--teal);background:rgba(233,243,239,.35);outline:none}
+.schematic-hit-source{left:2.03%}
+.schematic-hit-transport{left:21.36%}
+.schematic-hit-regulated{left:43.73%}
+.schematic-hit-storage{left:64.07%}
+.schematic-prompt{margin:.8rem 0 0;color:var(--muted);font-size:.84rem}
+.schematic-reference-panel{display:none;max-width:860px;margin:1rem 0 0;padding:1.1rem 1.4rem;border-left:4px solid var(--clay);border-radius:3px;background:#fff;scroll-margin-top:105px}
+.schematic-reference-panel:target{display:block}
+.schematic-reference-panel h3{margin:0 0 .55rem;font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif;font-size:1.3rem}
+.schematic-reference-panel ul{margin:0;padding-left:1.2rem}
+.schematic-reference-panel li+li{margin-top:.35rem}
+.schematic-reference-panel a{color:var(--teal);font-size:.9rem;font-weight:700}
 @media (max-width:640px){.lightbox-nav{width:44px;height:44px;font-size:1.6rem}.lightbox-prev{left:.4rem}.lightbox-next{right:.4rem}}
