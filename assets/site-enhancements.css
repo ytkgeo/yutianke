@@ -13,9 +13,9 @@
 .home-hero .eyebrow{color:#f2c17b}
 .hero-atlas-link,.contact-atlas-link{position:absolute;right:clamp(1.2rem,4vw,5rem);bottom:1.4rem;z-index:2;display:inline-flex;align-items:center;gap:.5rem;padding:.55rem .85rem;border:1px solid rgba(255,255,255,.7);border-radius:3px;color:#fff;background:rgba(8,47,55,.58);font-size:.78rem;font-weight:800;text-decoration:none}
 .hero-atlas-link:hover,.hero-atlas-link:focus-visible,.contact-atlas-link:hover,.contact-atlas-link:focus-visible{color:var(--deep);background:#fff}
-.hero-video-button{position:absolute;left:clamp(1.2rem,4vw,5rem);bottom:1.4rem;z-index:2;display:grid;width:64px;height:64px;place-items:center;border:2px solid #fff;border-radius:50%;color:var(--deep);background:linear-gradient(145deg,#fff 8%,#edf3f0 58%,#c7d8d4 100%);box-shadow:0 9px 22px rgba(4,30,35,.46),inset 0 3px 4px #fff,inset 0 -4px 8px rgba(11,61,70,.18);cursor:pointer;transition:transform .2s ease,box-shadow .2s ease}
-.hero-video-button::before{position:absolute;inset:-6px;border:1px solid rgba(255,255,255,.72);border-radius:50%;content:""}
-.hero-video-button svg{width:25px;height:25px;margin-left:4px;fill:currentColor}
+.hero-video-button{position:absolute;left:clamp(1.2rem,4vw,5rem);bottom:.9rem;z-index:2;display:grid;width:58px;height:58px;place-items:center;border:2px solid #fff;border-radius:50%;color:var(--deep);background:linear-gradient(145deg,#fff 8%,#edf3f0 58%,#c7d8d4 100%);box-shadow:0 9px 22px rgba(4,30,35,.46),inset 0 3px 4px #fff,inset 0 -4px 8px rgba(11,61,70,.18);cursor:pointer;transition:transform .2s ease,box-shadow .2s ease}
+.hero-video-button::before{position:absolute;inset:-5px;border:1px solid rgba(255,255,255,.72);border-radius:50%;content:""}
+.hero-video-button svg{width:23px;height:23px;margin-left:4px;fill:currentColor}
 .hero-video-button:hover,.hero-video-button:focus-visible{transform:translateY(-3px) scale(1.05);box-shadow:0 14px 28px rgba(4,30,35,.55),inset 0 3px 4px #fff,inset 0 -4px 8px rgba(11,61,70,.18)}
 .hero-video-button:active{transform:translateY(1px) scale(.98);box-shadow:0 5px 12px rgba(4,30,35,.4),inset 0 2px 7px rgba(11,61,70,.2)}
 .hero-video-button:focus-visible,.hero-video-close:focus-visible{outline:3px solid #f2c17b;outline-offset:3px}
@@ -207,7 +207,7 @@
 .publication-gallery .figure-credit a{color:var(--teal)}
 @media (max-width:640px){.home-page .publication-gallery .publication{grid-template-columns:minmax(0,1fr) 105px;gap:.3rem .75rem}.publication-gallery .pub-year{grid-column:1/-1;grid-row:1}.publication-gallery .publication-details{display:contents}.publication-gallery h3{grid-column:1/-1;grid-row:2;font-size:1.2rem}.publication-gallery .publication-details>p:not(.figure-credit){grid-column:1;grid-row:3}.publication-gallery .figure-credit{grid-column:1;grid-row:4}.publication-gallery .publication-figure{grid-column:2;grid-row:3/span 2;width:105px;height:92px}.publication-gallery .publication-figure img{height:80px}}
 @media (max-width:600px){.home-page .intro-section{padding-block:2.5rem}.home-page .river-contact{padding-block:3.25rem}}
-@media (max-width:600px){.home-hero{padding-bottom:7rem}.home-page .river-contact{padding-bottom:5.2rem}.hero-atlas-link,.contact-atlas-link,.hero-video-button{bottom:1rem}}
+@media (max-width:600px){.home-hero{padding-bottom:7rem}.home-page .river-contact{padding-bottom:5.2rem}.hero-atlas-link,.contact-atlas-link{bottom:1rem}.hero-video-button{bottom:.75rem}}
 
 /* A compact, accessible preview of the existing Field me gallery. */
 .field-film-section{overflow:hidden;padding:.8rem 0 1rem;background:#e9eeea}
