@@ -24,6 +24,25 @@ if (year) {
   year.textContent = String(new Date().getFullYear());
 }
 
+const heroVideoButton = document.querySelector(".hero-video-button");
+const heroVideoDialog = document.querySelector(".hero-video-dialog");
+if (heroVideoButton && heroVideoDialog) {
+  const video = heroVideoDialog.querySelector("video");
+  heroVideoButton.addEventListener("click", () => {
+    heroVideoDialog.showModal();
+    video.play().catch(() => {});
+  });
+  heroVideoDialog.querySelector(".hero-video-close").addEventListener("click", () => heroVideoDialog.close());
+  heroVideoDialog.addEventListener("click", (event) => {
+    if (event.target === heroVideoDialog) heroVideoDialog.close();
+  });
+  heroVideoDialog.addEventListener("close", () => {
+    video.pause();
+    video.currentTime = 0;
+    heroVideoButton.focus();
+  });
+}
+
 const fieldFilm = document.querySelector("[data-field-film]");
 if (fieldFilm && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
   const track = fieldFilm.querySelector("[data-field-film-track]");

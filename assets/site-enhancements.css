@@ -13,6 +13,14 @@
 .home-hero .eyebrow{color:#f2c17b}
 .hero-atlas-link,.contact-atlas-link{position:absolute;right:clamp(1.2rem,4vw,5rem);bottom:1.4rem;z-index:2;display:inline-flex;align-items:center;gap:.5rem;padding:.55rem .85rem;border:1px solid rgba(255,255,255,.7);border-radius:3px;color:#fff;background:rgba(8,47,55,.58);font-size:.78rem;font-weight:800;text-decoration:none}
 .hero-atlas-link:hover,.hero-atlas-link:focus-visible,.contact-atlas-link:hover,.contact-atlas-link:focus-visible{color:var(--deep);background:#fff}
+.hero-video-button{position:absolute;left:clamp(1.2rem,4vw,5rem);bottom:1.4rem;z-index:2;display:grid;width:48px;height:48px;place-items:center;border:1px solid rgba(255,255,255,.7);border-radius:3px;color:#fff;background:rgba(8,47,55,.58);cursor:pointer}
+.hero-video-button svg{width:22px;height:22px;margin-left:2px;fill:currentColor}
+.hero-video-button:hover,.hero-video-button:focus-visible{color:var(--deep);background:#fff}
+.hero-video-button:focus-visible,.hero-video-close:focus-visible{outline:3px solid #f2c17b;outline-offset:3px}
+.hero-video-dialog{width:min(94vw,1000px);max-width:none;max-height:calc(100dvh - 2rem);padding:2.6rem .75rem .75rem;border:1px solid rgba(255,255,255,.3);border-radius:4px;background:#082f37;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.hero-video-dialog::backdrop{background:rgba(5,24,28,.88)}
+.hero-video-dialog video{display:block;width:100%;max-height:calc(100dvh - 5.5rem);background:#000}
+.hero-video-close{position:absolute;top:.2rem;right:.6rem;border:0;color:#fff;background:transparent;font-size:2rem;line-height:1;cursor:pointer}
 @keyframes hero-photo-zoom{from{transform:scale(1)}to{transform:scale(1.12)}}
 @media (prefers-reduced-motion:reduce){.home-hero-bg{animation:none}}
 .intro-panel{grid-template-columns:220px minmax(0,1fr) minmax(280px,.9fr);align-items:start}
@@ -197,7 +205,7 @@
 .publication-gallery .figure-credit a{color:var(--teal)}
 @media (max-width:640px){.home-page .publication-gallery .publication{grid-template-columns:minmax(0,1fr) 105px;gap:.3rem .75rem}.publication-gallery .pub-year{grid-column:1/-1;grid-row:1}.publication-gallery .publication-details{display:contents}.publication-gallery h3{grid-column:1/-1;grid-row:2;font-size:1.2rem}.publication-gallery .publication-details>p:not(.figure-credit){grid-column:1;grid-row:3}.publication-gallery .figure-credit{grid-column:1;grid-row:4}.publication-gallery .publication-figure{grid-column:2;grid-row:3/span 2;width:105px;height:92px}.publication-gallery .publication-figure img{height:80px}}
 @media (max-width:600px){.home-page .intro-section{padding-block:2.5rem}.home-page .river-contact{padding-block:3.25rem}}
-@media (max-width:600px){.home-hero{padding-bottom:7rem}.home-page .river-contact{padding-bottom:5.2rem}.hero-atlas-link,.contact-atlas-link{bottom:1rem}}
+@media (max-width:600px){.home-hero{padding-bottom:7rem}.home-page .river-contact{padding-bottom:5.2rem}.hero-atlas-link,.contact-atlas-link,.hero-video-button{bottom:1rem}}
 
 /* A compact, accessible preview of the existing Field me gallery. */
 .field-film-section{overflow:hidden;padding:.8rem 0 1rem;background:#e9eeea}
