@@ -3,13 +3,36 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import vm from "node:vm";
 import { FIELD_SITES, BASIN_SOURCE_FRAME, pathsToGeoJSON, projectFieldSite, createFieldGlobe } from "../assets/field-globe.js";
+import { createFlatProjection, morepocLocations } from "../assets/map-geometry.js";
 
 const sandbox = { window: {} };
 vm.createContext(sandbox);
-for (const file of ["vendor/d3-array-3.2.4.min.js", "vendor/d3-geo-3.1.1.min.js", "world-land.js", "hydrobasins-map.js"]) {
+for (const file of ["vendor/d3-array-3.2.4.min.js", "vendor/d3-geo-3.1.1.min.js", "world-land.js", "hydrobasins-map.js", "morepoc-sites.js"]) {
   vm.runInContext(readFileSync(new URL("../assets/" + file, import.meta.url), "utf8"), sandbox);
 }
 const geo = sandbox.d3;
+
+test("the flat map splits dateline polygons and retains northern land", () => {
+  const projection = createFlatProjection(geo);
+  const point = projection([-144, 60]);
+  assert.ok(Math.abs(point[0] - 100) < 1e-8);
+  assert.ok(Math.abs(point[1] - 103.3333333333) < 1e-8);
+  const geometry = pathsToGeoJSON(["M995 210L5 210L5 270L995 270Z"], geo);
+  const flatPath = geo.geoPath(projection)(geometry);
+  assert.equal((flatPath.match(/M/g) || []).length, 2);
+  const land = pathsToGeoJSON(sandbox.window.WORLD_LAND, geo);
+  for (const location of [[-42, 75], [-150, 65], [-110, 65], [100, 70]]) {
+    assert.ok(geo.geoContains(land, location));
+  }
+  assert.equal(geo.geoContains(land, [-135, 80]), false);
+});
+
+test("MOREPOC uses the existing geocoded groups without inventing coordinates", () => {
+  const sites = morepocLocations(sandbox.window.MOREPOC_FIELDS, sandbox.window.MOREPOC_SITES);
+  assert.equal(sites.length, sandbox.window.MOREPOC_META.siteSummaries);
+  assert.equal(sites.reduce((sum, site) => sum + site.n, 0), sandbox.window.MOREPOC_META.coordinateEntries);
+  assert.equal(morepocLocations([], [{ lat: null, lon: 0 }, { lat: 100, lon: 0 }]).length, 0);
+});
 
 test("the padded basin frame and full-height coastline frame decode to the same location", () => {
   // The same 60 N, 144 W point in the two existing source coordinate systems.
@@ -78,9 +101,12 @@ test("paused and hidden globes stop scheduling frames; rotation does not resize 
     dataset: {}, hidden: false, listeners: new Map(),
     addEventListener(event, handler) { this.listeners.set(event, handler); },
     removeEventListener(event) { this.listeners.delete(event); },
-    setAttribute() {},
+    attributes: {},
+    setAttribute(name, value) { this.attributes[name] = value; },
   });
+  let dataDots = 0;
   const context = new Proxy({}, { get(target, name) {
+    if (name === "arc") return (...args) => { if (args[2] === 2.4) dataDots++; };
     if (name.startsWith("create")) return () => ({ addColorStop() {} });
     return target[name] ?? (() => {});
   } });
@@ -103,6 +129,7 @@ test("paused and hidden globes stop scheduling frames; rotation does not resize 
   const doc = Object.assign(element(), { hidden: false });
   const win = {
     d3: geo, WORLD_LAND: sandbox.window.WORLD_LAND, devicePixelRatio: 3,
+    MOREPOC_FIELDS: sandbox.window.MOREPOC_FIELDS, MOREPOC_SITES: sandbox.window.MOREPOC_SITES,
     matchMedia: () => motion, performance: { now: () => time },
     requestAnimationFrame(callback) { frames.set(++nextFrame, callback); return nextFrame; },
     cancelAnimationFrame(id) { frames.delete(id); },
@@ -111,10 +138,12 @@ test("paused and hidden globes stop scheduling frames; rotation does not resize 
   };
   doc.defaultView = win;
   const toggle = element();
+  const dataToggle = element();
   const nodes = {
     "[data-field-globe-canvas]": canvas, "[data-field-globe-toggle]": toggle,
     "[data-field-globe-status]": element(), "[data-field-globe-label]": element(),
     "[data-field-globe-detail]": element(), "[data-field-globe-loading]": element(),
+    "[data-field-morepoc]": dataToggle, "[data-field-morepoc-count]": element(), "[data-field-morepoc-key]": element(),
   };
   const root = Object.assign(element(), { ownerDocument: doc, querySelector: (key) => nodes[key], querySelectorAll: () => [] });
   const globe = createFieldGlobe(root);
@@ -128,6 +157,17 @@ test("paused and hidden globes stop scheduling frames; rotation does not resize 
   advance();
   assert.equal(frames.size, 0);
   assert.equal(backingWrites, 2);
+  assert.equal(dataToggle.attributes["aria-pressed"], "false");
+  assert.equal(dataDots, 0);
+  dataToggle.listeners.get("click")();
+  advance();
+  assert.equal(dataToggle.attributes["aria-pressed"], "true");
+  assert.ok(dataDots > 0);
+  assert.equal(frames.size, 0);
+  dataToggle.listeners.get("click")();
+  dataDots = 0;
+  advance();
+  assert.equal(dataDots, 0);
   toggle.listeners.get("click")();
   for (let i = 0; i < 5; i++) advance();
   assert.equal(frames.size, 1);

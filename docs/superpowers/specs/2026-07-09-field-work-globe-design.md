@@ -17,6 +17,11 @@ and hidden-page states stop the animation loop. Reduced-motion users start
 with a still globe and receive instant view changes.
 
 Regression checks: `node --test tests/field-globe.test.mjs`.
+The globe also offers an optional MOREPOC location layer, off on every initial
+load. It uses the existing geocoded river/location summaries without changing
+their coordinates or sample counts. Shared geometry conversion in
+`assets/map-geometry.js` also powers the About page's equirectangular map,
+including antimeridian clipping to prevent high-latitude land artifacts.
 The original design below records the earlier implementation.
 
 ## Goal

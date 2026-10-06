@@ -192,6 +192,10 @@
 .field-globe-views button[aria-pressed="true"]{color:#f2c17b;background:rgba(242,193,123,.1)}
 .field-globe-views button:hover,.field-globe-toggle:hover{color:#f2c17b}
 .field-globe-toggle{border:1px solid rgba(222,239,238,.2);border-radius:4px}
+.field-globe-data{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .75rem;padding:.65rem 1rem 0}
+.field-globe-data button{min-height:36px;padding:.4rem .65rem;border:1px solid rgba(222,239,238,.2);border-radius:4px;color:rgba(249,248,243,.8);background:transparent;font:inherit;font-size:.7rem;cursor:pointer}
+.field-globe-data button[aria-pressed="true"]{border-color:#83d0d5;color:#83d0d5}
+.field-globe-data>span{font-size:.63rem;color:rgba(249,248,243,.6)}
 .field-globe-stage canvas{display:block;align-self:center;width:100%;max-width:520px;height:auto;aspect-ratio:1;cursor:grab;touch-action:pan-y;outline:none}
 .field-globe-stage canvas:active{cursor:grabbing}
 .field-globe-stage canvas:focus-visible{outline:2px solid #f2c17b;outline-offset:-4px}
@@ -204,6 +208,9 @@
 .field-globe-key span{display:inline-flex;align-items:center;gap:.35rem}
 .field-globe-key span::before{content:"";width:7px;height:7px;border:1px solid #dfa06e;border-radius:50%;background:#d7704b}
 .field-globe-key span+span::before{width:14px;height:5px;border-radius:0;background:transparent}
+.field-globe-key{flex-wrap:wrap}
+.field-globe-key span[data-field-morepoc-key]::before{width:7px;height:7px;border:0;border-radius:50%;background:#83d0d5}
+.field-globe-key [hidden],.field-globe-data [hidden]{display:none}
 .field-globe-section button:focus-visible{outline:2px solid var(--clay);outline-offset:3px}
 @media (max-width:980px){.updates-list-grid{grid-template-columns:1fr}}
 @media (max-width:800px){.field-globe-section{grid-template-columns:1fr;gap:1.5rem}.field-globe-stage{width:100%;max-width:560px;justify-self:center}}
@@ -296,11 +303,21 @@
 .lightbox-close{position:absolute;top:1rem;right:1.2rem;width:44px;height:44px;border:0;border-radius:3px;background:rgba(255,255,255,.14);color:#fff;font-size:1.6rem;line-height:1;cursor:pointer}
 .lightbox-close:hover{background:rgba(255,255,255,.26)}
 
-/* narrow banner over the publications heading: the top quarter of a
-   nadir frame across the willow line and point bar. Kept as a strip
-   rather than a section background because the muted body colour
-   cannot clear 4.5:1 over the darker vegetation at any usable veil. */
-.publications-hero::before,.about-hero::before,.cv-hero::before,.page-banner{display:block;width:100%;height:auto;margin:0 0 1.7rem;border-radius:4px;content:"";background-position:center;background-size:100% 100%;background-repeat:no-repeat}.publications-hero::before,.about-hero::before,.page-banner{aspect-ratio:16/3}.cv-hero::before{aspect-ratio:8/3}.cv-hero::before{background-image:url("cv-band.jpg")}.page-banner{max-width:1200px;margin:2.2rem auto 0;width:calc(100% - 4rem)}.updates-banner{background-image:url("updates-band.jpg")}.publications-hero::before{background-image:url("publications-band.jpg")}.about-hero::before{background-image:url("about-band.jpg")}
+.cv-hero::before,.page-banner{display:block;width:100%;height:auto;margin:0 0 1.7rem;border-radius:4px;content:"";background-position:center;background-size:100% 100%;background-repeat:no-repeat}.page-banner{aspect-ratio:16/3;max-width:1200px;margin:2.2rem auto 0;width:calc(100% - 4rem)}.cv-hero::before{aspect-ratio:8/3;background-image:url("cv-band.jpg")}.updates-banner{background-image:url("updates-band.jpg")}
+.publications-hero::before,.about-hero::before{display:none}
+.publications-hero,.about-hero{--hero-shade:linear-gradient(90deg,rgba(0,0,0,.65),rgba(0,0,0,.55) 65%,rgba(0,0,0,.15));max-width:none;margin:0 0 1.5rem;padding:clamp(3rem,6vw,5rem) clamp(1.2rem,4vw,5rem);color:#fff;background-color:var(--deep);background-image:var(--hero-shade),var(--hero-photo);background-size:cover;background-repeat:no-repeat;background-position:center,center}
+.publications-hero{--hero-photo:url("publications-band.jpg")}
+.about-hero{--hero-photo:url("about-band.jpg");background-position:center,70% center}
+.page-hero-copy{max-width:1200px;margin:0 auto}
+.page-hero-copy h1{max-width:900px;color:#fff}
+.page-hero-copy h1,.page-hero-copy p{text-shadow:0 1px 4px rgba(0,0,0,.7)}
+.page-hero-copy>p:not(.eyebrow){max-width:720px;margin-bottom:1.5rem;color:#fff;font-size:1.15rem}
+.page-hero-copy .eyebrow{color:#f2c17b}
+.page-hero-copy .profile-icons a,.page-hero-copy .button-secondary{border-color:rgba(255,255,255,.65);background:rgba(255,255,255,.12);color:#fff;text-shadow:none}
+.page-hero-copy .profile-icons a:hover,.page-hero-copy .button-secondary:hover{background:#fff;color:var(--deep)}
+.page-hero-copy .button-primary,.page-hero-copy .hero-actions .button:not(.icon-button){border-color:#fff;background:#fff;color:var(--deep);text-shadow:none}
+@media(max-width:640px){.publications-hero,.about-hero{--hero-shade:linear-gradient(rgba(0,0,0,.56),rgba(0,0,0,.56));padding-block:2.75rem}.page-hero-copy>p:not(.eyebrow){font-size:1.05rem}}
+@media print{.publications-hero,.about-hero{background:none;color:var(--ink);padding:1rem 0}.page-hero-copy h1,.page-hero-copy p,.page-hero-copy>p:not(.eyebrow){color:var(--ink);text-shadow:none}.page-hero-copy .profile-icons a,.page-hero-copy .button-secondary{background:#fff;color:var(--deep);border-color:var(--line)}}
 
 /* lightbox navigation */
 .lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);width:52px;height:52px;border:0;border-radius:3px;background:rgba(255,255,255,.14);color:#fff;font-size:2rem;line-height:1;cursor:pointer}

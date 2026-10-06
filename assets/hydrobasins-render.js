@@ -1,4 +1,6 @@
-(() => {
+import { pathsToGeoJSON, BASIN_SOURCE_FRAME, createFlatProjection } from "./map-geometry.js";
+
+function renderMorepocMap() {
   const data = window.HYDROBASINS_MAP;
   const root = document.querySelector("[data-morepoc-map]");
   if (!data || !root) return;
@@ -10,6 +12,9 @@
   const visitedLayer = root.querySelector("[data-morepoc-visited]");
   const readout = root.querySelector("[data-morepoc-readout]");
   if (!svg || !visitedLayer) return;
+  const geo = window.d3;
+  if (!geo?.geoEquirectangular) return;
+  const path = geo.geoPath(createFlatProjection(geo));
 
   const createSvg = (name, attrs = {}) => {
     const element = document.createElementNS(svgNS, name);
@@ -56,14 +61,15 @@
     svg.insertBefore(landLayer, backgroundLayer);
   }
   landLayer.replaceChildren();
-  window.WORLD_LAND?.forEach((pathData) => {
-    landLayer.appendChild(createSvg("path", { d: pathData, "fill-rule": "evenodd" }));
-  });
+  landLayer.appendChild(createSvg("path", {
+    d: path(pathsToGeoJSON(window.WORLD_LAND || [], geo)),
+    "fill-rule": "evenodd",
+  }));
 
   data.background?.forEach((pathData) => {
     backgroundLayer.appendChild(createSvg("path", {
       class: "hydrobasin-bg",
-      d: pathData,
+      d: path(pathsToGeoJSON([pathData], geo, BASIN_SOURCE_FRAME)),
       "fill-rule": "evenodd",
       vectorEffect: "non-scaling-stroke",
     }));
@@ -80,7 +86,7 @@
     basin.paths?.forEach((pathData) => {
       group.appendChild(createSvg("path", {
         class: "visited-basin hydrobasin-visited-basin",
-        d: pathData,
+        d: path(pathsToGeoJSON([pathData], geo, BASIN_SOURCE_FRAME)),
         "fill-rule": "evenodd",
         vectorEffect: "non-scaling-stroke",
       }));
@@ -99,4 +105,7 @@
     group.addEventListener("click", () => updateBasinReadout(basin));
     visitedLayer.appendChild(group);
   });
-})();
+}
+
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", renderMorepocMap, { once: true });
+else renderMorepocMap();

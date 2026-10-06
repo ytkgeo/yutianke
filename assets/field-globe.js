@@ -1,3 +1,6 @@
+import { pathsToGeoJSON, BASIN_SOURCE_FRAME, morepocLocations } from "./map-geometry.js";
+export { pathsToGeoJSON, BASIN_SOURCE_FRAME } from "./map-geometry.js";
+
 export const FIELD_SITES = [
   { id: "huslia", label: "Huslia, Alaska", latitude: 65.7, longitude: -156.4, years: "2024, 2026" },
   { id: "beaver", label: "Beaver, Alaska", latitude: 66.4, longitude: -147.4, years: "2022, 2023" },
@@ -17,45 +20,9 @@ export const FIELD_VIEWS = {
 
 const RAD = Math.PI / 180;
 const SPHERE = { type: "Sphere" };
-const LAND_SOURCE_FRAME = { width: 1000, height: 540, top: 0 };
-export const BASIN_SOURCE_FRAME = { width: 1000, height: 500, top: 20 };
 
 export function normalizeAngle(angle) {
   return ((angle + Math.PI) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI) - Math.PI;
-}
-
-// Decode the existing display paths once. D3 then clips and resamples complete
-// spherical polygons, including at the horizon and the antimeridian.
-export function pathsToGeoJSON(paths, geo = globalThis.d3, source = LAND_SOURCE_FRAME) {
-  const geometries = [];
-  for (const path of paths) {
-    const tokens = path.match(/[MLZ]|-?\d+(?:\.\d+)?/g) || [];
-    let ring = [];
-    const finish = () => {
-      if (ring.length < 3) { ring = []; return; }
-      if (ring[0][0] !== ring.at(-1)[0] || ring[0][1] !== ring.at(-1)[1]) ring.push([...ring[0]]);
-      const polygon = { type: "Polygon", coordinates: [ring] };
-      // SVG winding is planar; an inverted spherical ring fills the whole Earth.
-      if (geo.geoArea(polygon) > 2 * Math.PI) ring.reverse();
-      geometries.push(polygon);
-      ring = [];
-    };
-    for (let i = 0; i < tokens.length;) {
-      const token = tokens[i++];
-      if (token === "Z") {
-        finish();
-      } else if (token === "M" || token === "L") {
-        if (token === "M") finish();
-        const x = Number(tokens[i++]);
-        const y = Number(tokens[i++]);
-        if (Number.isFinite(x) && Number.isFinite(y)) {
-          ring.push([x / source.width * 360 - 180, 90 - (y - source.top) / source.height * 180]);
-        }
-      }
-    }
-    finish();
-  }
-  return { type: "GeometryCollection", geometries };
 }
 
 export function projectFieldSite(site, rotation, radius, geo = globalThis.d3) {
@@ -81,6 +48,9 @@ export function createFieldGlobe(root) {
   const loading = root.querySelector("[data-field-globe-loading]");
   const siteButtons = [...root.querySelectorAll("[data-field-site]")];
   const viewButtons = [...root.querySelectorAll("[data-field-view]")];
+  const dataToggle = root.querySelector("[data-field-morepoc]");
+  const dataCount = root.querySelector("[data-field-morepoc-count]");
+  const dataKey = root.querySelector("[data-field-morepoc-key]");
   const doc = root.ownerDocument;
   const win = doc.defaultView;
   const geo = win.d3;
@@ -90,6 +60,7 @@ export function createFieldGlobe(root) {
     toggle.hidden = true;
     loading.hidden = true;
     [...siteButtons, ...viewButtons].forEach((button) => { button.disabled = true; });
+    if (dataToggle) dataToggle.disabled = true;
     label.textContent = "Field locations";
     detail.textContent = "The seven sites and campaign years are listed alongside.";
     return { destroy() {} };
@@ -99,13 +70,14 @@ export function createFieldGlobe(root) {
   const basins = pathsToGeoJSON(win.HYDROBASINS_MAP?.background || [], geo, BASIN_SOURCE_FRAME);
   const visited = pathsToGeoJSON((win.HYDROBASINS_MAP?.visited || []).flatMap((basin) => basin.paths), geo, BASIN_SOURCE_FRAME);
   const graticule = geo.geoGraticule().step([30, 30])();
+  const locations = morepocLocations(win.MOREPOC_FIELDS || [], win.MOREPOC_SITES || []);
   const projection = geo.geoOrthographic().clipAngle(90).precision(0.4);
   const path = geo.geoPath(projection, context);
   const motion = win.matchMedia("(prefers-reduced-motion: reduce)");
   const state = {
     rotation: [...DEFAULT_ROTATION], manualPause: motion.matches, manualPauseOverride: false, hovering: false,
     focused: false, dragging: false, inView: true, documentHidden: doc.hidden,
-    activeId: "", view: "", markers: [], tween: null,
+    activeId: "", view: "", markers: [], dataMarkers: [], showMorepoc: false, tween: null,
   };
   let size = 0;
   let radius = 0;
@@ -131,11 +103,22 @@ export function createFieldGlobe(root) {
     root.dataset.globeState = shouldAnimate(state) ? "rotating" : "paused";
     siteButtons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.fieldSite === state.activeId)));
     viewButtons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.fieldView === state.view)));
+    if (dataToggle) {
+      dataToggle.setAttribute("aria-pressed", String(state.showMorepoc));
+      dataToggle.textContent = state.showMorepoc ? "Hide MOREPOC locations" : "Show MOREPOC locations";
+      dataToggle.disabled = !locations.length;
+    }
+    if (dataCount) {
+      dataCount.hidden = !state.showMorepoc;
+      dataCount.textContent = locations.length + " grouped locations";
+    }
+    if (dataKey) dataKey.hidden = !state.showMorepoc;
     const site = FIELD_SITES.find((entry) => entry.id === state.activeId);
     const view = FIELD_VIEWS[state.view];
     label.textContent = site?.label || view?.label || "Seven places, one field record";
     detail.textContent = site ? "Field campaigns: " + site.years : view?.detail || "Choose a site, or drag the globe to explore.";
-    const message = label.textContent + ". " + detail.textContent;
+    const message = label.textContent + ". " + detail.textContent
+      + (state.showMorepoc ? " MOREPOC layer on: " + locations.length + " geocoded river/location groups." : "");
     if (status.textContent !== message) status.textContent = message;
     invalidate();
   };
@@ -223,6 +206,20 @@ export function createFieldGlobe(root) {
     context.stroke();
 
     const rotate = geo.geoRotation(state.rotation);
+    state.dataMarkers = state.showMorepoc ? locations.flatMap((location) => {
+      const coordinates = [location.lon, location.lat];
+      const rotated = rotate(coordinates);
+      if (Math.cos(rotated[0] * RAD) * Math.cos(rotated[1] * RAD) <= 0.02) return [];
+      const [x, y] = projection(coordinates);
+      context.beginPath();
+      context.arc(x, y, 2.4, 0, 2 * Math.PI);
+      context.fillStyle = "#83d0d5";
+      context.fill();
+      context.strokeStyle = "rgba(7,38,45,.65)";
+      context.lineWidth = 0.6;
+      context.stroke();
+      return [{ site: { label: (location.river || location.basin) + ", " + location.country }, x, y }];
+    }) : [];
     state.markers = FIELD_SITES.flatMap((site) => {
       const coordinates = [site.longitude, site.latitude];
       const rotated = rotate(coordinates);
@@ -254,6 +251,17 @@ export function createFieldGlobe(root) {
     return state.markers.map((marker) => ({ ...marker, distance: Math.hypot(marker.x - x, marker.y - y) }))
       .filter((marker) => marker.distance < 14).sort((a, b) => a.distance - b.distance)[0];
   };
+  const nearestDataMarker = (event) => {
+    const rect = canvas.getBoundingClientRect();
+    const x = (event.clientX - rect.left) * size / rect.width;
+    const y = (event.clientY - rect.top) * size / rect.height;
+    return state.dataMarkers.map((marker) => ({ ...marker, distance: Math.hypot(marker.x - x, marker.y - y) }))
+      .filter((marker) => marker.distance < 8).sort((a, b) => a.distance - b.distance)[0];
+  };
+  if (dataToggle) listen(dataToggle, "click", () => {
+    state.showMorepoc = !state.showMorepoc;
+    syncControls();
+  });
   siteButtons.forEach((button) => listen(button, "click", () => {
     const site = FIELD_SITES.find((entry) => entry.id === button.dataset.fieldSite);
     if (site) selectSite(site);
@@ -291,7 +299,7 @@ export function createFieldGlobe(root) {
   });
   listen(canvas, "pointermove", (event) => {
     if (!drag) {
-      canvas.title = nearestMarker(event)?.site.label || "";
+      canvas.title = (nearestMarker(event) || nearestDataMarker(event))?.site.label || "";
       return;
     }
     const movement = event.clientX - drag.x;

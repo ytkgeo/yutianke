@@ -7,15 +7,16 @@
   <meta name="theme-color" content="#0b3d46">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/site-enhancements.css?v=field-globe-20261006">
+  <link rel="stylesheet" href="assets/site-enhancements.css?v=map-headers-20261006">
   <noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
   <script src="assets/script.js" defer></script>
   <script src="assets/visitor-counter.js" defer></script>
+  <script src="assets/morepoc-sites.js" defer></script>
   <script src="assets/world-land.js" defer></script>
   <script src="assets/hydrobasins-map.js" defer></script>
   <script src="assets/vendor/d3-array-3.2.4.min.js" defer></script>
   <script src="assets/vendor/d3-geo-3.1.1.min.js" defer></script>
-  <script type="module" src="assets/field-globe.js?v=basin-alignment-20261006"></script>
+  <script type="module" src="assets/field-globe.js?v=morepoc-layer-20261006"></script>
   <title>Latest Updates | Yutian Ke</title>
 </head>
 <body class="academic-site">
@@ -123,7 +124,7 @@
                 <button type="button" data-field-site="linxia" aria-pressed="false"><strong>Linxia</strong><span>2015</span></button>
               </div>
             </div>
-            <p class="field-globe-source">Coastlines: Natural Earth. Basin outlines: HydroATLAS.</p>
+            <p class="field-globe-source">Coastlines: Natural Earth. Basin outlines: HydroATLAS. <a href="about.html#morepoc">MOREPOC v1.1 data</a>.</p>
           </div>
           <div class="field-globe-stage">
             <div class="field-globe-toolbar">
@@ -134,12 +135,16 @@
               </div>
               <button class="field-globe-toggle" type="button" data-field-globe-toggle aria-label="Pause globe rotation">Pause</button>
             </div>
+            <div class="field-globe-data">
+              <button type="button" data-field-morepoc aria-pressed="false">Show MOREPOC locations</button>
+              <span data-field-morepoc-count hidden></span>
+            </div>
             <p class="field-globe-loading" data-field-globe-loading>Preparing the field map...</p>
             <canvas data-field-globe-canvas tabindex="0" role="img" aria-label="Field-site globe. Drag horizontally or use arrow keys to rotate. Field sites can also be selected from the buttons.">Field locations and campaign years are listed alongside.</canvas>
             <div class="field-globe-readout">
               <strong data-field-globe-label>Seven places, one field record</strong>
               <span data-field-globe-detail>Choose a site, or drag the globe to explore.</span>
-              <div class="field-globe-key"><span>Field site</span><span>Visited basin</span></div>
+              <div class="field-globe-key"><span>Field site</span><span>Visited basin</span><span data-field-morepoc-key hidden>MOREPOC location</span></div>
             </div>
           </div>
         </section>
