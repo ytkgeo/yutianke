@@ -199,6 +199,24 @@
 .home-page .river-contact .contact-inner{max-width:760px;margin:0;padding:1.5rem 1.75rem;border-radius:4px;background:rgba(16,20,20,.62);text-shadow:0 1px 4px rgba(0,0,0,.85)}
 .home-page .river-contact{padding-bottom:5rem}
 
+.about-page .about-layout{background-image:url("theme-disturbance.jpg")}
+.about-page .about-profile-card figcaption{text-shadow:0 1px 4px rgba(0,0,0,.85)}
+.about-page .river-contact{background:url("atlas/huslia-corridor.jpg") center 48%/cover no-repeat}
+.about-page .river-contact .contact-inner{padding:1.5rem 1.75rem;border-radius:4px;background:rgba(16,20,20,.62);text-shadow:0 1px 4px rgba(0,0,0,.85)}
+.about-page .river-contact .button{text-shadow:none}
+.about-page .about-layout,.about-page .photo-wall-section,.about-page .river-contact{scroll-margin-top:6rem}
+.about-page .photo-wall-section .section-heading{display:flex;align-items:center;justify-content:space-between;gap:1rem;max-width:none}
+.about-page .photo-wall-section h2{margin-bottom:0}
+.about-page .photo-wall{display:flex;gap:1rem;overflow-x:auto;padding:.25rem 0 .8rem;scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:var(--teal) var(--line)}
+.about-page .photo-wall-item{flex:0 0 clamp(240px,34vw,360px);scroll-snap-align:start}
+.about-page .photo-wall-item img{height:240px}
+.about-page .photo-wall-item figcaption{opacity:1;font-size:.78rem;background:linear-gradient(transparent,rgba(0,0,0,.78))}
+.photo-carousel-controls{display:flex;gap:.5rem;flex:none}
+.photo-carousel-controls button{display:grid;place-items:center;width:44px;height:44px;padding:0;border:1px solid var(--line);border-radius:50%;background:transparent;color:var(--deep);font:inherit;font-size:1.6rem;line-height:1;cursor:pointer}
+.photo-carousel-controls button:hover:not(:disabled){background:var(--mist);border-color:var(--teal)}
+.photo-carousel-controls button:disabled{opacity:.3;cursor:default}
+.about-page .photo-wall:focus-visible,.photo-carousel-controls button:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+
 .home-page .publication-gallery{display:block;margin-top:1rem;border-top:1px solid var(--line)}
 .home-page .publication-gallery .publication{display:grid;grid-template-columns:100px minmax(0,1fr) 160px;gap:1.2rem;align-items:center;min-width:0;padding:1.2rem 0;border:0;border-bottom:1px solid var(--line);background:transparent}
 .publication-figure{display:grid;width:160px;height:112px;min-height:0;place-items:center;overflow:hidden;padding:.25rem;border:1px solid var(--line);background:#fff}

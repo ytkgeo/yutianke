@@ -318,7 +318,42 @@ document.querySelectorAll(".update-list-toggle").forEach((toggle) => {
   window.addEventListener("resize", sync);
 });
 
-// Wall photos are cropped to a uniform grid, so clicking one opens the full
+document.querySelectorAll(".about-page .photo-wall-section").forEach((section) => {
+  const wall = section.querySelector(".photo-wall");
+  const heading = section.querySelector(".section-heading");
+  const title = heading?.querySelector("h2")?.textContent;
+  if (!wall || !heading || !title) return;
+
+  const controls = document.createElement("div");
+  controls.className = "photo-carousel-controls";
+  const buttons = [-1, 1].map((direction) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.setAttribute("aria-label", `${direction < 0 ? "Previous" : "Next"} ${title} photos`);
+    button.setAttribute("aria-controls", wall.id);
+    button.innerHTML = direction < 0 ? "&#8249;" : "&#8250;";
+    button.addEventListener("click", () => {
+      const step = wall.firstElementChild.offsetWidth + parseFloat(getComputedStyle(wall).gap);
+      wall.scrollBy({
+        left: direction * step,
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+      });
+    });
+    controls.appendChild(button);
+    return button;
+  });
+  heading.appendChild(controls);
+
+  const sync = () => {
+    buttons[0].disabled = wall.scrollLeft <= 2;
+    buttons[1].disabled = wall.scrollLeft >= wall.scrollWidth - wall.clientWidth - 2;
+  };
+  wall.addEventListener("scroll", sync, { passive: true });
+  window.addEventListener("resize", sync);
+  sync();
+});
+
+// Wall photos are cropped to thumbnails, so clicking one opens the full
 // frame uncropped, and you can move through the rest of that wall without
 // closing. Keyboard reachable, and returns focus where it started.
 (() => {
