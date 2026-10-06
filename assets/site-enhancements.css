@@ -326,6 +326,27 @@
 @media(max-width:640px){.about-hero{padding-block:1.25rem;background-position:center,72% 6%}}
 @media print{.publications-hero,.about-hero{background:none;color:var(--ink);padding:1rem 0}.page-hero-copy h1,.page-hero-copy p,.page-hero-copy>p:not(.eyebrow){color:var(--ink);text-shadow:none}.page-hero-copy .profile-icons a,.page-hero-copy .button-secondary{background:#fff;color:var(--deep);border-color:var(--line)}}
 
+#peer-reviewed-articles .full-publication-list>li:has(.publication-preview){position:relative;padding-right:3rem}
+.publication-preview{margin:0}
+.publication-preview-toggle{position:absolute;top:1rem;right:0;display:flex;align-items:center;justify-content:center;width:38px;height:38px;padding:0;border:1px solid var(--line);border-radius:50%;color:var(--deep);background:transparent;cursor:pointer;list-style:none;transition:background .15s,border-color .15s}
+.publication-preview-toggle::-webkit-details-marker{display:none}
+.publication-preview-toggle::marker{content:""}
+.publication-preview-toggle:hover{background:#e8efec;border-color:var(--deep)}
+.publication-preview-toggle:focus-visible{outline:2px solid var(--deep);outline-offset:4px}
+.publication-preview-symbol{position:relative;width:14px;height:14px}
+.publication-preview-symbol::before,.publication-preview-symbol::after{content:"";position:absolute;background:currentColor;border-radius:1px}
+.publication-preview-symbol::before{width:14px;height:2px;left:0;top:6px}
+.publication-preview-symbol::after{width:2px;height:14px;left:6px;top:0}
+.publication-preview[open] .publication-preview-symbol::after{display:none}
+.publication-preview[open] .publication-preview-toggle{background:var(--deep);border-color:var(--deep);color:#fff}
+.publication-preview-figure{margin:.8rem 0 0;padding:clamp(.4rem,1vw,.8rem);background:#fff;border:1px solid var(--line);border-radius:4px}
+.publication-preview-figure>a{display:block;cursor:zoom-in}
+.publication-preview-figure img{display:block;width:100%;height:auto}
+.publication-preview-figure figcaption{margin-top:.6rem;font-size:.75rem;line-height:1.5;color:var(--muted);font-style:normal}
+.publication-preview-error{margin:.6rem;font-size:.9rem}
+@media(max-width:600px){#peer-reviewed-articles .full-publication-list>li:has(.publication-preview){padding-right:0}}
+@media print{.publication-preview{display:none}}
+
 /* lightbox navigation */
 .lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);width:52px;height:52px;border:0;border-radius:3px;background:rgba(255,255,255,.14);color:#fff;font-size:2rem;line-height:1;cursor:pointer}
 .lightbox-nav:hover{background:rgba(255,255,255,.28)}

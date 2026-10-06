@@ -1,0 +1,192 @@
+[
+  {
+    "number": "01",
+    "src": "assets/publication-previews/paper-01.webp",
+    "width": 1600,
+    "height": 1269,
+    "source": "Exibit-NatureCommunications-Ke2026.pdf",
+    "page": 1,
+    "cropBottomPoints": 472,
+    "version": "Published paper"
+  },
+  {
+    "number": "02",
+    "src": "assets/publication-previews/paper-02.webp",
+    "width": 1600,
+    "height": 1257,
+    "source": "Exibit-Global Biogeochemical Cycles-Ke2025.pdf",
+    "page": 1,
+    "cropBottomPoints": 472,
+    "version": "Published paper"
+  },
+  {
+    "number": "03",
+    "src": "assets/publication-previews/paper-03.webp",
+    "width": 1600,
+    "height": 716,
+    "source": "Exibit-ScienceAdvances-Geyman2025.pdf",
+    "page": 1,
+    "cropBottomPoints": 266,
+    "version": "Published paper"
+  },
+  {
+    "number": "04",
+    "src": "assets/publication-previews/paper-04.webp",
+    "width": 1600,
+    "height": 1532,
+    "source": "Exibit-ISPRS-Tian2025.pdf",
+    "page": 1,
+    "cropBottomPoints": 570,
+    "version": "Published paper"
+  },
+  {
+    "number": "05",
+    "src": "assets/publication-previews/paper-05.webp",
+    "width": 1600,
+    "height": 1618,
+    "source": "Exibit-esurf-Ke2024.pdf",
+    "page": 1,
+    "cropBottomPoints": 602,
+    "version": "Published paper"
+  },
+  {
+    "number": "06",
+    "src": "assets/publication-previews/paper-06.webp",
+    "width": 1600,
+    "height": 1793,
+    "source": "Exibit-Smith_2024_Environ._Res._Lett._19_084041.pdf",
+    "page": 1,
+    "cropBottomPoints": 667,
+    "version": "Published paper"
+  },
+  {
+    "number": "07",
+    "src": "assets/publication-previews/paper-07.webp",
+    "width": 1600,
+    "height": 1241,
+    "source": "Exibit-AGUAdvances-Douglas2024.pdf",
+    "page": 1,
+    "cropBottomPoints": 466,
+    "version": "Published paper"
+  },
+  {
+    "number": "08",
+    "src": "assets/publication-previews/paper-08.webp",
+    "width": 1600,
+    "height": 1022,
+    "source": "Exibit-JGR Planets-Kalucha2024.pdf",
+    "page": 1,
+    "cropBottomPoints": 384,
+    "version": "Published paper"
+  },
+  {
+    "number": "09",
+    "src": "assets/publication-previews/paper-09.webp",
+    "width": 1600,
+    "height": 1392,
+    "source": "Exibit-essd-Ke2022.pdf",
+    "page": 1,
+    "cropBottomPoints": 518,
+    "version": "Published paper"
+  },
+  {
+    "number": "10",
+    "src": "assets/publication-previews/paper-10.webp",
+    "width": 1600,
+    "height": 1435,
+    "source": "Exibit-Catena2020.pdf",
+    "page": 1,
+    "cropBottomPoints": 534,
+    "version": "Published paper"
+  },
+  {
+    "number": "11",
+    "src": "assets/publication-previews/paper-11.webp",
+    "width": 1600,
+    "height": 1363,
+    "source": "Exibit-EngineeringGeology-Song2020.pdf",
+    "page": 1,
+    "cropBottomPoints": 507,
+    "version": "Published paper"
+  },
+  {
+    "number": "12",
+    "src": "assets/publication-previews/paper-12.webp",
+    "width": 1600,
+    "height": 1016,
+    "source": "Exibit-GeocartoInternational-chen2017.pdf",
+    "page": 1,
+    "cropBottomPoints": 378,
+    "version": "Accepted manuscript"
+  },
+  {
+    "number": "13",
+    "src": "assets/publication-previews/paper-13.webp",
+    "width": 1600,
+    "height": 1296,
+    "source": "Exibit-SoilDynamicsEarthquakeEnginnering-Song2020.pdf",
+    "page": 1,
+    "cropBottomPoints": 482,
+    "version": "Published paper"
+  },
+  {
+    "number": "14",
+    "src": "assets/publication-previews/paper-14.webp",
+    "width": 1600,
+    "height": 1311,
+    "source": "Exibit-NaturalHazard-Chen2020.pdf",
+    "page": 1,
+    "cropBottomPoints": 360,
+    "version": "Published paper"
+  },
+  {
+    "number": "15",
+    "src": "assets/publication-previews/paper-15.webp",
+    "width": 1600,
+    "height": 1048,
+    "source": "Exibit-Landslides-Chen2019.pdf",
+    "page": 1,
+    "cropBottomPoints": 390,
+    "version": "Published paper"
+  },
+  {
+    "number": "16",
+    "src": "assets/publication-previews/paper-16.webp",
+    "width": 1600,
+    "height": 1030,
+    "source": "Exibit-IJMS -Ke2018.pdf",
+    "page": 1,
+    "cropBottomPoints": 394,
+    "version": "Published paper"
+  },
+  {
+    "number": "17",
+    "src": "assets/publication-previews/paper-17.webp",
+    "width": 1600,
+    "height": 1408,
+    "source": "Exibit-ArabJGeosci-Wu2017.pdf",
+    "page": 1,
+    "cropBottomPoints": 524,
+    "version": "Published paper"
+  },
+  {
+    "number": "18",
+    "src": "assets/publication-previews/paper-18.webp",
+    "width": 1600,
+    "height": 1548,
+    "source": "Exibit-ArabJGeosci-WuKe2016.pdf",
+    "page": 1,
+    "cropBottomPoints": 576,
+    "version": "Published paper"
+  },
+  {
+    "number": "20",
+    "src": "assets/publication-previews/paper-20.webp",
+    "width": 1600,
+    "height": 1607,
+    "source": "Exibit-RAC-2016.pdf",
+    "page": 1,
+    "cropBottomPoints": 515,
+    "version": "Published paper"
+  }
+]
