@@ -326,9 +326,9 @@
 @media(max-width:640px){.about-hero{padding-block:1.25rem;background-position:center,72% 6%}}
 @media print{.publications-hero,.about-hero{background:none;color:var(--ink);padding:1rem 0}.page-hero-copy h1,.page-hero-copy p,.page-hero-copy>p:not(.eyebrow){color:var(--ink);text-shadow:none}.page-hero-copy .profile-icons a,.page-hero-copy .button-secondary{background:#fff;color:var(--deep);border-color:var(--line)}}
 
-#peer-reviewed-articles .full-publication-list>li:has(.publication-preview){position:relative;padding-right:3rem}
+#peer-reviewed-articles .full-publication-list>li>div:has(.publication-preview){position:relative;padding-right:3rem}
 .publication-preview{margin:0}
-.publication-preview-toggle{position:absolute;top:calc(1rem + 9.5px);right:9.5px;display:flex;align-items:center;justify-content:center;width:19px;height:19px;padding:0;border:1px solid var(--line);border-radius:50%;color:var(--deep);background:transparent;cursor:pointer;list-style:none;transition:background .15s,border-color .15s}
+.publication-preview-toggle{position:absolute;top:calc(.5lh - 9.5px);right:9.5px;display:flex;align-items:center;justify-content:center;width:19px;height:19px;padding:0;border:1px solid var(--line);border-radius:50%;color:var(--deep);background:transparent;cursor:pointer;list-style:none;transition:background .15s,border-color .15s}
 .publication-preview-toggle::after{content:"";position:absolute;inset:-9.5px;border-radius:50%}
 .publication-preview-toggle::-webkit-details-marker{display:none}
 .publication-preview-toggle::marker{content:""}
@@ -345,7 +345,7 @@
 .publication-preview-figure img{display:block;width:100%;height:auto}
 .publication-preview-figure figcaption{margin-top:.6rem;font-size:.75rem;line-height:1.5;color:var(--muted);font-style:normal}
 .publication-preview-error{margin:.6rem;font-size:.9rem}
-@media(max-width:600px){#peer-reviewed-articles .full-publication-list>li:has(.publication-preview){padding-right:0}}
+@media(max-width:600px){#peer-reviewed-articles .full-publication-list>li>div:has(.publication-preview){padding-right:2.4rem}}
 @media print{.publication-preview{display:none}}
 
 /* lightbox navigation */
