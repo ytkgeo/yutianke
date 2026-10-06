@@ -1,5 +1,18 @@
 # Field Work Globe Design
 
+## Renderer Refresh: 2026-10-06
+
+The current renderer uses locally vendored D3 geographic projection code to
+clip whole spherical polygons at the horizon and antimeridian. It retains the
+existing Natural Earth and HydroATLAS display assets. Site and regional-view
+buttons, horizontal dragging, and arrow keys control the view. Rotation uses
+elapsed time, with canvas sizing handled by ResizeObserver. Paused, off-screen,
+and hidden-page states stop the animation loop. Reduced-motion users start
+with a still globe and receive instant view changes.
+
+Regression checks: `node --test tests/field-globe.test.mjs`.
+The original design below records the earlier implementation.
+
 ## Goal
 
 Add an animated Earth panel at the bottom of the Field Work section on `latest-updates.html`. It should make the field archive easier to scan by showing river and basin patterns on a rotating globe and marking the places where Yutian Ke has worked.

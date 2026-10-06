@@ -8,400 +8,350 @@ export const FIELD_SITES = [
   { id: "linxia", label: "Linxia, China", latitude: 35.6, longitude: 103.2, years: "2015" },
 ];
 
-export const DEFAULT_ROTATION = -0.75;
-const DEFAULT_STATUS = "Seven field locations are marked on the globe.";
-const FULL_TURN = Math.PI * 2;
-const HYDRO_SOURCE_WIDTH = 1000;
-const HYDRO_SOURCE_HEIGHT = 540;   // basin + land layers are authored 1000x540
+export const DEFAULT_ROTATION = [155, -38, 0];
+export const FIELD_VIEWS = {
+  pacific: { rotation: DEFAULT_ROTATION, label: "Across the Pacific", detail: "Alaska and eastern Asia" },
+  alaska: { rotation: [156, -61, 0], label: "Alaska", detail: "Koyukuk River, Yukon River, and Yukon Delta" },
+  china: { rotation: [-113, -42, 0], label: "China", detail: "Heilongjiang and the Loess Plateau" },
+};
+
+const RAD = Math.PI / 180;
+const SPHERE = { type: "Sphere" };
 
 export function normalizeAngle(angle) {
-  return ((angle + Math.PI) % FULL_TURN + FULL_TURN) % FULL_TURN - Math.PI;
+  return ((angle + Math.PI) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI) - Math.PI;
 }
 
-export function projectFieldSite(site, rotation, radius) {
-  const latitude = (site.latitude * Math.PI) / 180;
-  const longitude = (site.longitude * Math.PI) / 180 + rotation;
-  const depth = Math.cos(latitude) * Math.cos(longitude);
+// Decode the existing display paths once. D3 then clips and resamples complete
+// spherical polygons, including at the horizon and the antimeridian.
+export function pathsToGeoJSON(paths, geo = globalThis.d3) {
+  const geometries = [];
+  for (const path of paths) {
+    const tokens = path.match(/[MLZ]|-?\d+(?:\.\d+)?/g) || [];
+    let ring = [];
+    const finish = () => {
+      if (ring.length < 3) { ring = []; return; }
+      if (ring[0][0] !== ring.at(-1)[0] || ring[0][1] !== ring.at(-1)[1]) ring.push([...ring[0]]);
+      const polygon = { type: "Polygon", coordinates: [ring] };
+      // SVG winding is planar; an inverted spherical ring fills the whole Earth.
+      if (geo.geoArea(polygon) > 2 * Math.PI) ring.reverse();
+      geometries.push(polygon);
+      ring = [];
+    };
+    for (let i = 0; i < tokens.length;) {
+      const token = tokens[i++];
+      if (token === "Z") {
+        finish();
+      } else if (token === "M" || token === "L") {
+        if (token === "M") finish();
+        const x = Number(tokens[i++]);
+        const y = Number(tokens[i++]);
+        if (Number.isFinite(x) && Number.isFinite(y)) ring.push([x / 1000 * 360 - 180, 90 - y / 540 * 180]);
+      }
+    }
+    finish();
+  }
+  return { type: "GeometryCollection", geometries };
+}
 
-  return {
-    x: radius + radius * Math.cos(latitude) * Math.sin(longitude),
-    y: radius - radius * Math.sin(latitude),
-    depth,
-    visible: depth > 0.04,
-  };
+export function projectFieldSite(site, rotation, radius, geo = globalThis.d3) {
+  const angles = Array.isArray(rotation) ? rotation : [rotation / RAD, 0, 0];
+  const coordinates = [site.longitude, site.latitude];
+  const rotated = geo.geoRotation(angles)(coordinates);
+  const depth = Math.cos(rotated[0] * RAD) * Math.cos(rotated[1] * RAD);
+  const point = geo.geoOrthographic().rotate(angles).scale(radius).translate([radius, radius])(coordinates);
+  return { x: point[0], y: point[1], depth, visible: depth > 0.02 };
 }
 
 export function shouldAnimate(state) {
-  return !state.manualPause && !state.hovering && !state.focused && !state.selected;
-}
-
-function getToggleState(state) {
-  if (state.selected) {
-    return {
-      action: "clear-selection",
-      label: shouldAnimate({ ...state, selected: false }) ? "Play globe" : "Clear selection",
-    };
-  }
-
-  return {
-    action: "toggle-manual-pause",
-    label: state.manualPause ? "Play globe" : "Pause globe",
-  };
-}
-
-function getAnimationStatusText(state) {
-  return shouldAnimate(state) ? "Globe animation is running." : "Globe animation is paused.";
-}
-
-// The basin geometry ships as M/L/Z polygons in a 1000x500 equirectangular
-// source. Drawing that through a flat translate/scale and clipping it to a
-// circle is not a globe: latitude ends up linear while the field markers use a
-// true orthographic projection (r*sin(lat)), so basins and markers disagree by
-// up to ~18% of the radius and the mask crops basins mid-shape. Parse the
-// polygons once into lon/lat, then project every vertex the same way the
-// markers are projected.
-let hydroGeometryCache = null;
-
-function parseHydroRings(paths) {
-  return paths.flatMap((path) => {
-    const rings = [];
-    let ring = null;
-    const token = /([MLZ])([-\d.]+)?[ ,]?([-\d.]+)?/g;
-    let match;
-    while ((match = token.exec(path)) !== null) {
-      const [, command, rawX, rawY] = match;
-      if (command === "Z") {
-        if (ring && ring.length > 2) rings.push(ring);
-        ring = null;
-        continue;
-      }
-      if (command === "M") {
-        if (ring && ring.length > 2) rings.push(ring);
-        ring = [];
-      }
-      if (!ring || rawX === undefined || rawY === undefined) continue;
-      ring.push([
-        (Number(rawX) / HYDRO_SOURCE_WIDTH) * 360 - 180,
-        90 - (Number(rawY) / HYDRO_SOURCE_HEIGHT) * 180,
-      ]);
-    }
-    if (ring && ring.length > 2) rings.push(ring);
-    return rings;
-  });
-}
-
-function getHydroGeometry(hydro) {
-  if (hydroGeometryCache?.source === hydro) return hydroGeometryCache;
-  hydroGeometryCache = {
-    source: hydro,
-    background: parseHydroRings(hydro.background ?? []),
-    visited: (hydro.visited ?? []).flatMap((basin) => parseHydroRings(basin.paths ?? [])),
-  };
-  return hydroGeometryCache;
-}
-
-// Same projection as projectFieldSite, so basins and markers finally agree.
-function traceRing(context, ring, centerX, centerY, radius, rotation) {
-  let drawing = false;
-  let drawn = 0;
-  for (const [lon, lat] of ring) {
-    const longitude = (lon * Math.PI) / 180 + rotation;
-    const latitude = (lat * Math.PI) / 180;
-    if (Math.cos(latitude) * Math.cos(longitude) <= 0) {
-      drawing = false;   // vertex is on the far side of the globe
-      continue;
-    }
-    const x = centerX + radius * Math.cos(latitude) * Math.sin(longitude);
-    const y = centerY - radius * Math.sin(latitude);
-    if (drawing) {
-      context.lineTo(x, y);
-    } else {
-      context.moveTo(x, y);
-      drawing = true;
-    }
-    drawn += 1;
-  }
-  return drawn > 2;
-}
-
-function drawEarth(context, centerX, centerY, radius) {
-  const ocean = context.createRadialGradient(
-    centerX - radius * 0.3,
-    centerY - radius * 0.35,
-    radius * 0.08,
-    centerX,
-    centerY,
-    radius,
-  );
-  ocean.addColorStop(0, "#2a8794");
-  ocean.addColorStop(0.68, "#0b3d46");
-  ocean.addColorStop(1, "#061c23");
-  context.fillStyle = ocean;
-  context.beginPath();
-  context.arc(centerX, centerY, radius, 0, FULL_TURN);
-  context.fill();
-
-  context.strokeStyle = "rgba(214,244,241,.42)";
-  context.lineWidth = Math.max(1, radius * 0.008);
-  context.stroke();
-
-  const night = context.createLinearGradient(centerX - radius, centerY, centerX + radius, centerY);
-  night.addColorStop(0, "rgba(3,18,24,.04)");
-  night.addColorStop(0.58, "rgba(3,18,24,.08)");
-  night.addColorStop(1, "rgba(3,18,24,.68)");
-  context.fillStyle = night;
-  context.beginPath();
-  context.arc(centerX, centerY, radius, 0, FULL_TURN);
-  context.fill();
-}
-
-let landGeometryCache = null;
-
-function getLandGeometry(land) {
-  if (landGeometryCache?.source === land) return landGeometryCache;
-  landGeometryCache = { source: land, rings: parseHydroRings(land) };
-  return landGeometryCache;
-}
-
-// A complete land layer behind the basins: the basin set alone covers only the
-// largest catchments, which reads as a patchy globe rather than an Earth.
-export function drawLandSurface(context, centerX, centerY, radius, rotation, land) {
-  if (!land?.length) return;
-  const geometry = getLandGeometry(land);
-  context.save();
-  context.beginPath();
-  context.arc(centerX, centerY, radius, 0, FULL_TURN);
-  context.clip();
-  context.fillStyle = "rgba(226,229,209,.88)";
-  context.beginPath();
-  geometry.rings.forEach((ring) => traceRing(context, ring, centerX, centerY, radius, rotation));
-  context.fill("evenodd");
-  context.restore();
-}
-
-export function drawHydroSurface(context, centerX, centerY, radius, rotation, hydro) {
-  if (!hydro?.background?.length) {
-    return;
-  }
-  const geometry = getHydroGeometry(hydro);
-
-  context.save();
-  context.beginPath();
-  context.arc(centerX, centerY, radius, 0, FULL_TURN);
-  context.clip();
-
-  context.fillStyle = "rgba(42,135,148,.30)";
-  context.beginPath();
-  geometry.background.forEach((ring) => traceRing(context, ring, centerX, centerY, radius, rotation));
-  context.fill();
-
-  context.strokeStyle = "rgba(215,112,75,.95)";
-  context.lineWidth = Math.max(1, radius * 0.006);
-  context.lineJoin = "round";
-  context.beginPath();
-  geometry.visited.forEach((ring) => traceRing(context, ring, centerX, centerY, radius, rotation));
-  context.stroke();
-
-  context.restore();
-}
-
-function drawFieldMarkers(context, centerX, centerY, radius, rotation, activeId) {
-  return FIELD_SITES.flatMap((site) => {
-    const point = projectFieldSite(site, rotation, radius);
-    if (!point.visible) {
-      return [];
-    }
-
-    const x = centerX + point.x - radius;
-    const y = centerY + point.y - radius;
-    const active = site.id === activeId;
-
-    context.fillStyle = active ? "#f2c17b" : "#d7704b";
-    context.beginPath();
-    context.arc(x, y, active ? 6 : 4.5, 0, FULL_TURN);
-    context.fill();
-    context.strokeStyle = "rgba(255,255,255,.86)";
-    context.lineWidth = 1.4;
-    context.stroke();
-
-    return [{ site, x, y, radius: active ? 10 : 9 }];
-  });
+  return !state.manualPause && !state.hovering && !state.focused && !state.dragging
+    && state.inView && !state.documentHidden;
 }
 
 export function createFieldGlobe(root) {
-  const canvas = root?.querySelector?.("[data-field-globe-canvas]");
-  const toggle = root?.querySelector?.("[data-field-globe-toggle]");
-  const status = root?.querySelector?.("[data-field-globe-status]");
-  if (!canvas || !toggle || !status) {
+  const canvas = root.querySelector("[data-field-globe-canvas]");
+  const toggle = root.querySelector("[data-field-globe-toggle]");
+  const status = root.querySelector("[data-field-globe-status]");
+  const label = root.querySelector("[data-field-globe-label]");
+  const detail = root.querySelector("[data-field-globe-detail]");
+  const loading = root.querySelector("[data-field-globe-loading]");
+  const siteButtons = [...root.querySelectorAll("[data-field-site]")];
+  const viewButtons = [...root.querySelectorAll("[data-field-view]")];
+  const doc = root.ownerDocument;
+  const win = doc.defaultView;
+  const geo = win.d3;
+  const context = canvas.getContext("2d");
+  if (!context || !geo?.geoOrthographic || !win.WORLD_LAND) {
+    canvas.hidden = true;
+    toggle.hidden = true;
+    loading.hidden = true;
+    [...siteButtons, ...viewButtons].forEach((button) => { button.disabled = true; });
+    label.textContent = "Field locations";
+    detail.textContent = "The seven sites and campaign years are listed alongside.";
     return { destroy() {} };
   }
 
-  const context = canvas.getContext?.("2d");
-  if (!context) {
-    return { destroy() {} };
-  }
-
-  const runtimeWindow = typeof window === "object" ? window : globalThis;
-  const mediaQuery = runtimeWindow?.matchMedia?.("(prefers-reduced-motion: reduce)") ?? null;
-  const requestFrame = globalThis.requestAnimationFrame?.bind(globalThis)
-    ?? ((callback) => setTimeout(() => callback(Date.now()), 16));
-  const cancelFrame = globalThis.cancelAnimationFrame?.bind(globalThis) ?? clearTimeout;
+  const land = pathsToGeoJSON(win.WORLD_LAND, geo);
+  const basins = pathsToGeoJSON(win.HYDROBASINS_MAP?.background || [], geo);
+  const visited = pathsToGeoJSON((win.HYDROBASINS_MAP?.visited || []).flatMap((basin) => basin.paths), geo);
+  const graticule = geo.geoGraticule().step([30, 30])();
+  const projection = geo.geoOrthographic().clipAngle(90).precision(0.4);
+  const path = geo.geoPath(projection, context);
+  const motion = win.matchMedia("(prefers-reduced-motion: reduce)");
   const state = {
-    rotation: DEFAULT_ROTATION,
-    manualPause: Boolean(mediaQuery?.matches),
-    manualPauseOverride: false,
-    hovering: false,
-    focused: false,
-    selected: false,
-    activeId: "",
-    markers: [],
-    reducedMotion: Boolean(mediaQuery?.matches),
+    rotation: [...DEFAULT_ROTATION], manualPause: motion.matches, manualPauseOverride: false, hovering: false,
+    focused: false, dragging: false, inView: true, documentHidden: doc.hidden,
+    activeId: "", view: "", markers: [], tween: null,
   };
+  let size = 0;
+  let radius = 0;
   let frame = 0;
   let lastTime = 0;
-
-  const setStatus = () => {
-    const animationStatus = getAnimationStatusText(state);
-    const site = FIELD_SITES.find((entry) => entry.id === state.activeId);
-    if (site) {
-      status.textContent = `${site.label}: field campaigns in ${site.years}. ${animationStatus}`;
-      return;
-    }
-
-    status.textContent = `${animationStatus} ${DEFAULT_STATUS}`;
+  let destroyed = false;
+  let drag = null;
+  let dragged = false;
+  let ocean;
+  let shade;
+  const listeners = [];
+  const listen = (target, event, handler, options) => {
+    target.addEventListener(event, handler, options);
+    listeners.push(() => target.removeEventListener(event, handler, options));
   };
-
-  const syncToggle = () => {
-    const toggleState = getToggleState(state);
-    toggle.removeAttribute?.("aria-pressed");
-    toggle.textContent = toggleState.label;
+  const invalidate = () => {
+    if (!frame && !destroyed) frame = win.requestAnimationFrame(render);
   };
 
   const syncControls = () => {
-    syncToggle();
-    setStatus();
+    toggle.textContent = state.manualPause ? "Rotate" : "Pause";
+    toggle.setAttribute("aria-label", state.manualPause ? "Start globe rotation" : "Pause globe rotation");
+    root.dataset.globeState = shouldAnimate(state) ? "rotating" : "paused";
+    siteButtons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.fieldSite === state.activeId)));
+    viewButtons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.fieldView === state.view)));
+    const site = FIELD_SITES.find((entry) => entry.id === state.activeId);
+    const view = FIELD_VIEWS[state.view];
+    label.textContent = site?.label || view?.label || "Seven places, one field record";
+    detail.textContent = site ? "Field campaigns: " + site.years : view?.detail || "Choose a site, or drag the globe to explore.";
+    const message = label.textContent + ". " + detail.textContent;
+    if (status.textContent !== message) status.textContent = message;
+    invalidate();
   };
 
-  const clearSelection = () => {
-    state.selected = false;
-    state.activeId = "";
-    setStatus();
-  };
-
-  const updateReducedMotion = (event) => {
-    state.reducedMotion = Boolean(event?.matches ?? mediaQuery?.matches);
-    if (!state.manualPauseOverride) {
-      state.manualPause = state.reducedMotion;
-    }
+  const flyTo = (rotation) => {
+    const target = [...rotation];
+    target[0] = state.rotation[0] + normalizeAngle((target[0] - state.rotation[0]) * RAD) / RAD;
+    state.manualPause = true;
+    state.manualPauseOverride = true;
+    const instant = motion.matches || !state.inView || state.documentHidden;
+    state.tween = instant ? null : { from: [...state.rotation], to: target, start: win.performance.now() };
+    if (instant) state.rotation = target;
     syncControls();
   };
+  const selectSite = (site) => {
+    state.activeId = site.id;
+    state.view = "";
+    flyTo([-site.longitude, -site.latitude, 0]);
+  };
 
-  const render = (time) => {
-    const size = Math.max(220, Math.floor(Math.min(canvas.clientWidth || 420, 500)));
-    const scale = runtimeWindow?.devicePixelRatio || 1;
-    canvas.width = size * scale;
-    canvas.height = size * scale;
-    context.setTransform(scale, 0, 0, scale, 0, 0);
+  const resize = () => {
+    const nextSize = Math.max(1, Math.round(canvas.getBoundingClientRect().width));
+    const ratio = Math.min(win.devicePixelRatio || 1, nextSize < 420 ? 1.5 : 2);
+    const pixels = Math.round(nextSize * ratio);
+    if (canvas.width === pixels && size === nextSize) return;
+    size = nextSize;
+    radius = size * 0.43;
+    canvas.width = pixels;
+    canvas.height = pixels;
+    context.setTransform(pixels / size, 0, 0, pixels / size, 0, 0);
+    projection.scale(radius).translate([size / 2, size / 2]);
+    ocean = context.createRadialGradient(size * 0.35, size * 0.3, 0, size / 2, size / 2, radius);
+    ocean.addColorStop(0, "#205e69");
+    ocean.addColorStop(1, "#12333c");
+    shade = context.createLinearGradient(size * 0.2, size * 0.3, size * 0.9, size * 0.65);
+    shade.addColorStop(0, "rgba(255,255,255,.04)");
+    shade.addColorStop(0.5, "rgba(4,19,25,0)");
+    shade.addColorStop(1, "rgba(4,19,25,.6)");
+    invalidate();
+  };
 
-    const radius = size * 0.42;
-    const delta = Math.min(40, time - lastTime || 16);
+  function render(time) {
+    frame = 0;
+    if (destroyed || !size) return;
+    const delta = lastTime ? Math.min(64, time - lastTime) : 0;
     lastTime = time;
-
-    if (shouldAnimate(state)) {
-      state.rotation = normalizeAngle(state.rotation + delta * 0.00012);
+    if (state.tween && state.inView && !state.documentHidden) {
+      const progress = Math.min(1, (time - state.tween.start) / 1000);
+      const eased = progress * progress * (3 - 2 * progress);
+      state.rotation = state.tween.from.map((angle, i) => angle + (state.tween.to[i] - angle) * eased);
+      if (progress === 1) state.tween = null;
+    } else if (shouldAnimate(state)) {
+      state.rotation[0] = normalizeAngle((state.rotation[0] + delta * 0.0018) * RAD) / RAD;
     }
-
+    projection.rotate(state.rotation);
     context.clearRect(0, 0, size, size);
-    drawEarth(context, size / 2, size / 2, radius);
-    drawLandSurface(context, size / 2, size / 2, radius, state.rotation, runtimeWindow?.WORLD_LAND);
-    drawHydroSurface(context, size / 2, size / 2, radius, state.rotation, runtimeWindow?.HYDROBASINS_MAP);
-    state.markers = drawFieldMarkers(context, size / 2, size / 2, radius, state.rotation, state.activeId);
-    frame = requestFrame(render);
-  };
-
-  const selectMarker = (event) => {
-    const rect = canvas.getBoundingClientRect?.();
-    if (!rect?.width || !rect?.height) {
-      return;
+    context.beginPath();
+    path(SPHERE);
+    context.fillStyle = ocean;
+    context.fill();
+    context.beginPath();
+    path(land);
+    context.fillStyle = "#c8d2c3";
+    context.fill();
+    context.strokeStyle = "rgba(227,239,226,.5)";
+    context.lineWidth = 0.6;
+    context.stroke();
+    for (const [geometry, color, width] of [
+      [graticule, "rgba(225,239,238,.13)", 0.6],
+      [basins, "rgba(23,66,60,.16)", 0.5],
+      [visited, "rgba(222,153,100,.9)", 1.1],
+    ]) {
+      context.beginPath();
+      path(geometry);
+      context.strokeStyle = color;
+      context.lineWidth = width;
+      context.stroke();
     }
+    context.beginPath();
+    path(SPHERE);
+    context.fillStyle = shade;
+    context.fill();
+    context.strokeStyle = "rgba(208,233,231,.4)";
+    context.lineWidth = 1;
+    context.stroke();
 
-    const x = ((event.clientX - rect.left) * (canvas.clientWidth || rect.width)) / rect.width;
-    const y = ((event.clientY - rect.top) * (canvas.clientHeight || rect.height)) / rect.height;
-    const marker = state.markers.find((item) => Math.hypot(item.x - x, item.y - y) <= item.radius);
-    if (!marker) {
-      return;
-    }
-
-    state.activeId = marker.site.id;
-    state.selected = true;
-    syncControls();
-  };
-
-  const listeners = [
-    [root, "pointerenter", () => {
-      state.hovering = true;
-      syncControls();
-    }],
-    [root, "pointerleave", () => {
-      state.hovering = false;
-      syncControls();
-    }],
-    [root, "focusin", () => {
-      state.focused = true;
-      syncControls();
-    }],
-    [root, "focusout", () => {
-      state.focused = false;
-      syncControls();
-    }],
-    [canvas, "click", selectMarker],
-    [toggle, "click", () => {
-      const toggleState = getToggleState(state);
-      if (toggleState.action === "clear-selection") {
-        clearSelection();
-      } else {
-        state.manualPause = !state.manualPause;
-        state.manualPauseOverride = state.manualPause !== state.reducedMotion;
-        setStatus();
-      }
-
-      syncToggle();
-    }],
-  ];
-
-  listeners.forEach(([target, name, listener]) => target.addEventListener(name, listener));
-
-  if (typeof mediaQuery?.addEventListener === "function") {
-    mediaQuery.addEventListener("change", updateReducedMotion);
-  } else if (typeof mediaQuery?.addListener === "function") {
-    mediaQuery.addListener(updateReducedMotion);
+    const rotate = geo.geoRotation(state.rotation);
+    state.markers = FIELD_SITES.flatMap((site) => {
+      const coordinates = [site.longitude, site.latitude];
+      const rotated = rotate(coordinates);
+      if (Math.cos(rotated[0] * RAD) * Math.cos(rotated[1] * RAD) <= 0.02) return [];
+      const [x, y] = projection(coordinates);
+      const active = state.activeId === site.id;
+      context.beginPath();
+      context.arc(x, y, active ? 11 : 7, 0, 2 * Math.PI);
+      context.fillStyle = active ? "rgba(242,193,123,.2)" : "rgba(215,112,75,.13)";
+      context.fill();
+      context.beginPath();
+      context.arc(x, y, active ? 5 : 3.7, 0, 2 * Math.PI);
+      context.fillStyle = active ? "#f2c17b" : "#d7704b";
+      context.fill();
+      context.strokeStyle = "#f9f8f3";
+      context.lineWidth = 1.2;
+      context.stroke();
+      return [{ site, x, y }];
+    });
+    loading.hidden = true;
+    root.dataset.globeReady = "true";
+    if ((state.tween || shouldAnimate(state)) && state.inView && !state.documentHidden) invalidate();
   }
 
+  const nearestMarker = (event) => {
+    const rect = canvas.getBoundingClientRect();
+    const x = (event.clientX - rect.left) * size / rect.width;
+    const y = (event.clientY - rect.top) * size / rect.height;
+    return state.markers.map((marker) => ({ ...marker, distance: Math.hypot(marker.x - x, marker.y - y) }))
+      .filter((marker) => marker.distance < 14).sort((a, b) => a.distance - b.distance)[0];
+  };
+  siteButtons.forEach((button) => listen(button, "click", () => {
+    const site = FIELD_SITES.find((entry) => entry.id === button.dataset.fieldSite);
+    if (site) selectSite(site);
+  }));
+  viewButtons.forEach((button) => listen(button, "click", () => {
+    state.activeId = "";
+    state.view = button.dataset.fieldView;
+    flyTo(FIELD_VIEWS[state.view].rotation);
+  }));
+  listen(toggle, "click", () => {
+    state.manualPauseOverride = true;
+    state.manualPause = !state.manualPause;
+    if (!state.manualPause) {
+      state.activeId = "";
+      state.view = "";
+      state.tween = null;
+    }
+    lastTime = 0;
+    syncControls();
+  });
+  listen(canvas, "pointerenter", () => { state.hovering = true; syncControls(); });
+  listen(canvas, "pointerleave", () => { state.hovering = false; canvas.title = ""; syncControls(); });
+  listen(canvas, "focus", () => { state.focused = true; syncControls(); });
+  listen(canvas, "blur", () => { state.focused = false; syncControls(); });
+  listen(canvas, "pointerdown", (event) => {
+    if (event.button !== 0) return;
+    drag = { x: event.clientX, yaw: state.rotation[0] };
+    dragged = false;
+    state.dragging = true;
+    state.manualPause = true;
+    state.manualPauseOverride = true;
+    state.tween = null;
+    canvas.setPointerCapture(event.pointerId);
+    syncControls();
+  });
+  listen(canvas, "pointermove", (event) => {
+    if (!drag) {
+      canvas.title = nearestMarker(event)?.site.label || "";
+      return;
+    }
+    const movement = event.clientX - drag.x;
+    if (Math.abs(movement) > 4) {
+      dragged = true;
+      state.activeId = "";
+      state.view = "";
+      state.rotation[0] = drag.yaw + movement / radius * 50;
+      syncControls();
+    }
+  });
+  const endDrag = () => { drag = null; state.dragging = false; syncControls(); };
+  listen(canvas, "pointerup", endDrag);
+  listen(canvas, "pointercancel", endDrag);
+  listen(canvas, "click", (event) => {
+    if (dragged) { dragged = false; return; }
+    const marker = nearestMarker(event);
+    if (marker) selectSite(marker.site);
+  });
+  listen(canvas, "keydown", (event) => {
+    const adjustments = { ArrowLeft: [-8, 0], ArrowRight: [8, 0], ArrowUp: [0, 8], ArrowDown: [0, -8] };
+    if (!adjustments[event.key]) return;
+    event.preventDefault();
+    state.manualPause = true;
+    state.manualPauseOverride = true;
+    state.tween = null;
+    state.activeId = "";
+    state.view = "";
+    state.rotation[0] += adjustments[event.key][0];
+    state.rotation[1] = Math.max(-75, Math.min(75, state.rotation[1] + adjustments[event.key][1]));
+    syncControls();
+  });
+  listen(doc, "visibilitychange", () => { state.documentHidden = doc.hidden; lastTime = 0; syncControls(); });
+  listen(motion, "change", () => {
+    if (motion.matches || !state.manualPauseOverride) state.manualPause = motion.matches;
+    if (motion.matches && state.tween) {
+      state.rotation = state.tween.to;
+      state.tween = null;
+    }
+    syncControls();
+  });
+  const resizeObserver = new win.ResizeObserver(resize);
+  resizeObserver.observe(canvas);
+  const visibilityObserver = new win.IntersectionObserver(([entry]) => {
+    state.inView = entry.isIntersecting;
+    lastTime = 0;
+    syncControls();
+  }, { threshold: 0.05 });
+  visibilityObserver.observe(canvas);
+  resize();
   syncControls();
-  frame = requestFrame(render);
-
   return {
     destroy() {
-      cancelFrame(frame);
-      listeners.forEach(([target, name, listener]) => target.removeEventListener(name, listener));
-
-      if (typeof mediaQuery?.removeEventListener === "function") {
-        mediaQuery.removeEventListener("change", updateReducedMotion);
-      } else if (typeof mediaQuery?.removeListener === "function") {
-        mediaQuery.removeListener(updateReducedMotion);
-      }
+      destroyed = true;
+      win.cancelAnimationFrame(frame);
+      resizeObserver.disconnect();
+      visibilityObserver.disconnect();
+      listeners.forEach((remove) => remove());
     },
   };
 }
 
-function initializeFieldGlobes(doc) {
-  doc.querySelectorAll("[data-field-globe]").forEach((root) => createFieldGlobe(root));
-}
-
-if (typeof document === "object" && document?.querySelectorAll) {
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", () => initializeFieldGlobes(document), { once: true });
-  } else {
-    initializeFieldGlobes(document);
-  }
+if (typeof document === "object") {
+  const initialize = () => document.querySelectorAll("[data-field-globe]").forEach(createFieldGlobe);
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initialize, { once: true });
+  else initialize();
 }

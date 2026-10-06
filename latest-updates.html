@@ -7,13 +7,15 @@
   <meta name="theme-color" content="#0b3d46">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/site-enhancements.css">
+  <link rel="stylesheet" href="assets/site-enhancements.css?v=field-globe-20261006">
   <noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
   <script src="assets/script.js" defer></script>
   <script src="assets/visitor-counter.js" defer></script>
   <script src="assets/world-land.js" defer></script>
   <script src="assets/hydrobasins-map.js" defer></script>
-  <script type="module" src="assets/field-globe.js"></script>
+  <script src="assets/vendor/d3-array-3.2.4.min.js" defer></script>
+  <script src="assets/vendor/d3-geo-3.1.1.min.js" defer></script>
+  <script type="module" src="assets/field-globe.js?v=field-globe-20261006"></script>
   <title>Latest Updates | Yutian Ke</title>
 </head>
 <body class="academic-site">
@@ -98,20 +100,47 @@
           <button class="update-list-toggle" type="button" aria-expanded="false" aria-controls="field-work-list" data-count="10" data-label="campaigns">Show all 10 campaigns</button>
         </section>
 
-        <section class="field-globe-section reveal" data-field-globe aria-labelledby="field-globe-heading">
+        <section class="field-globe-section reveal" id="field-sites" data-field-globe aria-labelledby="field-globe-heading">
           <div class="field-globe-copy">
             <p class="section-kicker">Field sites</p>
             <h2 id="field-globe-heading">Rivers that connect the field record</h2>
-            <p>Seven field locations across Alaska and China are marked on this rotating river-and-basin globe.</p>
-            <button class="field-globe-toggle" type="button" data-field-globe-toggle>Pause globe</button>
+            <p>Seven field locations across Alaska and China. Choose a site to bring its landscape into view.</p>
             <p class="sr-only" data-field-globe-status aria-live="polite">Seven field locations are marked on the globe.</p>
-            <ul class="field-globe-legend" aria-label="Field locations">
-              <li>Alaska: Huslia (2024, 2026); Beaver (2022, 2023); Alakanuk (2023)</li>
-              <li>China: Fuyuan (2018); Pingliang (2014, 2016); Baiyin and Jingtai (2015); Linxia (2015)</li>
-            </ul>
+            <div class="field-globe-sites" role="group" aria-label="Alaska field sites">
+              <h3>Alaska</h3>
+              <div class="field-globe-site-list">
+                <button type="button" data-field-site="huslia" aria-pressed="false"><strong>Huslia</strong><span>2024, 2026</span></button>
+                <button type="button" data-field-site="beaver" aria-pressed="false"><strong>Beaver</strong><span>2022, 2023</span></button>
+                <button type="button" data-field-site="alakanuk" aria-pressed="false"><strong>Alakanuk</strong><span>2023</span></button>
+              </div>
+            </div>
+            <div class="field-globe-sites" role="group" aria-label="China field sites">
+              <h3>China</h3>
+              <div class="field-globe-site-list" data-region="china">
+                <button type="button" data-field-site="fuyuan" aria-pressed="false"><strong>Fuyuan</strong><span>2018</span></button>
+                <button type="button" data-field-site="pingliang" aria-pressed="false"><strong>Pingliang</strong><span>2014, 2016</span></button>
+                <button type="button" data-field-site="baiyin-jingtai" aria-pressed="false"><strong>Baiyin / Jingtai</strong><span>2015</span></button>
+                <button type="button" data-field-site="linxia" aria-pressed="false"><strong>Linxia</strong><span>2015</span></button>
+              </div>
+            </div>
+            <p class="field-globe-source">Coastlines: Natural Earth. Basin outlines: HydroATLAS.</p>
           </div>
-          <div class="field-globe-stage" tabindex="0" aria-label="Animated globe showing river basins and field locations">
-            <canvas data-field-globe-canvas></canvas>
+          <div class="field-globe-stage">
+            <div class="field-globe-toolbar">
+              <div class="field-globe-views" role="group" aria-label="Globe views">
+                <button type="button" data-field-view="pacific" aria-pressed="false">Pacific</button>
+                <button type="button" data-field-view="alaska" aria-pressed="false">Alaska</button>
+                <button type="button" data-field-view="china" aria-pressed="false">China</button>
+              </div>
+              <button class="field-globe-toggle" type="button" data-field-globe-toggle aria-label="Pause globe rotation">Pause</button>
+            </div>
+            <p class="field-globe-loading" data-field-globe-loading>Preparing the field map...</p>
+            <canvas data-field-globe-canvas tabindex="0" role="img" aria-label="Field-site globe. Drag horizontally or use arrow keys to rotate. Field sites can also be selected from the buttons.">Field locations and campaign years are listed alongside.</canvas>
+            <div class="field-globe-readout">
+              <strong data-field-globe-label>Seven places, one field record</strong>
+              <span data-field-globe-detail>Choose a site, or drag the globe to explore.</span>
+              <div class="field-globe-key"><span>Field site</span><span>Visited basin</span></div>
+            </div>
           </div>
         </section>
       </div>
