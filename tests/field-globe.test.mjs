@@ -2,20 +2,54 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import vm from "node:vm";
-import { FIELD_SITES, pathsToGeoJSON, projectFieldSite, createFieldGlobe } from "../assets/field-globe.js";
+import { FIELD_SITES, BASIN_SOURCE_FRAME, pathsToGeoJSON, projectFieldSite, createFieldGlobe } from "../assets/field-globe.js";
 
 const sandbox = { window: {} };
 vm.createContext(sandbox);
-for (const file of ["vendor/d3-array-3.2.4.min.js", "vendor/d3-geo-3.1.1.min.js", "world-land.js"]) {
+for (const file of ["vendor/d3-array-3.2.4.min.js", "vendor/d3-geo-3.1.1.min.js", "world-land.js", "hydrobasins-map.js"]) {
   vm.runInContext(readFileSync(new URL("../assets/" + file, import.meta.url), "utf8"), sandbox);
 }
 const geo = sandbox.d3;
+
+test("the padded basin frame and full-height coastline frame decode to the same location", () => {
+  // The same 60 N, 144 W point in the two existing source coordinate systems.
+  const land = pathsToGeoJSON(["M100 90L110 90L110 100Z"], geo);
+  const basin = pathsToGeoJSON(["M100 103.33333333333333L110 103.33333333333333L110 112.5925925925926Z"], geo, BASIN_SOURCE_FRAME);
+  const findPoint = (geometry) => geometry.geometries[0].coordinates[0].find(([lon]) => Math.abs(lon + 144) < 1e-10);
+  const landPoint = findPoint(land);
+  const basinPoint = findPoint(basin);
+  assert.ok(Math.abs(landPoint[1] - 60) < 1e-10);
+  assert.ok(Math.abs(basinPoint[1] - landPoint[1]) < 1e-10);
+  for (const rotation of [[155, -38, 0], [-113, -42, 0]]) {
+    const project = geo.geoOrthographic().rotate(rotation);
+    const a = project(landPoint);
+    const b = project(basinPoint);
+    assert.ok(Math.hypot(a[0] - b[0], a[1] - b[1]) < 1e-8);
+  }
+});
 
 test("coastline polygons cover land, rather than their spherical complements", () => {
   const land = pathsToGeoJSON(sandbox.window.WORLD_LAND, geo);
   assert.equal(land.geometries.length, 126);
   assert.ok(geo.geoArea(land) > 3 && geo.geoArea(land) < 4);
   for (const polygon of land.geometries) assert.ok(geo.geoArea(polygon) < 2 * Math.PI);
+});
+
+test("interior field sites align with the decoded Yukon, Amur, and Yellow River catchments", () => {
+  const associations = [
+    ["Yukon River Basin", ["huslia", "beaver"]],
+    ["Heilongjiang-Amur Basin", ["fuyuan"]],
+    ["Yellow River Basin", ["pingliang", "baiyin-jingtai", "linxia"]],
+  ];
+  // Coastal delta markers need not lie inside the simplified display polygons.
+  for (const [name, ids] of associations) {
+    const basin = sandbox.window.HYDROBASINS_MAP.visited.find((entry) => entry.name === name);
+    const geometry = pathsToGeoJSON(basin.paths, geo, BASIN_SOURCE_FRAME);
+    for (const id of ids) {
+      const site = FIELD_SITES.find((entry) => entry.id === id);
+      assert.ok(geo.geoContains(geometry, [site.longitude, site.latitude]), id + " must lie in " + name);
+    }
+  }
 });
 
 test("a dateline-crossing polygon stays small and disappears on the far side", () => {

@@ -17,6 +17,8 @@ export const FIELD_VIEWS = {
 
 const RAD = Math.PI / 180;
 const SPHERE = { type: "Sphere" };
+const LAND_SOURCE_FRAME = { width: 1000, height: 540, top: 0 };
+export const BASIN_SOURCE_FRAME = { width: 1000, height: 500, top: 20 };
 
 export function normalizeAngle(angle) {
   return ((angle + Math.PI) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI) - Math.PI;
@@ -24,7 +26,7 @@ export function normalizeAngle(angle) {
 
 // Decode the existing display paths once. D3 then clips and resamples complete
 // spherical polygons, including at the horizon and the antimeridian.
-export function pathsToGeoJSON(paths, geo = globalThis.d3) {
+export function pathsToGeoJSON(paths, geo = globalThis.d3, source = LAND_SOURCE_FRAME) {
   const geometries = [];
   for (const path of paths) {
     const tokens = path.match(/[MLZ]|-?\d+(?:\.\d+)?/g) || [];
@@ -46,7 +48,9 @@ export function pathsToGeoJSON(paths, geo = globalThis.d3) {
         if (token === "M") finish();
         const x = Number(tokens[i++]);
         const y = Number(tokens[i++]);
-        if (Number.isFinite(x) && Number.isFinite(y)) ring.push([x / 1000 * 360 - 180, 90 - y / 540 * 180]);
+        if (Number.isFinite(x) && Number.isFinite(y)) {
+          ring.push([x / source.width * 360 - 180, 90 - (y - source.top) / source.height * 180]);
+        }
       }
     }
     finish();
@@ -92,8 +96,8 @@ export function createFieldGlobe(root) {
   }
 
   const land = pathsToGeoJSON(win.WORLD_LAND, geo);
-  const basins = pathsToGeoJSON(win.HYDROBASINS_MAP?.background || [], geo);
-  const visited = pathsToGeoJSON((win.HYDROBASINS_MAP?.visited || []).flatMap((basin) => basin.paths), geo);
+  const basins = pathsToGeoJSON(win.HYDROBASINS_MAP?.background || [], geo, BASIN_SOURCE_FRAME);
+  const visited = pathsToGeoJSON((win.HYDROBASINS_MAP?.visited || []).flatMap((basin) => basin.paths), geo, BASIN_SOURCE_FRAME);
   const graticule = geo.geoGraticule().step([30, 30])();
   const projection = geo.geoOrthographic().clipAngle(90).precision(0.4);
   const path = geo.geoPath(projection, context);

@@ -4,8 +4,14 @@
 
 The current renderer uses locally vendored D3 geographic projection code to
 clip whole spherical polygons at the horizon and antimeridian. It retains the
-existing Natural Earth and HydroATLAS display assets. Site and regional-view
-buttons, horizontal dragging, and arrow keys control the view. Rotation uses
+existing Natural Earth and HydroATLAS display assets.
+
+The source frames differ: land spans 1000 by 540 pixels, while basin paths use
+a 1000 by 500 map with a 20-pixel top margin. Each is decoded with its own
+frame before applying the shared geographic projection.
+
+Site and regional-view buttons, horizontal dragging, and arrow keys control
+the view. Rotation uses
 elapsed time, with canvas sizing handled by ResizeObserver. Paused, off-screen,
 and hidden-page states stop the animation loop. Reduced-motion users start
 with a still globe and receive instant view changes.
