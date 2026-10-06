@@ -51,6 +51,11 @@
 .journal-badge span{display:inline-grid;min-width:2.2rem;height:1.55rem;padding:0 .38rem;place-items:center;border-radius:3px;color:#fff;background:var(--deep);font-size:.62rem;font-weight:900;letter-spacing:.04em}
 .journal-badge strong{font-size:.73rem;font-weight:800}
 .journal-badge:hover{color:var(--deep)!important}
+.publication-materials{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.65rem}
+#ke-2025-changjiang{scroll-margin-top:6rem}
+.publication-material-link{min-height:40px;padding:.4rem .8rem;color:var(--teal);font-size:.78rem}
+.publication-material-link:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+@media (max-width:640px){.publication-gallery .publication-materials{grid-column:1/-1;grid-row:5}}
 .journal-nature span{background:#1f1f1f}.journal-agu span{background:#245d75}.journal-science span{background:#b51f29}.journal-elsevier span{background:#e9711c}.journal-copernicus span{background:#5a783f}.journal-iop span{background:#681f82}.journal-taylor span{background:#10486b}.journal-springer span{background:#386641}.journal-neutral span{background:#66777a}
 .about-profile-card{display:grid;min-height:520px;margin:0;padding:2.5rem 2rem;place-items:center;color:#fff;text-align:center;background:none;box-shadow:none;overflow:hidden}
 .about-profile-card img{display:block;width:240px;height:240px;border:8px solid #fff;border-radius:50%;object-fit:cover;box-shadow:none}
