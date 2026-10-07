@@ -30,6 +30,11 @@
 .intro-portrait::before{display:none}
 .intro-portrait img{position:relative;z-index:1;display:block;width:220px;height:220px;border:7px solid #fff;border-radius:50%;object-fit:cover;box-shadow:none}
 .intro-copy .profile-icons{margin-top:1rem}
+.intro-copy .intro-degree{margin:-.3rem 0 .8rem;font-size:.88rem;line-height:1.5}
+.intro-degree strong,.intro-degree span{display:block}
+.intro-degree strong{color:#f2c17b;font-weight:700}
+.intro-degree small{font-size:.85em}
+.affiliation-note{font-size:.85em}
 .research-card.visual-card{--research-shade:linear-gradient(180deg,transparent 20%,rgba(12,18,18,.12) 29%,rgba(12,18,18,.62) 43%,rgba(12,18,18,.74) 65%,rgba(12,18,18,.78));min-height:0;padding:0;background-size:cover;background-position:center}
 .research-card.visual-card::before{position:relative;inset:auto;z-index:0;display:block;flex:none;height:clamp(14rem,24vw,20rem);background:none}
 .research-card.visual-card .card-tag{position:absolute;top:2rem;left:50%;z-index:1;margin:0;padding:0;transform:translateX(-50%);white-space:nowrap;border-radius:0;color:#f2c17b;background:transparent;font-size:.86rem;font-weight:800;text-shadow:0 1px 3px rgba(0,0,0,.9),0 0 8px rgba(0,0,0,.6)}
