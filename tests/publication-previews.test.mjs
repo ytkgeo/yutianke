@@ -5,6 +5,7 @@ import test from 'node:test';
 
 const source = fs.readFileSync(new URL('../assets/publication-previews.js', import.meta.url), 'utf8');
 const manifest = JSON.parse(fs.readFileSync(new URL('../assets/publication-previews/manifest.json', import.meta.url)));
+const html = fs.readFileSync(new URL('../publications.html', import.meta.url), 'utf8');
 
 class Element {
   constructor(tag) {
@@ -21,14 +22,18 @@ class Element {
   set src(value) { this.attrs.src = value; }
 }
 
-function setup(response = { ok: true, json: async () => manifest }) {
+function setup(response = { ok: true, json: async () => manifest }, { stableIds = true, descending = true } = {}) {
   const items = Array.from({ length: 21 }, (_, i) => {
     const copy = new Element('div');
     copy.querySelector = () => ({ textContent: `Paper ${i + 1}` });
     return {
       copy,
       querySelector: (selector) => selector === '.pub-index'
-        ? { textContent: String(i + 1).padStart(2, '0') } : copy,
+        ? {
+          textContent: String(descending ? 21 - i : i + 1).padStart(2, '0'),
+          getAttribute: (name) => stableIds && name === 'data-preview-number'
+            ? String(i + 1).padStart(2, '0') : null,
+        } : copy,
     };
   });
   const document = {
@@ -80,4 +85,38 @@ test('failed manifest leaves citations untouched', async () => {
   const { items, context } = setup({ ok: false });
   await vm.runInContext('addPublicationPreviews()', context);
   assert.equal(items.every((item) => item.copy.children.length === 0), true);
+});
+
+test('descending display labels preserve every paper-to-preview association', async () => {
+  const { items, context } = setup();
+  await vm.runInContext('addPublicationPreviews()', context);
+  for (const entry of manifest) {
+    const item = items[Number(entry.number) - 1];
+    const details = item.copy.children[0];
+    details.open = true;
+    details.events.toggle();
+    assert.equal(details.children[1].children[0].children[0].attrs.src, entry.src);
+  }
+});
+
+test('legacy ascending markup still resolves previews', async () => {
+  const { items, context } = setup(undefined, { stableIds: false, descending: false });
+  await vm.runInContext('addPublicationPreviews()', context);
+  assert.equal(items.filter((item) => item.copy.children.length > 0).length, 19);
+});
+
+test('paper and dataset labels count down while submitted manuscripts are unchanged', () => {
+  const paperSection = html.split('id="peer-reviewed-articles"')[1].split('</section>')[0];
+  const papers = Array.from(paperSection.matchAll(/<span class="pub-index" data-preview-number="(\d+)">(\d+)<\/span>/g));
+  assert.equal(papers.length, 21);
+  assert.deepEqual(papers.map((match) => match[1]), Array.from({ length: 21 }, (_, i) => String(i + 1).padStart(2, '0')));
+  assert.deepEqual(papers.map((match) => match[2]), Array.from({ length: 21 }, (_, i) => String(21 - i).padStart(2, '0')));
+  assert.match(paperSection, /<ol class="full-publication-list" reversed start="21">/);
+  const datasets = html.split('id="published-datasets"')[1].split('</section>')[0];
+  assert.deepEqual(Array.from(datasets.matchAll(/<span class="pub-index">(D\d+)<\/span>/g), (match) => match[1]),
+    Array.from({ length: 9 }, (_, i) => `D${9 - i}`));
+  assert.match(datasets, /<ol class="full-publication-list dataset-list" reversed start="9">/);
+  const submitted = html.split('id="submitted-manuscripts"')[1].split('</section>')[0];
+  assert.deepEqual(Array.from(submitted.matchAll(/<span class="pub-index">(S\d+)<\/span>/g), (match) => match[1]),
+    ['S1', 'S2', 'S3', 'S4']);
 });

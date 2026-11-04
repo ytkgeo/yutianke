@@ -7,12 +7,13 @@ async function addPublicationPreviews() {
     const entries = await response.json();
     const previews = new Map(entries.map((entry) => [entry.number, entry]));
     list.querySelectorAll(':scope > li').forEach((item) => {
-      const number = item.querySelector('.pub-index').textContent.trim();
+      const badge = item.querySelector('.pub-index');
+      const number = badge.getAttribute('data-preview-number') || badge.textContent.trim();
       const entry = previews.get(number);
       if (!entry) return;
       const copy = item.querySelector(':scope > div');
       const title = copy.querySelector('a[href^="https://doi.org/"]')?.textContent.trim()
-        || `publication ${number}`;
+        || `publication ${badge.textContent.trim()}`;
       const details = document.createElement('details');
       details.className = 'publication-preview';
       const summary = document.createElement('summary');
