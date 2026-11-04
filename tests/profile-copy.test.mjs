@@ -24,5 +24,6 @@ test('the introduction identifies geochemistry and the five research bullets mat
     'Carbon cycling and climate feedback of a changing cryosphere.',
     'Carbon cycling under anthropogenic forcing.',
   ]);
-  assert.ok(about.includes('<h1>The degradation and fate of carbon in changing landscapes</h1>'));
+  assert.ok(about.includes('<h1>The fate of carbon in changing landscapes</h1>'));
+  assert.ok(home.includes("<h2>Earth's carbon cycle</h2>"));
 });
