@@ -105,7 +105,7 @@ test('legacy ascending markup still resolves previews', async () => {
   assert.equal(items.filter((item) => item.copy.children.length > 0).length, 19);
 });
 
-test('paper and dataset labels count down while submitted manuscripts are unchanged', () => {
+test('paper and dataset labels count down while submitted manuscripts remain sequential', () => {
   const paperSection = html.split('id="peer-reviewed-articles"')[1].split('</section>')[0];
   const papers = Array.from(paperSection.matchAll(/<span class="pub-index" data-preview-number="(\d+)">(\d+)<\/span>/g));
   assert.equal(papers.length, 21);
@@ -118,5 +118,14 @@ test('paper and dataset labels count down while submitted manuscripts are unchan
   assert.match(datasets, /<ol class="full-publication-list dataset-list" reversed start="9">/);
   const submitted = html.split('id="submitted-manuscripts"')[1].split('</section>')[0];
   assert.deepEqual(Array.from(submitted.matchAll(/<span class="pub-index">(S\d+)<\/span>/g), (match) => match[1]),
-    ['S1', 'S2', 'S3', 'S4']);
+    ['S1', 'S2', 'S3', 'S4', 'S5']);
+});
+
+test('submitted preprints link the existing S4 title and the new S5 citation', () => {
+  const submitted = html.split('id="submitted-manuscripts"')[1].split('</section>')[0];
+  const martian = submitted.split('id="submitted-martian-brain-terrain"')[1].split('</li>')[0];
+  assert.match(martian, /<a href="https:\/\/arxiv\.org\/abs\/2601\.22606">Sculpting of Martian brain terrain by freeze-thaw self-organization and later sublimation\.<\/a> <em>In review\.<\/em>/);
+  const transit = submitted.split('id="submitted-mud-transit-times"')[1].split('</li>')[0];
+  assert.ok(transit.includes('Anadu, J. S., <strong>Ke, Y.</strong>, Geyman, E. C., Nghiem, J. A., Reahl, J. N., Giuntoni, A. L., ... &amp; Lamb, M. P.'));
+  assert.match(transit, /<a href="https:\/\/egusphere\.copernicus\.org\/preprints\/2026\/egusphere-2026-6572\/">Decadal transit times of flocculated mud in the Yukon River, Alaska are due to transient storage in river deposits\.<\/a> <em>In review\.<\/em>/);
 });
