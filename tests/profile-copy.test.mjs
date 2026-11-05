@@ -4,6 +4,7 @@ import test from 'node:test';
 
 const home = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const about = fs.readFileSync(new URL('../about.html', import.meta.url), 'utf8');
+const cv = fs.readFileSync(new URL('../cv.html', import.meta.url), 'utf8');
 const summary = 'I study organic carbon degradation, storage, and remobilization from source to sink across river-floodplain corridors from the past to present, and how environmental changes alters the fate of carbon.';
 
 test('Home and About use the same supplied carbon-centered summary', () => {
@@ -26,4 +27,15 @@ test('the introduction identifies geochemistry and the five research bullets mat
   ]);
   assert.ok(about.includes('<h1>The fate of carbon in changing landscapes</h1>'));
   assert.ok(home.includes("<h2>Earth's carbon cycle</h2>"));
+});
+
+test('CV teaching and mentoring reflect the supplied course and field details', () => {
+  const teaching = cv.split('<p class="section-kicker">Teaching</p>')[1].split('</ul>')[0];
+  const courses = Array.from(teaching.matchAll(/<li>(.*?)<\/li>/g), (match) => match[1]);
+  assert.equal(courses.length, 5);
+  assert.equal(courses[0], '<strong>2026:</strong> Ge125: Weathering and soil production, California Institute of Technology, with Prof. Michael Lamb.');
+  assert.equal(courses[1], '<strong>2023:</strong> Ge125 Global Carbon Cycles, California Institute of Technology, with Prof. Michael Lamb.');
+  assert.ok(!teaching.includes('GE121'));
+  const mentoring = cv.split('<p class="section-kicker">Mentoring</p>')[1].split('</ul>')[0];
+  assert.ok(mentoring.includes('<li><strong>2026:</strong> Benjamin Reynolds, Caltech graduate student, Field: lake breach and organic carbon export.</li>'));
 });
