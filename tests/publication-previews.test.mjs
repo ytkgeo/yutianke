@@ -118,7 +118,7 @@ test('paper and dataset labels count down while submitted manuscripts remain seq
   assert.match(datasets, /<ol class="full-publication-list dataset-list" reversed start="9">/);
   const submitted = html.split('id="submitted-manuscripts"')[1].split('</section>')[0];
   assert.deepEqual(Array.from(submitted.matchAll(/<span class="pub-index">(S\d+)<\/span>/g), (match) => match[1]),
-    ['S1', 'S2', 'S3', 'S4', 'S5']);
+    ['S1', 'S2', 'S3', 'S4', 'S5', 'S6']);
 });
 
 test('submitted preprints link the existing S4 title and the new S5 citation', () => {
@@ -128,4 +128,12 @@ test('submitted preprints link the existing S4 title and the new S5 citation', (
   const transit = submitted.split('id="submitted-mud-transit-times"')[1].split('</li>')[0];
   assert.ok(transit.includes('Anadu, J. S., <strong>Ke, Y.</strong>, Geyman, E. C., Nghiem, J. A., Reahl, J. N., Giuntoni, A. L., ... &amp; Lamb, M. P.'));
   assert.match(transit, /<a href="https:\/\/egusphere\.copernicus\.org\/preprints\/2026\/egusphere-2026-6572\/">Decadal transit times of flocculated mud in the Yukon River, Alaska are due to transient storage in river deposits\.<\/a> <em>In review\.<\/em>/);
+});
+
+test('S6 links the Mittelbach preprint without claiming peer review', () => {
+  const submitted = html.split('id="submitted-manuscripts"')[1].split('</section>')[0];
+  const mineralization = submitted.split('id="submitted-floc-mineralization"')[1].split('</li>')[0];
+  assert.ok(mineralization.includes('Mittelbach, B. V. A., Ma, Y., Anadu, J. S., Nghiem, J., <strong>Ke, Y.</strong>, Miller, K. L., ... &amp; Fischer, W. W.'));
+  assert.match(mineralization, /<a href="https:\/\/essopenarchive\.org\/doi\/full\/10\.22541\/essoar\.15011739\/v1">Transport state and turbulence control the mineralization rate of flocculated river\.<\/a> <em>Preprint, ESS Open Archive\.<\/em>/);
+  assert.ok(!mineralization.includes('In review'));
 });
