@@ -11,8 +11,34 @@ test('Tools is discoverable in every primary site navigation', () => {
     const markup = fs.readFileSync(new URL(`../${page}.html`, import.meta.url), 'utf8');
     const nav = markup.match(/<nav[^>]+id="site-nav"[\s\S]*?<\/nav>/)[0];
     assert.equal((nav.match(/href="tools\.html"/g) || []).length, 1, page);
+    assert.ok(nav.indexOf('href="tools.html"') < nav.indexOf('href="about.html"'), page);
   }
   assert.match(html, /href="tools\.html" aria-current="page"/);
+});
+
+test('the overview links show category names without summaries or technique counts', () => {
+  const overviewList = html.match(/<ol class="methods-index">([\s\S]*?)<\/ol>/)[1];
+  assert.equal((overviewList.match(/<li>/g) || []).length, 5);
+  assert.doesNotMatch(overviewList, /<small>|techniques|Carbon sources, age|Grain size, sediment texture/);
+});
+
+test('method wording reflects the requested research purposes and laboratory experience', () => {
+  const description = (id) => html.split(`id="method-${id}"`)[1].match(/<p class="method-description">(.*?)<\/p>/)[1];
+  assert.match(html, /connect carbon composition to its transformation pathways and fate\./);
+  assert.match(description('ea'), /constraints on organic carbon transport and composition\./);
+  assert.doesNotMatch(description('ea'), /transport, storage/);
+  assert.match(description('irms'), /organic matter composition and alteration during river transport and deposition/);
+  assert.match(html, /<h2 id="title-ams">Mini Carbon Dating System \(MICADAS\)<\/h2>/);
+  const ams = description('ams');
+  assert.match(ams, /where I operated ECHoMICADAS/);
+  assert.ok(ams.indexOf('LSCE') < ams.indexOf('millennial timescales') && ams.indexOf('millennial timescales') < ams.indexOf('additional experience at NOSAMS'));
+  assert.match(description('rpo'), /I carried out ramped pyrolysis \(RP\) at NOSAMS\./);
+  assert.match(description('rpo'), /Coupling these measurements with radiocarbon and stable isotope analyses provides stronger constraints/);
+  assert.match(description('icp-ms'), /primarily.*inorganic elemental compositions/);
+  assert.doesNotMatch(description('icp-ms'), /chemical weathering/);
+  assert.match(description('laser-size'), /characterize suspended and bed sediments and floodplain deposits/);
+  assert.doesNotMatch(description('ph'), /abrasion/);
+  assert.equal(description('rhizon'), 'Rhizon samplers use suction to collect filtered porewater through a porous polymer membrane from sediments and soils with relatively little disturbance.');
 });
 
 test('the published page retains all 26 approved methods in six addressable reading views', () => {

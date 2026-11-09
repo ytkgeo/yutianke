@@ -7,6 +7,11 @@ const about = fs.readFileSync(new URL('../about.html', import.meta.url), 'utf8')
 const cv = fs.readFileSync(new URL('../cv.html', import.meta.url), 'utf8');
 const summary = 'I study the composition and fate of organic carbon from source to sink across river-floodplain corridors from the past to present, and the response to environmental changes.';
 
+test('the About contact heading centers carbon in changing landscapes', () => {
+  const contact = about.split('id="research-conversations"')[1].split('</section>')[0];
+  assert.ok(contact.includes("<h2>Let's talk about carbon in changing landscapes.</h2>"));
+});
+
 test('Home and About use the same supplied carbon-centered summary', () => {
   for (const html of [home, about]) {
     assert.equal(html.split(`<p>${summary}</p>`).length - 1, 1);
