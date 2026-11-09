@@ -36,7 +36,7 @@ test('strips referral query strings and fragments without mutating the payload',
 });
 
 test('every site page has exactly one tracker with privacy defaults and a disclosure link', () => {
-  for (const name of ['index', 'about', 'publications', 'latest-updates', 'cv', 'field-atlas', 'privacy']) {
+  for (const name of ['index', 'about', 'publications', 'latest-updates', 'cv', 'field-atlas', 'privacy', 'tools']) {
     const html = fs.readFileSync(new URL(`../${name}.html`, import.meta.url), 'utf8');
     assert.equal((html.match(/src="https:\/\/cloud\.umami\.is\/script\.js"/g) || []).length, 1, name);
     assert.match(html, /data-website-id="ef0f36de-5029-474d-8e68-99545c7f9ebd"/);
