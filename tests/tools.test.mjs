@@ -22,6 +22,24 @@ test('the overview links show category names without summaries or technique coun
   assert.doesNotMatch(overviewList, /<small>|techniques|Carbon sources, age|Grain size, sediment texture/);
 });
 
+test('sampling is first and category numbering and navigation stay consistent', () => {
+  const categoryIds = ['sampling', 'geochemistry', 'sediment', 'surveys', 'fluxes'];
+  const overviewList = html.match(/<ol class="methods-index">([\s\S]*?)<\/ol>/)[1];
+  const overviewItems = Array.from(overviewList.matchAll(/<li>(.*?)<\/li>/g), match => match[1]);
+  assert.deepEqual(overviewItems.map(item => item.match(/href="#([^"]+)"/)[1]), categoryIds);
+  assert.deepEqual(overviewItems.map(item => item.match(/class="method-number">(\d+)</)[1]), ['01', '02', '03', '04', '05']);
+  const categoryNavs = Array.from(html.matchAll(/<nav class="category-nav"[^>]*>(.*?)<\/nav>/g), match => match[1]);
+  assert.equal(categoryNavs.length, 5);
+  for (const nav of categoryNavs) {
+    assert.deepEqual(Array.from(nav.matchAll(/href="#([^"]+)"/g), match => match[1]), categoryIds);
+    assert.equal((nav.match(/aria-current="page"/g) || []).length, 1);
+  }
+  for (const [index, id] of categoryIds.entries()) {
+    const category = html.split(`id="${id}" data-view="${id}"`)[1];
+    assert.equal(category.match(/class="banner-kicker">(\d+) \/ Research tools/)[1], String(index + 1).padStart(2, '0'));
+  }
+});
+
 test('method wording reflects the requested research purposes and laboratory experience', () => {
   const description = (id) => html.split(`id="method-${id}"`)[1].match(/<p class="method-description">(.*?)<\/p>/)[1];
   assert.match(html, /connect carbon composition to its transformation pathways and fate\./);

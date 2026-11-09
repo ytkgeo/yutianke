@@ -51,6 +51,15 @@ test('the homepage has the supplied headline and concise carbon-centered researc
   assert.ok(!cardCopyRule.includes('margin-top:auto'));
 });
 
+test('selected publications omit figure-credit rows while preserving paper links and thumbnails', () => {
+  const publications = home.split('<section class="section publications-preview">')[1].split('</section>')[0];
+  assert.doesNotMatch(publications, /figure-credit|Original paper|CC BY/);
+  assert.equal((publications.match(/<article class="publication reveal">/g) || []).length, 4);
+  assert.equal((publications.match(/<h3><a href="https:\/\/doi\.org\//g) || []).length, 4);
+  assert.equal((publications.match(/class="publication-figure"/g) || []).length, 4);
+  assert.match(publications, /href="assets\/ke-2025-changjiang-research-highlight\.pdf"/);
+});
+
 test('CV teaching and mentoring reflect the supplied course and field details', () => {
   const teaching = cv.split('<p class="section-kicker">Teaching</p>')[1].split('</ul>')[0];
   const courses = Array.from(teaching.matchAll(/<li>(.*?)<\/li>/g), (match) => match[1]);
