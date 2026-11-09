@@ -7,6 +7,13 @@ const about = fs.readFileSync(new URL('../about.html', import.meta.url), 'utf8')
 const cv = fs.readFileSync(new URL('../cv.html', import.meta.url), 'utf8');
 const summary = 'I study the composition and fate of organic carbon from source to sink across river-floodplain corridors from the past to present, and the response to environmental changes.';
 
+test('the homepage contact invites conversations about carbon and geochemistry', () => {
+  const contact = home.split('id="contact"')[1].split('</section>')[0];
+  assert.ok(contact.includes("<h2>Let's talk about carbon!</h2>"));
+  assert.ok(contact.includes('<p>I welcome conversations about research collaborations, field projects, and Earth surface geochemistry.</p>'));
+  assert.doesNotMatch(contact, /talk about rivers, mud|biogeochemistry/);
+});
+
 test('the About contact heading centers carbon in changing landscapes', () => {
   const contact = about.split('id="research-conversations"')[1].split('</section>')[0];
   assert.ok(contact.includes("<h2>Let's talk about carbon in changing landscapes.</h2>"));
