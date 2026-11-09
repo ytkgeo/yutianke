@@ -24,6 +24,15 @@ test('the overview links show category names without summaries or technique coun
   assert.doesNotMatch(overviewList, /<small>|techniques|Carbon sources, age|Grain size, sediment texture/);
 });
 
+test('category breadcrumbs omit technique counts and preserve the overview links', () => {
+  const breadcrumbs = Array.from(html.matchAll(/<nav class="breadcrumb"[^>]*>(.*?)<\/nav>/g), match => match[1]);
+  assert.equal(breadcrumbs.length, 5);
+  for (const breadcrumb of breadcrumbs) {
+    assert.doesNotMatch(breadcrumb, /<span>|\d+ techniques/);
+    assert.match(breadcrumb, /<a href="#overview" data-route>/);
+  }
+});
+
 test('sampling is first and category numbering and navigation stay consistent', () => {
   const categoryIds = ['sampling', 'geochemistry', 'sediment', 'surveys', 'fluxes'];
   const overviewList = html.match(/<ol class="methods-index">([\s\S]*?)<\/ol>/)[1];
