@@ -30,9 +30,6 @@ h1,h2,h3 { font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif; font
 .category-banner { min-height:230px; }
 .category-banner h1 { max-width:840px; font-size:clamp(32px,3.8vw,46px); }
 .category-banner .banner-copy { padding-top:40px; padding-bottom:40px; }
-.category-banner[data-group="geochemistry"]>img { object-position:50% 39%; }
-.category-banner[data-group="sediment"]>img { object-position:50% 52%; }
-.category-banner[data-group="fluxes"]>img { object-position:50% 49%; }
 .container { max-width:1160px; margin:auto; padding-right:36px; padding-left:36px; }
 .overview-intro { padding-top:36px; padding-bottom:28px; }
 .overview-intro p { max-width:1080px; margin:0; color:var(--muted); font-size:16px; line-height:1.85; }

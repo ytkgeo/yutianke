@@ -24,6 +24,16 @@ test('the overview links show category names without summaries or technique coun
   assert.doesNotMatch(overviewList, /<small>|techniques|Carbon sources, age|Grain size, sediment texture/);
 });
 
+test('all five category banners share the same drone image and centered crop', () => {
+  const banners = Array.from(html.matchAll(/<section class="banner category-banner" data-group="[^"]+"><img src="([^"]+)"/g), match => match[1]);
+  assert.equal(banners.length, 5);
+  assert.deepEqual([...new Set(banners)], ['assets/tools/photos/own-hero-river.jpg']);
+  const imageRule = css.match(/\.banner>img \{([^}]+)\}/)[1];
+  assert.match(imageRule, /object-fit:cover/);
+  assert.match(imageRule, /object-position:50% 50%/);
+  assert.doesNotMatch(css, /\.category-banner\[data-group=[^{}]+\{[^}]*object-position/);
+});
+
 test('category breadcrumbs omit technique counts and preserve the overview links', () => {
   const breadcrumbs = Array.from(html.matchAll(/<nav class="breadcrumb"[^>]*>(.*?)<\/nav>/g), match => match[1]);
   assert.equal(breadcrumbs.length, 5);
