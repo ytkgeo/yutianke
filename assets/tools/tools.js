@@ -9,6 +9,9 @@ toggle.addEventListener('click', () => {
   toggle.setAttribute('aria-expanded', String(open));
   nav.classList.toggle('open', open);
 });
+for (const link of nav.querySelectorAll('a')) {
+  link.addEventListener('click', closeMenu);
+}
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
     closeMenu();

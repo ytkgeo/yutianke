@@ -1,9 +1,11 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import test from 'node:test';
+import vm from 'node:vm';
 
 const html = fs.readFileSync(new URL('../tools.html', import.meta.url), 'utf8');
 const script = fs.readFileSync(new URL('../assets/tools/tools.js', import.meta.url), 'utf8');
+const css = fs.readFileSync(new URL('../assets/tools/tools.css', import.meta.url), 'utf8');
 const viewIds = ['overview', 'geochemistry', 'sediment', 'surveys', 'fluxes', 'sampling'];
 
 test('Tools is discoverable in every primary site navigation', () => {
@@ -38,6 +40,53 @@ test('sampling is first and category numbering and navigation stay consistent', 
     const category = html.split(`id="${id}" data-view="${id}"`)[1];
     assert.equal(category.match(/class="banner-kicker">(\d+) \/ Research tools/)[1], String(index + 1).padStart(2, '0'));
   }
+});
+
+test('the overview has three equally sized, approved field videos instead of instrument photos', () => {
+  const overview = html.split('data-view="overview"')[1].split('data-view="geochemistry"')[0];
+  const media = overview.split('class="overview-side overview-videos"')[1];
+  assert.deepEqual(Array.from(media.matchAll(/data-video-id="([^"]+)"/g), match => match[1]), ['depth-profile', 'hobo-deployment', 'delta-front']);
+  assert.equal((media.match(/<video /g) || []).length, 3);
+  assert.doesNotMatch(media, /<img|overview-photo/);
+  for (const caption of ['Depth-profile sampling', 'Sensor deployment', 'Yukon delta overview']) {
+    assert.ok(media.includes(`<figcaption>${caption}</figcaption>`));
+  }
+  assert.match(css, /\.overview-videos \{ display:grid; grid-template-columns:minmax\(0,1fr\); gap:20px; \}/);
+  assert.match(css, /\.overview-videos \.field-player \{ aspect-ratio:16\/9; \}/);
+  const licor = html.split('id="method-licor"')[1].split('</section>')[0];
+  assert.match(licor, /src="assets\/tools\/photos\/downloads-licor\.webp"/);
+  assert.equal((html.match(/src="assets\/tools\/photos\/downloads-licor\.webp"/g) || []).length, 1);
+});
+
+test('Tools uses the shared menu appearance and closes the menu when a link is selected', () => {
+  assert.match(css, /\.site-nav a:hover,\.site-nav a\[aria-current="page"\] \{ color:var\(--teal\); \}/);
+  assert.doesNotMatch(css, /\.site-nav a\[aria-current[^{}]*\{[^}]*(?:background|border|padding)/);
+  assert.match(css, /@media\(max-width:980px\)/);
+  const listeners = {};
+  const attributes = new Map();
+  const classes = new Set();
+  const link = { addEventListener: (event, callback) => { listeners[`link-${event}`] = callback; } };
+  const toggle = {
+    setAttribute: (name, value) => attributes.set(name, value),
+    getAttribute: name => attributes.get(name),
+    addEventListener: (event, callback) => { listeners[`toggle-${event}`] = callback; },
+  };
+  const nav = {
+    classList: { remove: name => classes.delete(name), toggle: (name, enabled) => enabled ? classes.add(name) : classes.delete(name) },
+    querySelectorAll: () => [link],
+  };
+  const document = {
+    querySelector: selector => selector === '.nav-toggle' ? toggle : nav,
+    querySelectorAll: selector => selector === '[data-view]' ? [{ dataset: { view: 'overview', title: 'Tools' } }] : [],
+    addEventListener: () => {},
+  };
+  vm.runInNewContext(script, { document, location: { hash: '' }, window: { addEventListener: () => {}, scrollTo: () => {} } });
+  listeners['toggle-click']();
+  assert.equal(attributes.get('aria-expanded'), 'true');
+  assert.ok(classes.has('open'));
+  listeners['link-click']();
+  assert.equal(attributes.get('aria-expanded'), 'false');
+  assert.ok(!classes.has('open'));
 });
 
 test('method wording reflects the requested research purposes and laboratory experience', () => {
@@ -89,7 +138,7 @@ test('every local Tools asset and site link resolves without duplicating large m
   }
   assert.ok(Buffer.byteLength(html) < 100_000);
   const clips = references.filter(reference => reference.endsWith('.mp4'));
-  assert.equal(clips.length, 5);
+  assert.equal(clips.length, 8);
   assert.equal(new Set(clips).size, 4);
   for (const clip of new Set(clips)) assert.ok(fs.statSync(new URL(`../${clip}`, import.meta.url)).size < 10_000_000);
 });
@@ -102,13 +151,13 @@ test('only the approved personal photos appear and text-only methods stay photo-
   }
   assert.match(html, /ECHoMICADAS at LSCE, CEA, Université Paris-Saclay/);
   assert.match(html, /Coulter LS particle-size analysis at ENS Paris, France/);
-  assert.match(html, /LiCOR-floating chamber/);
-  assert.match(html, /<figcaption>LISST-CTD<\/figcaption>/);
+  assert.match(html, /Floating-chamber deployment in the river/);
+  assert.match(html, /src="assets\/tools\/photos\/downloads-lisst\.webp"/);
 });
 
 test('videos stay click-to-play and the revised placements and captions are preserved', () => {
   const videos = Array.from(html.matchAll(/<video\b[^>]*>/g), match => match[0]);
-  assert.equal(videos.length, 5);
+  assert.equal(videos.length, 8);
   for (const video of videos) {
     assert.match(video, /controls/);
     assert.match(video, /playsinline/);
