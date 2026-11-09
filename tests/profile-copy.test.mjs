@@ -9,7 +9,7 @@ const summary = 'I study the composition and fate of organic carbon from source 
 
 test('the homepage contact invites conversations about carbon and geochemistry', () => {
   const contact = home.split('id="contact"')[1].split('</section>')[0];
-  assert.ok(contact.includes("<h2>Let's talk about carbon!</h2>"));
+  assert.ok(contact.includes("<h2>Let's talk about carbon in changing landscapes!</h2>"));
   assert.ok(contact.includes('<p>I welcome conversations about research collaborations, field projects, and Earth surface geochemistry.</p>'));
   assert.doesNotMatch(contact, /talk about rivers, mud|biogeochemistry/);
 });
@@ -27,6 +27,7 @@ test('Home and About use the same supplied carbon-centered summary', () => {
 });
 
 test('the introduction identifies geochemistry and the six research bullets match the supplied copy', () => {
+  assert.doesNotMatch(home, /Brief introduction/i);
   assert.ok(home.includes('<p>I am a geochemist studying sources, degradation, and fate of organic carbon in river corridors. My current work focuses on carbon in river water, fluvial muds, permafrost floodplains, and deltas.</p>'));
   const expertise = home.split('<div class="expertise-card">')[1].split('</ul>')[0];
   const bullets = Array.from(expertise.matchAll(/<li>(.*?)<\/li>/g), (match) => match[1]);
@@ -40,6 +41,11 @@ test('the introduction identifies geochemistry and the six research bullets matc
   ]);
   assert.ok(about.includes('<h1>The fate of carbon in changing landscapes</h1>'));
   assert.ok(home.includes("<h2>Earth's carbon cycle</h2>"));
+});
+
+test('the homepage research labels follow source, transport, and fate', () => {
+  const labels = Array.from(home.matchAll(/<span class="card-tag">(.*?)<\/span>/g), match => match[1]);
+  assert.deepEqual(labels, ['Source', 'Transport', 'Fate']);
 });
 
 test('the homepage has the supplied headline and concise carbon-centered research themes', () => {
