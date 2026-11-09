@@ -45,7 +45,7 @@ h1,h2,h3 { font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif; font
 .methods-index strong { font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif; font-size:24px; font-weight:650; line-height:1.3; }
 .methods-index .arrow { color:var(--teal); font-size:23px; line-height:1.3; font-weight:400; }
 .methods-index small { display:block; margin-top:5px; color:var(--muted); font-size:12px; line-height:1.5; }
-.overview-videos { display:grid; grid-template-columns:minmax(0,1fr); gap:20px; }
+.overview-videos { display:grid; grid-template-columns:minmax(0,1fr); align-self:center; width:100%; }
 .overview-videos .field-player { aspect-ratio:16/9; }
 .overview-side h2 { margin:18px 0 8px; font-size:26px; }
 .overview-side p { margin:0; color:var(--muted); font-size:14px; line-height:1.8; }
@@ -79,6 +79,7 @@ h1,h2,h3 { font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif; font
 .video-play svg { width:26px; height:26px; margin-left:3px; fill:currentColor; }
 .video-play:hover { background:#fff; }
 .field-video figcaption { margin-top:10px; color:var(--muted); font-size:11px; line-height:1.7; }
+.video-credit { display:block; margin-top:3px; }
 .field-clip-meta { display:block; margin-top:3px; color:#78867b; font-size:9px; }
 .field-film-section { margin:27px 0 0; padding:25px 0 28px; border-bottom:1px solid var(--line); }
 .field-film-section h2 { margin:0 0 13px; font-size:27px; }
@@ -121,7 +122,6 @@ h1,h2,h3 { font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif; font
   .overview-intro p { font-size:15px; }
   .overview-columns { gap:35px; grid-template-columns:1fr; }
   .methods-index strong { font-size:24px; }
-  .overview-side { max-width:580px; }
   .method-section { grid-template-columns:1fr; gap:25px; padding:32px 0; }
   .method-copy h2 { font-size:28px; }
   .method-photos { max-width:570px; }

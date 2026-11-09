@@ -42,17 +42,21 @@ test('sampling is first and category numbering and navigation stay consistent', 
   }
 });
 
-test('the overview has three equally sized, approved field videos instead of instrument photos', () => {
+test('the compact overview shows only the credited depth-profile video and retains the detailed clips', () => {
   const overview = html.split('data-view="overview"')[1].split('data-view="geochemistry"')[0];
   const media = overview.split('class="overview-side overview-videos"')[1];
-  assert.deepEqual(Array.from(media.matchAll(/data-video-id="([^"]+)"/g), match => match[1]), ['depth-profile', 'hobo-deployment', 'delta-front']);
-  assert.equal((media.match(/<video /g) || []).length, 3);
+  assert.deepEqual(Array.from(media.matchAll(/data-video-id="([^"]+)"/g), match => match[1]), ['depth-profile']);
+  assert.equal((media.match(/<video /g) || []).length, 1);
   assert.doesNotMatch(media, /<img|overview-photo/);
-  for (const caption of ['Depth-profile sampling', 'Sensor deployment', 'Yukon delta overview']) {
-    assert.ok(media.includes(`<figcaption>${caption}</figcaption>`));
-  }
-  assert.match(css, /\.overview-videos \{ display:grid; grid-template-columns:minmax\(0,1fr\); gap:20px; \}/);
+  assert.match(media, /<figcaption>Depth-profile sampling<span class="video-credit">Video credit: A\. Joshua West, USC\.<\/span><\/figcaption>/);
+  assert.match(css, /\.overview-videos \{ display:grid; grid-template-columns:minmax\(0,1fr\); align-self:center; width:100%; \}/);
   assert.match(css, /\.overview-videos \.field-player \{ aspect-ratio:16\/9; \}/);
+  assert.doesNotMatch(css, /\.overview-side \{ max-width:/);
+  assert.equal((html.match(/data-video-id="hobo-deployment"/g) || []).length, 1);
+  assert.equal((html.match(/data-video-id="delta-front"/g) || []).length, 1);
+  const depthProfiles = Array.from(html.matchAll(/<figure class="field-video" data-video-id="depth-profile">.*?<\/figure>/g), match => match[0]);
+  assert.equal(depthProfiles.length, 2);
+  for (const figure of depthProfiles) assert.match(figure, /Video credit: A\. Joshua West, USC\./);
   const licor = html.split('id="method-licor"')[1].split('</section>')[0];
   assert.match(licor, /src="assets\/tools\/photos\/downloads-licor\.webp"/);
   assert.equal((html.match(/src="assets\/tools\/photos\/downloads-licor\.webp"/g) || []).length, 1);
@@ -138,7 +142,7 @@ test('every local Tools asset and site link resolves without duplicating large m
   }
   assert.ok(Buffer.byteLength(html) < 100_000);
   const clips = references.filter(reference => reference.endsWith('.mp4'));
-  assert.equal(clips.length, 8);
+  assert.equal(clips.length, 6);
   assert.equal(new Set(clips).size, 4);
   for (const clip of new Set(clips)) assert.ok(fs.statSync(new URL(`../${clip}`, import.meta.url)).size < 10_000_000);
 });
@@ -157,7 +161,7 @@ test('only the approved personal photos appear and text-only methods stay photo-
 
 test('videos stay click-to-play and the revised placements and captions are preserved', () => {
   const videos = Array.from(html.matchAll(/<video\b[^>]*>/g), match => match[0]);
-  assert.equal(videos.length, 8);
+  assert.equal(videos.length, 6);
   for (const video of videos) {
     assert.match(video, /controls/);
     assert.match(video, /playsinline/);
