@@ -26,6 +26,24 @@ test('the About contact heading centers carbon in changing landscapes', () => {
   assert.ok(contact.includes("<h2>Let's talk about carbon in changing landscapes.</h2>"));
 });
 
+test('the About research framework connects carbon pathways to methods and references', () => {
+  const framework = about.split('id="carbon-framework"')[1].split('</section>')[0];
+  const phases = [...framework.matchAll(/class="carbon-step">\d+ \/ ([^<]+)/g)].map(match => match[1]);
+  assert.deepEqual(phases, ['Source', 'Transport', 'Fate']);
+  assert.match(framework, /href="tools\.html#geochemistry"/);
+  assert.doesNotMatch(framework, /schematic-stage|<svg/);
+  const references = [...framework.matchAll(/href="#([^"]+-references)"/g)].map(match => match[1]);
+  assert.equal(references.length, 4);
+  for (const id of references) assert.ok(framework.includes(`id="${id}" tabindex="-1"`));
+});
+
+test('no published page loads or displays the retired Hits.sh counter', () => {
+  for (const page of ['index', 'about', 'cv', 'field-atlas', 'latest-updates', 'privacy', 'publications', 'tools']) {
+    const html = fs.readFileSync(new URL(`../${page}.html`, import.meta.url), 'utf8');
+    assert.doesNotMatch(html, /visitor-counter\.js|data-visitor-count|hits\.sh/i, page);
+  }
+});
+
 test('Home and About use the same supplied carbon-centered summary', () => {
   for (const html of [home, about]) {
     assert.equal(html.split(`<p>${summary}</p>`).length - 1, 1);
