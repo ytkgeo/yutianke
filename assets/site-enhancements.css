@@ -367,6 +367,9 @@
 
 #carbon-framework{scroll-margin-top:5rem}
 .carbon-framework{padding:clamp(.9rem,2.5vw,1.7rem);border:1px solid var(--line);border-radius:8px;background:#f1efe6}
+.carbon-profile{margin:0 0 1.25rem}
+.carbon-profile img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:6px}
+.carbon-profile figcaption{margin:.55rem 0 0;color:var(--muted);font-size:.85rem;line-height:1.5}
 .carbon-pathway{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.5rem;margin:0;padding:0;list-style:none}
 .carbon-phase{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:.55rem;padding:1rem;border:1px solid var(--line);border-top:4px solid #798768;border-radius:5px;background:#fff}
 .carbon-phase:nth-child(2){border-top-color:var(--teal)}

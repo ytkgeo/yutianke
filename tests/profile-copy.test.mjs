@@ -31,7 +31,11 @@ test('the About research framework connects carbon pathways to methods and refer
   const phases = [...framework.matchAll(/class="carbon-step">\d+ \/ ([^<]+)/g)].map(match => match[1]);
   assert.deepEqual(phases, ['Source', 'Transport', 'Fate']);
   assert.match(framework, /href="tools\.html#geochemistry"/);
-  assert.doesNotMatch(framework, /schematic-stage|<svg/);
+  assert.match(framework, /<img src="assets\/carbon-river-profile\.svg"[^>]+alt="[^"]+"/);
+  const profile = fs.readFileSync(new URL('../assets/carbon-river-profile.svg', import.meta.url), 'utf8');
+  for (const label of ['Thaw &amp; erosion', 'Transformation', 'Reworking', 'Burial', 'Export', 'CO&#8322;']) {
+    assert.ok(profile.includes(label), label);
+  }
   const references = [...framework.matchAll(/href="#([^"]+-references)"/g)].map(match => match[1]);
   assert.equal(references.length, 4);
   for (const id of references) assert.ok(framework.includes(`id="${id}" tabindex="-1"`));

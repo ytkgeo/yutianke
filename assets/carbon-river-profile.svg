@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 338" width="960" height="338">
+  <title>Organic carbon from source to fate</title>
+  <desc>A river long profile showing organic carbon released from uplands, mixed and transformed in the river, and degraded, buried, remobilized, or exported farther downstream. Arrows indicate pathways, not fluxes or distances.</desc>
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1">
+      <stop stop-color="#f7f7ef"/>
+      <stop offset="1" stop-color="#e1ebe4"/>
+    </linearGradient>
+    <linearGradient id="sediment" x2="0" y2="1">
+      <stop stop-color="#d0ba8d"/>
+      <stop offset="1" stop-color="#b4976d"/>
+    </linearGradient>
+    <pattern id="carbon-grains" width="36" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="8" cy="8" r="2" fill="#765a40" opacity=".55"/>
+      <circle cx="28" cy="19" r="1.5" fill="#765a40" opacity=".55"/>
+    </pattern>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M0 0L10 5L0 10Z" fill="#155762"/>
+    </marker>
+    <marker id="air-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M0 0L10 5L0 10Z" fill="#994f36"/>
+    </marker>
+    <path id="tree" d="M0 0L-9 18H-4L-12 29H-2V36H2V29H12L4 18H9Z"/>
+  </defs>
+
+  <path fill="url(#sky)" d="M0 0H960V338H0Z"/>
+  <path fill="#cfdbcf" d="M0 174L103 88L163 128L211 104L343 207L460 233H0Z"/>
+  <path fill="#dae3d6" d="M417 232L533 171L608 204L679 168L817 235H417Z"/>
+  <path fill="url(#sediment)" d="M0 149L76 99L111 128L151 126L202 167L254 201L337 222L452 233L527 228L595 228L658 239L726 234L785 241Q837 251 868 272L960 313V338H0Z"/>
+  <path fill="#cbd9d3" d="M0 156L77 107L111 137L147 137L183 165L211 184L190 205L144 189L98 172L52 181L0 197Z"/>
+  <path fill="#f1f3eb" d="M38 123L76 99L106 124L83 118L71 124L63 117Z"/>
+  <path fill="#a88e6c" opacity=".64" d="M0 271Q94 243 186 265T372 278Q448 263 513 283T701 287Q822 282 960 313V338H0Z"/>
+  <path fill="#967c5c" opacity=".55" d="M0 313Q99 292 183 303T394 315Q467 299 527 312T716 317Q831 305 960 330V338H0Z"/>
+  <path fill="none" stroke="#836d52" stroke-width="2" opacity=".52" d="M0 235Q78 212 151 236T325 255M0 278Q102 252 191 273T390 282M0 318Q93 299 180 310T385 322"/>
+  <path fill="url(#carbon-grains)" d="M442 239Q548 228 656 247L811 246L831 281Q733 272 655 283T478 271Z"/>
+  <path fill="none" stroke="#8a6c4a" stroke-width="2" opacity=".6" d="M493 253Q554 242 605 253T733 258Q778 251 817 266M534 272Q577 261 629 269T750 272Q790 266 830 279"/>
+
+  <path fill="#92b9bd" d="M783 239H960V313Q883 297 849 273Q827 254 783 243Z"/>
+  <path fill="none" stroke="#bed4d4" stroke-width="2" d="M848 250H882M909 250H952M871 270H904M928 270H960M919 290H955"/>
+  <path fill="none" stroke="#879777" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" d="M0 149L76 99L111 128L151 126L202 167L254 201L337 222"/>
+  <path fill="none" stroke="#8d9e77" stroke-width="6" stroke-linecap="round" d="M466 234Q532 223 586 229Q619 229 655 238M675 238Q730 231 779 241"/>
+  <g fill="#526d55">
+    <use href="#tree" transform="translate(115 99) scale(.8)"/>
+    <use href="#tree" transform="translate(140 88) scale(1.05)"/>
+    <use href="#tree" transform="translate(160 111) scale(.74)"/>
+    <use href="#tree" transform="translate(508 200) scale(.78)"/>
+    <use href="#tree" transform="translate(533 190) scale(1.03)"/>
+    <use href="#tree" transform="translate(557 202) scale(.73)"/>
+    <use href="#tree" transform="translate(734 204) scale(.87)"/>
+    <use href="#tree" transform="translate(755 213) scale(.67)"/>
+  </g>
+  <path fill="none" stroke="#357b87" stroke-width="11" stroke-linecap="round" d="M139 130Q183 145 207 175Q236 207 302 217T455 234Q495 237 528 234Q602 226 652 240T796 241L846 242"/>
+  <path fill="none" stroke="#82b7bf" stroke-width="2.5" stroke-linecap="round" d="M153 135Q185 150 208 176Q238 205 300 215T452 231Q492 233 526 231Q603 223 654 237T791 239L842 239"/>
+  <g fill="#b07345" stroke="#f7f6ef" stroke-width="1.5">
+    <circle cx="214" cy="183" r="4.5"/>
+    <circle cx="238" cy="201" r="4"/>
+    <circle cx="309" cy="218" r="4.5"/>
+    <circle cx="353" cy="225" r="3.5"/>
+    <circle cx="388" cy="231" r="5"/>
+    <circle cx="399" cy="229" r="4"/>
+    <circle cx="580" cy="232" r="4.5"/>
+    <circle cx="646" cy="239" r="4.5"/>
+  </g>
+
+  <g fill="none" stroke="#155762" stroke-width="3.5" stroke-linecap="round" marker-end="url(#arrow)">
+    <path d="M183 123Q203 133 212 157"/>
+    <path d="M344 193Q392 205 450 209"/>
+    <path d="M554 280Q542 263 549 244"/>
+    <path d="M673 249Q677 266 677 282"/>
+    <path d="M812 229Q860 221 904 227"/>
+  </g>
+  <path d="M648 226Q630 206 630 174" fill="none" stroke="#994f36" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="6 7" marker-end="url(#air-arrow)"/>
+
+  <g font-family="system-ui, sans-serif" font-weight="750" font-size="27">
+    <g fill="#173e45">
+      <circle cx="51" cy="46" r="17" fill="#526d55"/>
+      <text x="51" y="54" text-anchor="middle" fill="#fff" font-size="22">1</text>
+      <text x="78" y="55">Source</text>
+      <circle cx="363" cy="46" r="17" fill="#155762"/>
+      <text x="363" y="54" text-anchor="middle" fill="#fff" font-size="22">2</text>
+      <text x="390" y="55">Transformation</text>
+      <circle cx="749" cy="46" r="17" fill="#994f36"/>
+      <text x="749" y="54" text-anchor="middle" fill="#fff" font-size="22">3</text>
+      <text x="776" y="55">Fate</text>
+    </g>
+    <g fill="#173e45">
+      <text x="236" y="144">Thaw &amp; erosion</text>
+      <text x="348" y="179">Mixing</text>
+      <text x="550" y="310" text-anchor="middle" fill="#493625">Reworking</text>
+      <text x="677" y="310" text-anchor="middle" fill="#493625">Burial</text>
+      <text x="890" y="209" text-anchor="middle">Export</text>
+      <text x="630" y="157" text-anchor="middle" fill="#843e29">CO&#8322;</text>
+    </g>
+  </g>
+</svg>
