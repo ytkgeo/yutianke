@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 338" width="960" height="338">
   <title>Organic carbon from source to fate</title>
-  <desc>A river long profile showing organic carbon released from uplands, mixed and transformed in the river, and degraded, buried, remobilized, or exported farther downstream. Arrows indicate pathways, not fluxes or distances.</desc>
+  <desc>A river long profile showing organic carbon released from uplands, mixed and transformed in the river, and degraded, buried, remobilized, or exported farther downstream. A dam impounds a reservoir with a sediment deposit. Arrows indicate pathways, not fluxes or distances.</desc>
   <defs>
     <linearGradient id="sky" x2="0" y2="1">
       <stop stop-color="#f7f7ef"/>
@@ -49,22 +49,30 @@
     <use href="#tree" transform="translate(734 204) scale(.87)"/>
     <use href="#tree" transform="translate(755 213) scale(.67)"/>
   </g>
-  <path fill="none" stroke="#357b87" stroke-width="11" stroke-linecap="round" d="M139 130Q183 145 207 175Q236 207 302 217T455 234Q495 237 528 234Q602 226 652 240T796 241L846 242"/>
-  <path fill="none" stroke="#82b7bf" stroke-width="2.5" stroke-linecap="round" d="M153 135Q185 150 208 176Q238 205 300 215T452 231Q492 233 526 231Q603 223 654 237T791 239L842 239"/>
+  <path fill="none" stroke="#357b87" stroke-width="11" stroke-linecap="round" d="M139 130Q183 145 207 175Q225 193 254 203M478 235Q505 236 528 234Q602 226 652 240T796 241L846 242"/>
+  <path fill="none" stroke="#82b7bf" stroke-width="2.5" stroke-linecap="round" d="M153 135Q185 150 208 176Q225 191 254 201M484 233Q507 233 526 231Q603 223 654 237T791 239L842 239"/>
+  <g id="dam-and-reservoir">
+    <path fill="#357b87" d="M245 200H468L481 237Q355 233 291 217Q263 211 245 200Z"/>
+    <path fill="#af8b62" d="M284 215Q332 221 372 222Q415 220 478 227L481 237Q355 233 291 217Z"/>
+    <path fill="none" stroke="#a2c9cc" stroke-width="2.5" d="M256 203H455"/>
+    <path fill="#746f64" stroke="#534f46" stroke-width="2" stroke-linejoin="round" d="M457 188H473L474 204L491 240H451L457 215Z"/>
+    <path fill="none" stroke="#cbc5b7" stroke-width="3" d="M457 192H473M462 197V215L458 235"/>
+    <path fill="none" stroke="#626e6b" stroke-width="2.5" stroke-linecap="round" d="M484 128L468 180"/>
+  </g>
   <g fill="#b07345" stroke="#f7f6ef" stroke-width="1.5">
     <circle cx="214" cy="183" r="4.5"/>
     <circle cx="238" cy="201" r="4"/>
-    <circle cx="309" cy="218" r="4.5"/>
-    <circle cx="353" cy="225" r="3.5"/>
-    <circle cx="388" cy="231" r="5"/>
-    <circle cx="399" cy="229" r="4"/>
+    <circle cx="309" cy="211" r="4.5"/>
+    <circle cx="353" cy="214" r="3.5"/>
+    <circle cx="388" cy="223" r="4.5"/>
+    <circle cx="399" cy="225" r="4"/>
     <circle cx="580" cy="232" r="4.5"/>
     <circle cx="646" cy="239" r="4.5"/>
   </g>
 
   <g fill="none" stroke="#155762" stroke-width="3.5" stroke-linecap="round" marker-end="url(#arrow)">
     <path d="M183 123Q203 133 212 157"/>
-    <path d="M344 193Q392 205 450 209"/>
+    <path d="M344 186Q382 194 423 192"/>
     <path d="M554 280Q542 263 549 244"/>
     <path d="M673 249Q677 266 677 282"/>
     <path d="M812 229Q860 221 904 227"/>
@@ -86,6 +94,7 @@
     <g fill="#173e45">
       <text x="236" y="144">Thaw &amp; erosion</text>
       <text x="348" y="179">Mixing</text>
+      <text x="495" y="119" text-anchor="middle">Dam construction</text>
       <text x="550" y="310" text-anchor="middle" fill="#493625">Reworking</text>
       <text x="677" y="310" text-anchor="middle" fill="#493625">Burial</text>
       <text x="890" y="209" text-anchor="middle">Export</text>

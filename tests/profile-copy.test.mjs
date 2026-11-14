@@ -26,14 +26,15 @@ test('the About contact heading centers carbon in changing landscapes', () => {
   assert.ok(contact.includes("<h2>Let's talk about carbon in changing landscapes.</h2>"));
 });
 
-test('the About research framework connects carbon pathways to methods and references', () => {
+test('the About research framework presents a schematic and concise links to related papers', () => {
   const framework = about.split('id="carbon-framework"')[1].split('</section>')[0];
   const phases = [...framework.matchAll(/class="carbon-step">\d+ \/ ([^<]+)/g)].map(match => match[1]);
   assert.deepEqual(phases, ['Source', 'Transport', 'Fate']);
-  assert.match(framework, /href="tools\.html#geochemistry"/);
-  assert.match(framework, /<img src="assets\/carbon-river-profile\.svg"[^>]+alt="[^"]+"/);
+  assert.match(framework, /<h3>Alteration and transformation<\/h3>/);
+  assert.doesNotMatch(framework, /<p>|<figcaption>|carbon-tracers|What we measure/);
+  assert.match(framework, /<img src="assets\/carbon-river-profile\.svg(?:\?[^"]+)?"[^>]+alt="[^"]+dam[^"]+"/);
   const profile = fs.readFileSync(new URL('../assets/carbon-river-profile.svg', import.meta.url), 'utf8');
-  for (const label of ['Thaw &amp; erosion', 'Transformation', 'Reworking', 'Burial', 'Export', 'CO&#8322;']) {
+  for (const label of ['Thaw &amp; erosion', 'Dam construction', 'Transformation', 'Reworking', 'Burial', 'Export', 'CO&#8322;']) {
     assert.ok(profile.includes(label), label);
   }
   const references = [...framework.matchAll(/href="#([^"]+-references)"/g)].map(match => match[1]);

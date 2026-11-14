@@ -369,7 +369,6 @@
 .carbon-framework{padding:clamp(.9rem,2.5vw,1.7rem);border:1px solid var(--line);border-radius:8px;background:#f1efe6}
 .carbon-profile{margin:0 0 1.25rem}
 .carbon-profile img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:6px}
-.carbon-profile figcaption{margin:.55rem 0 0;color:var(--muted);font-size:.85rem;line-height:1.5}
 .carbon-pathway{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.5rem;margin:0;padding:0;list-style:none}
 .carbon-phase{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:.55rem;padding:1rem;border:1px solid var(--line);border-top:4px solid #798768;border-radius:5px;background:#fff}
 .carbon-phase:nth-child(2){border-top-color:var(--teal)}
@@ -377,21 +376,14 @@
 .carbon-phase:not(:last-child)::after{content:"";position:absolute;left:calc(100% + .47rem);top:50%;width:.48rem;height:.48rem;border:solid var(--teal);border-width:2px 2px 0 0;transform:rotate(45deg)}
 .carbon-step{color:var(--teal);font-size:.73rem;font-weight:800;letter-spacing:.11em;text-transform:uppercase}
 .carbon-framework h3{font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif;font-size:clamp(1.16rem,2vw,1.42rem);line-height:1.25}
-.carbon-framework p,.carbon-framework h3,.carbon-tracers dl,.carbon-tracers dd{margin:0}
-.carbon-phase p:not(.carbon-step),.carbon-tracers dd,.carbon-framework .carbon-framework-note{color:var(--muted);font-size:.9rem;line-height:1.55}
+.carbon-framework p,.carbon-framework h3{margin:0}
 .carbon-framework a{font-size:.85rem;font-weight:700}
 .carbon-phase a{margin-top:auto;padding-top:.25rem}
-.carbon-tracers{display:grid;gap:.7rem;margin-top:1.25rem;padding:1rem;border-radius:5px;background:#e2ece8}
-.carbon-tracers dl{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem 1rem}
-.carbon-tracers dt{color:var(--deep);font-weight:800}
-.carbon-tracers dt sup,.carbon-phase sub{line-height:0}
-.carbon-tracers a{justify-self:start}
-.carbon-framework .carbon-framework-note{margin-top:.9rem}
+.carbon-framework .carbon-framework-note{margin-top:.9rem;color:var(--muted);font-size:.9rem;line-height:1.55}
 .carbon-framework-note a{font-size:inherit}
 @media(max-width:720px){
   .carbon-pathway{grid-template-columns:minmax(0,1fr)}
   .carbon-phase:not(:last-child)::after{left:calc(50% - .24rem);top:calc(100% + .3rem);transform:rotate(135deg)}
-  .carbon-tracers dl{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 .schematic-reference-panel{display:none;max-width:860px;margin:1rem 0 0;padding:1.1rem 1.4rem;border-left:4px solid var(--clay);border-radius:3px;background:#fff;scroll-margin-top:105px}
 .schematic-reference-panel:target{display:block}
